@@ -41,16 +41,20 @@ public class OverviewMap extends FragmentActivity {
         markers = new ArrayList<MarkerOptions>();
 
         mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        getLastLocation = mLocManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
-        double currentAltitude = getLastLocation.getAltitude();
-        double currentLongitude = getLastLocation.getLongitude();
-        currentLocation = new LatLng(currentLongitude, currentAltitude);
+        getLastLocation = mLocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_LOW);
-        provider = mLocManager.getBestProvider(criteria, true);
+        if (getLastLocation != null) { // need to check if GPS is on or if there is an provider location that we can use yes.
 
-        Location location = mLocManager.getLastKnownLocation(provider);
+            double currentAltitude = getLastLocation.getAltitude();
+            double currentLongitude = getLastLocation.getLongitude();
+            currentLocation = new LatLng(currentLongitude, currentAltitude);
+
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_LOW);
+            provider = mLocManager.getBestProvider(criteria, true);
+
+            Location location = mLocManager.getLastKnownLocation(provider);
+        }
 
         setUpMapIfNeeded();
     }
@@ -129,7 +133,7 @@ public class OverviewMap extends FragmentActivity {
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
-            notificationTest(nearestMarkerLoc);
+            notifyUser(nearestMarkerLoc);
         } else {
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         }
@@ -175,17 +179,17 @@ public class OverviewMap extends FragmentActivity {
         }
     }
 
-    public void notificationTest(MarkerOptions test) {
+    public void notifyUser(MarkerOptions marker) {
         Location notifcationLoc = new Location("Marker");
-        notifcationLoc.setLatitude(test.getPosition().latitude);
-        notifcationLoc.setLongitude(test.getPosition().longitude);
+        notifcationLoc.setLatitude(marker.getPosition().latitude);
+        notifcationLoc.setLongitude(marker.getPosition().longitude);
         float distanceInMeters = getLastLocation.distanceTo(notifcationLoc);
         int notifyID = 1;
         if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setContentTitle("rVaar")
-                            .setContentText("Over" + distanceInMeters + "nadert u de knooppunt" + test.getTitle())
+                            .setContentText("Over" + distanceInMeters + "nadert u de knooppunt" + marker.getTitle())
                             .setSmallIcon(R.drawable.ic_rvaar);
             Intent resultIntent = new Intent(this, OverviewMap.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -195,7 +199,7 @@ public class OverviewMap extends FragmentActivity {
             mBuilder.setContentIntent(resultPendingIntent);
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update
+            mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update/
             mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
 
 
