@@ -2,17 +2,17 @@ package hu.rijkswaterstaat.rvaar;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -24,10 +24,13 @@ import java.util.Date;
 
 public class OverviewMap extends FragmentActivity {
 
+    public static final int DRAW_DISTANCE_MARKERS = 20000;
+    public static final int NEAREST_MARKER_METER = 10000;
     public ArrayList<MarkerOptions> markers;
-    public MarkerOptions test2;
+    public MarkerOptions nearestMarkerLoc;
     public String provider;
     public LatLng currentLocation;
+    public Location getLastLocation;
     private LocationManager mLocManager;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
@@ -35,6 +38,20 @@ public class OverviewMap extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview_map);
+        markers = new ArrayList<MarkerOptions>();
+
+        mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        getLastLocation = mLocManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
+        double currentAltitude = getLastLocation.getAltitude();
+        double currentLongitude = getLastLocation.getLongitude();
+        currentLocation = new LatLng(currentLongitude, currentAltitude);
+
+        Criteria criteria = new Criteria();
+        criteria.setAccuracy(Criteria.ACCURACY_LOW);
+        provider = mLocManager.getBestProvider(criteria, true);
+
+        Location location = mLocManager.getLastKnownLocation(provider);
+
         setUpMapIfNeeded();
     }
 
@@ -65,14 +82,20 @@ public class OverviewMap extends FragmentActivity {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-
             mMap.setMyLocationEnabled(true);
             GoogleMap.OnMyLocationChangeListener myLocationChangeListener = new GoogleMap.OnMyLocationChangeListener() {
                 @Override
                 public void onMyLocationChange(Location location) {
+                    mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
                     findNearestMarker();
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 10.0f));
+                    mMap.clear();
+                    addMarkersToMap();
+                    // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 10.0f));
+                    MarkerOptions k = new MarkerOptions();
+                    k.position(loc);
+                    mMap.addMarker(k.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericon)));
                     Log.d("Latitude", "Current Latitude " + location.getLatitude());
                     Log.d("Longitude", "Current Longitude " + location.getLongitude());
                 }
@@ -91,26 +114,24 @@ public class OverviewMap extends FragmentActivity {
         double minDist = 1E38;
         int minIndex = -1;
         for (int i = 0; i < markers.size(); i++) {
-            Location kaas = new Location("Marker");
-            Location currentLoc = mLocManager.getLastKnownLocation(provider);
-
-            kaas.setLatitude(markers.get(i).getPosition().latitude);
-            kaas.setLongitude(markers.get(i).getPosition().longitude);
-            kaas.setTime(new Date().getTime());
-            float test = currentLoc.distanceTo(kaas);
+            Location currentIndexMarkerLoc = new Location("Marker");
+            currentIndexMarkerLoc.setLatitude(markers.get(i).getPosition().latitude);
+            currentIndexMarkerLoc.setLongitude(markers.get(i).getPosition().longitude);
+            currentIndexMarkerLoc.setTime(new Date().getTime());
+            float test = getLastLocation.distanceTo(currentIndexMarkerLoc);
             if (test < minDist) {
                 minDist = test;
                 minIndex = i;
             }
         }
         if (minIndex >= 0) {
-            test2 = markers.get(minIndex);
-            test2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            mMap.addMarker(test2);
-            Log.d("Test2", "Test2 " + test2.getTitle());
-            notificationTest(test2);
+            nearestMarkerLoc = markers.get(minIndex);
+            nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+            mMap.addMarker(nearestMarkerLoc);
+            Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
+            notificationTest(nearestMarkerLoc);
         } else {
-            test2.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         }
     }
 
@@ -130,7 +151,7 @@ public class OverviewMap extends FragmentActivity {
             e.printStackTrace();
         }
 
-        addMarkersToMap();
+        //  addMarkersToMap();
 
 
         // Causes Choreographer to skip frames, this can be fixed by seperating the addMarkerToMap methods to another class were ASyncTask is extended.
@@ -139,22 +160,32 @@ public class OverviewMap extends FragmentActivity {
 
 
     public void addMarkersToMap() {
+
+
         for (MarkerOptions m : markers) {
-            mMap.addMarker(m);
+            Location loc = new Location("");
+            loc.setLongitude(m.getPosition().longitude);
+            loc.setLatitude(m.getPosition().latitude);
+            if (getLastLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
+                m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_iconkruispunt));
+                mMap.addMarker(m);
+
+            }
+
         }
     }
 
     public void notificationTest(MarkerOptions test) {
-        Location kaas = new Location("Marker");
-        kaas.setLatitude(test.getPosition().latitude);
-        kaas.setLongitude(test.getPosition().longitude);
-        Location currentLoc = mLocManager.getLastKnownLocation(provider);
-        float distanceInMeters = currentLoc.distanceTo(kaas);
-        if (distanceInMeters < 500) { // in seconden te doen, in alle gevallen is het dan gelijk
+        Location notifcationLoc = new Location("Marker");
+        notifcationLoc.setLatitude(test.getPosition().latitude);
+        notifcationLoc.setLongitude(test.getPosition().longitude);
+        float distanceInMeters = getLastLocation.distanceTo(notifcationLoc);
+        int notifyID = 1;
+        if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setContentTitle("Notifcation test ")
-                            .setContentText(test.getTitle() + distanceInMeters)
+                            .setContentTitle("rVaar")
+                            .setContentText("Over" + distanceInMeters + "nadert u de knooppunt" + test.getTitle())
                             .setSmallIcon(R.drawable.ic_rvaar);
             Intent resultIntent = new Intent(this, OverviewMap.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -164,7 +195,11 @@ public class OverviewMap extends FragmentActivity {
             mBuilder.setContentIntent(resultPendingIntent);
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(0, mBuilder.build());
+            mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update
+            mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
+
+
+
         }
 
 
