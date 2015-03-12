@@ -25,7 +25,7 @@ public class Home extends ActionBarActivity {
 
         ImageButton button =(ImageButton) v;
         startActivity(new Intent(getApplicationContext(), OverviewMap.class));
-
+/**/
     }
 
 
