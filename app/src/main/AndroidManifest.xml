@@ -28,12 +28,19 @@
         <activity
             android:name=".OverviewMap"
             android:label="@string/title_activity_overview_map" >
+    </activity>
+        <activity
+
+            android:name="hu.rijkswaterstaat.rvaar.Home"
+            android:logo="@drawable/ic_rvaar"
+            android:label="@string/title_activity_home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+
+            </activity>
     </application>
 
 </manifest>
