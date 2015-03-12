@@ -102,14 +102,12 @@ public class OverviewMap extends FragmentActivity {
                     setZoomLatLng(loc);
 
 
-                    findNearestMarker();
-
                     mMap.clear();
                     addMarkersToMap();
                     MarkerOptions k = new MarkerOptions();
                     k.position(loc);
                     mMap.addMarker(k.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericon)));
-
+                    findNearestMarker();
                     if (AnimatedCameraOnce) { // tijdelijk
                         CameraPosition cameraPosition = new CameraPosition.Builder()
                                 .target(zoomLatLng)      // Sets the center of the map to Mountain View
@@ -158,8 +156,9 @@ public class OverviewMap extends FragmentActivity {
         }
         if (minIndex >= 0) {
             nearestMarkerLoc = markers.get(minIndex);
+            nearestMarkerLoc.icon(null); // testen
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            mMap.addMarker(nearestMarkerLoc);
+            // mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
             notifyUser(nearestMarkerLoc);
         } else {
@@ -191,15 +190,17 @@ public class OverviewMap extends FragmentActivity {
 
 
     public void addMarkersToMap() {
-
-
         for (MarkerOptions m : markers) {
             Location loc = new Location("");
             loc.setLongitude(m.getPosition().longitude);
             loc.setLatitude(m.getPosition().latitude);
             if (getLastLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
-                m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_iconkruispunt));
-                mMap.addMarker(m);
+                if (m == nearestMarkerLoc) {
+                    mMap.addMarker(m);
+                } else {
+                    m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_iconkruispunt));
+                    mMap.addMarker(m);
+                }
 
             }
 

@@ -9,5 +9,6 @@ import java.util.ArrayList;
  */
 public interface MarkerDAO {
     public ArrayList<MarkerOptions> getMarkers();
+//
 
 }
