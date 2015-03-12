@@ -13,9 +13,11 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -26,13 +28,16 @@ public class OverviewMap extends FragmentActivity {
 
     public static final int DRAW_DISTANCE_MARKERS = 20000;
     public static final int NEAREST_MARKER_METER = 10000;
+
     public ArrayList<MarkerOptions> markers;
     public MarkerOptions nearestMarkerLoc;
     public String provider;
     public LatLng currentLocation;
+    public LatLng zoomLatLng;
     public Location getLastLocation;
-    private LocationManager mLocManager;
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    public LocationManager mLocManager;
+    public GoogleMap mMap; // Might be null if Google Play services APK is not available.
+    public boolean AnimatedCameraOnce = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +47,19 @@ public class OverviewMap extends FragmentActivity {
 
         mLocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         getLastLocation = mLocManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        zoomLatLng = new LatLng(getLastLocation.getLatitude(), getLastLocation.getLongitude());
+
 
         if (getLastLocation != null) { // need to check if GPS is on or if there is an provider location that we can use yes.
 
-            double currentAltitude = getLastLocation.getAltitude();
-            double currentLongitude = getLastLocation.getLongitude();
-            currentLocation = new LatLng(currentLongitude, currentAltitude);
 
             Criteria criteria = new Criteria();
             criteria.setAccuracy(Criteria.ACCURACY_LOW);
             provider = mLocManager.getBestProvider(criteria, true);
 
             Location location = mLocManager.getLastKnownLocation(provider);
+        } else {
+            getLastLocation = mLocManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         }
 
         setUpMapIfNeeded();
@@ -64,6 +70,7 @@ public class OverviewMap extends FragmentActivity {
         super.onResume();
         setUpMapIfNeeded();
     }
+
 
     /**
      * Sets up the map if it is possible to do so (i.e., the Google Play services APK is correctly
@@ -91,15 +98,30 @@ public class OverviewMap extends FragmentActivity {
                 @Override
                 public void onMyLocationChange(Location location) {
                     mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
                     LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+                    setZoomLatLng(loc);
+
+
                     findNearestMarker();
+
                     mMap.clear();
                     addMarkersToMap();
-                    // mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 10.0f));
                     MarkerOptions k = new MarkerOptions();
                     k.position(loc);
                     mMap.addMarker(k.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericon)));
+
+                    if (AnimatedCameraOnce) { // tijdelijk
+                        CameraPosition cameraPosition = new CameraPosition.Builder()
+                                .target(zoomLatLng)      // Sets the center of the map to Mountain View
+                                .zoom(17)                   // Sets the zoom
+                                .bearing(90)                // Sets the orientation of the camera to east
+                                .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                                .build();                   // Creates a CameraPosition from the builder
+                        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                        AnimatedCameraOnce = false;
+                    }
+
+
                     Log.d("Latitude", "Current Latitude " + location.getLatitude());
                     Log.d("Longitude", "Current Longitude " + location.getLongitude());
                 }
@@ -110,7 +132,13 @@ public class OverviewMap extends FragmentActivity {
 
                 setUpMap();
             }
+
+
         }
+
+
+        //  addMarkersToMap();
+
     }
 
 
@@ -139,6 +167,7 @@ public class OverviewMap extends FragmentActivity {
         }
     }
 
+
     private void setUpMap() {
         Thread t1 = new Thread(new Runnable() {
             @Override
@@ -154,8 +183,6 @@ public class OverviewMap extends FragmentActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-        //  addMarkersToMap();
 
 
         // Causes Choreographer to skip frames, this can be fixed by seperating the addMarkerToMap methods to another class were ASyncTask is extended.
@@ -189,7 +216,7 @@ public class OverviewMap extends FragmentActivity {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setContentTitle("rVaar")
-                            .setContentText("Over" + distanceInMeters + "nadert u de knooppunt" + marker.getTitle())
+                            .setContentText("Over " + distanceInMeters + " nadert u de kruispunt " + marker.getTitle())
                             .setSmallIcon(R.drawable.ic_rvaar);
             Intent resultIntent = new Intent(this, OverviewMap.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -203,10 +230,17 @@ public class OverviewMap extends FragmentActivity {
             mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
 
 
-
         }
 
 
+    }
+
+    public LatLng getZoomLatLng() {
+        return zoomLatLng;
+    }
+
+    public void setZoomLatLng(LatLng zoomLatLng) {
+        this.zoomLatLng = zoomLatLng;
     }
 
 
