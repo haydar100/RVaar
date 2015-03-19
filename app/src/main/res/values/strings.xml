@@ -1,8 +1,7 @@
 <resources>
     <string name="app_name">RVaar</string>
     <string name="title_activity_overview_map">RVaar</string>
-    <string name="title_activity_menu">MenuActivity</string>
-
+    <string name="title_activity_home">Home</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 </resources>
