@@ -33,20 +33,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-/**
- * Getting Location Updates.
- * <p/>
- * Demonstrates how to use the Fused Location Provider API to get updates about a device's
- * location. The Fused Location Provider is part of the Google Play services location APIs.
- * <p/>
- * For a simpler example that shows the use of Google Play services to fetch the last known location
- * of a device, see
- * https://github.com/googlesamples/android-play-location/tree/master/BasicLocation.
- * <p/>
- * This sample uses Google Play services, but it does not require authentication. For a sample that
- * uses Google Play services for authentication, see
- * https://github.com/googlesamples/android-google-accounts/tree/master/QuickStart.
- */
 public class OverviewMap extends ActionBarActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
     public static final int DRAW_DISTANCE_MARKERS = 20000;
@@ -106,7 +92,7 @@ public class OverviewMap extends ActionBarActivity implements
         // API.
         buildGoogleApiClient();
         setUpMapIfNeeded();
-       
+
 
     }
 
