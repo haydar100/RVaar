@@ -4,9 +4,11 @@ package hu.rijkswaterstaat.rvaar;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.RingtoneManager;
@@ -32,6 +34,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -56,7 +60,6 @@ public class OverviewMap extends ActionBarActivity implements
     public GoogleMap mMap;
     public boolean AnimatedCameraOnce = true;
     public MarkerOptions nearestMarkerLoc;
-
     // Keys for storing activity state in the Bundle.
     public ArrayList<MarkerOptions> markers;
     /**
@@ -71,23 +74,25 @@ public class OverviewMap extends ActionBarActivity implements
      * Represents a geographical location.
      */
     protected Location mCurrentLocation;
+    /**
+     * Time when the location was updated represented as a String.
+     */
+    protected String mLastUpdateTime;
+    ProgressDialog dialog;
+
     // UI Widgets.
     /**
      * Tracks the status of the location updates request. Value changes when the user presses the
      * Start Updates and Stop Updates buttons.
      */
-
-
-    /**
-     * Time when the location was updated represented as a String.
-     */
-    protected String mLastUpdateTime;
+    private ArrayList<LatLng> points;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview_map);
         markers = new ArrayList<>();
+        points = new ArrayList<>();
         mLastUpdateTime = "";
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -103,6 +108,8 @@ public class OverviewMap extends ActionBarActivity implements
         // API.
         buildGoogleApiClient();
         setUpMapIfNeeded();
+        dialog = ProgressDialog.show(this, "",
+                "Getting your location", true, true);
 
 
     }
@@ -257,8 +264,10 @@ public class OverviewMap extends ActionBarActivity implements
         // moves to a new location, and then changes the device orientation, the original location
         // is displayed as the activity is re-created.
         if (mCurrentLocation == null) {
+
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
+
 
         }
 
@@ -285,6 +294,7 @@ public class OverviewMap extends ActionBarActivity implements
         k.position(loc);
         mMap.addMarker(k.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericon)));
         findNearestMarker();
+
         if (AnimatedCameraOnce) { // tijdelijk
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(loc)      // Sets the center of the map to Mountain View
@@ -295,12 +305,35 @@ public class OverviewMap extends ActionBarActivity implements
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             AnimatedCameraOnce = false;
         }
-
+        dialog.dismiss();
+        drawPolyLineOnLocation(location);
 
         Log.d("Latitude", "Current Latitude " + location.getLatitude());
         Log.d("Longitude", "Current Longitude " + location.getLongitude());
         Toast.makeText(this, getResources().getString(R.string.location_updated_message),
                 Toast.LENGTH_SHORT).show();
+    }
+
+    private void drawPolyLineOnLocation(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        LatLng latLngP = new LatLng(latitude, longitude);
+
+        PolylineOptions polyLineOpt = new PolylineOptions()
+                .width(5)
+                .color(Color.RED)
+                .geodesic(true);
+
+        points.add(latLngP);
+
+        for (int z = 0; z < points.size(); z++) {
+            LatLng point = points.get(z);
+            polyLineOpt.add(point);
+        }
+
+        Polyline line = mMap.addPolyline(polyLineOpt);
+
+        points.add(latLngP);
     }
 
     @Override
