@@ -106,7 +106,7 @@ public class OverviewMap extends ActionBarActivity implements
         // API.
         buildGoogleApiClient();
         setUpMapIfNeeded();
-        Log.d("Komt die dan", "komt die dan");
+       
 
     }
 
