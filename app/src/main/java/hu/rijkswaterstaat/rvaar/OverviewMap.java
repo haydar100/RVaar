@@ -6,6 +6,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -340,6 +342,7 @@ public class OverviewMap extends ActionBarActivity implements
     }
 
     public void notifyUser(MarkerOptions marker) {
+        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Location notifcationLoc = new Location("Marker");
         notifcationLoc.setLatitude(marker.getPosition().latitude);
         notifcationLoc.setLongitude(marker.getPosition().longitude);
@@ -350,7 +353,9 @@ public class OverviewMap extends ActionBarActivity implements
                     new NotificationCompat.Builder(this)
                             .setContentTitle("rVaar")
                             .setContentText("Over " + distanceInMeters + " nadert u de kruispunt " + marker.getTitle())
-                            .setSmallIcon(R.drawable.ic_rvaar);
+                            .setSmallIcon(R.drawable.ic_rvaar)
+                            .setSound(sound);
+
             Intent resultIntent = new Intent(this, OverviewMap.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
             stackBuilder.addParentStack(OverviewMap.class);
@@ -360,6 +365,7 @@ public class OverviewMap extends ActionBarActivity implements
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update/
+
             mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
 
 
