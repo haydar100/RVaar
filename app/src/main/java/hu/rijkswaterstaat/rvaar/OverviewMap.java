@@ -1,11 +1,14 @@
 package hu.rijkswaterstaat.rvaar;
 
 
+import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
+import android.location.LocationManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -86,7 +89,13 @@ public class OverviewMap extends ActionBarActivity implements
         setContentView(R.layout.activity_overview_map);
         markers = new ArrayList<>();
         mLastUpdateTime = "";
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Toast.makeText(this, "GPS is enabled... launching rVaart", Toast.LENGTH_SHORT).show();
+        } else {
+            showGPSDisabledAlertToUser();
+        }
         // Update values using data stored in the Bundle.
 
 
@@ -373,6 +382,29 @@ public class OverviewMap extends ActionBarActivity implements
 
 
     }
+
+    private void showGPSDisabledAlertToUser() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("GPS is disabled to use rVaart please enable GPS")
+                .setCancelable(false)
+                .setPositiveButton("Settings",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent callGPSSettingIntent = new Intent(
+                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(callGPSSettingIntent);
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
 
     public void addMarkersToMap() {
         for (MarkerOptions m : markers) {
