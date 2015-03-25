@@ -1,4 +1,4 @@
-package hu.rijkswaterstaat.rvaar;
+package hu.rijkswaterstaat.rvaar.database;
 
 import android.util.Log;
 

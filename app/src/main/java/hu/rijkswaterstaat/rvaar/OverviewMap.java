@@ -41,6 +41,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
+
 
 public class OverviewMap extends ActionBarActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {

@@ -1,4 +1,4 @@
-package hu.rijkswaterstaat.rvaar;
+package hu.rijkswaterstaat.rvaar.dao;
 
 import com.google.android.gms.maps.model.MarkerOptions;
 

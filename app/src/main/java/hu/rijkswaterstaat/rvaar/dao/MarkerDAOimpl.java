@@ -1,4 +1,4 @@
-package hu.rijkswaterstaat.rvaar;
+package hu.rijkswaterstaat.rvaar.dao;
 
 import android.util.Log;
 
@@ -10,6 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import hu.rijkswaterstaat.rvaar.database.Connector;
 
 /**
  * Created by Berkan on 10-3-2015.
