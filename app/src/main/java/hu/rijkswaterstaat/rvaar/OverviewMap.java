@@ -12,8 +12,11 @@ import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.RingtoneManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
@@ -99,7 +102,7 @@ public class OverviewMap extends ActionBarActivity implements
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Toast.makeText(this, "GPS is enabled... launching rVaart", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "GPS is enabled... launching rVaar", Toast.LENGTH_SHORT).show();
         } else {
             showGPSDisabledAlertToUser();
         }
@@ -115,6 +118,7 @@ public class OverviewMap extends ActionBarActivity implements
 
 
     }
+
 
     /**
      * Builds a GoogleApiClient. Uses the {@code #addApi} method to request the
@@ -148,6 +152,13 @@ public class OverviewMap extends ActionBarActivity implements
 
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null;
+    }
+
     private void setUpMap() {
 
         Thread t1 = new Thread(new Runnable() {
@@ -155,6 +166,8 @@ public class OverviewMap extends ActionBarActivity implements
             public void run() {
                 MarkerDAOimpl positionDao = new MarkerDAOimpl();
                 markers = positionDao.getMarkers();
+
+
             }
         });
         t1.start();
@@ -275,7 +288,6 @@ public class OverviewMap extends ActionBarActivity implements
 
 
         startLocationUpdates();
-
     }
 
     /**
@@ -416,6 +428,28 @@ public class OverviewMap extends ActionBarActivity implements
         }
 
 
+    }
+
+    private void showNetworkdisabledAlertToUser() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Network connection is not available")
+                .setCancelable(false)
+                .setPositiveButton("Settings",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent callSettingIntent = new Intent(
+                                        Settings.ACTION_SETTINGS);
+                                startActivity(callSettingIntent);
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 
     private void showGPSDisabledAlertToUser() {
