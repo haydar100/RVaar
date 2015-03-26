@@ -408,7 +408,7 @@ public class OverviewMap extends ActionBarActivity implements
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setContentTitle("rVaar")
-                            .setContentText("Over " + distanceInMeters + " nadert u de kruispunt " + marker.getTitle())
+                            .setContentText("Over " + distanceInMeters + "M nadert u de kruispunt " + marker.getTitle())
                             .setSmallIcon(R.drawable.ic_rvaar)
                             .setSound(sound);
 
