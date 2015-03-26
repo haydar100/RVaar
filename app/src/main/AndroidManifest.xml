@@ -30,15 +30,24 @@
             android:label="@string/title_activity_overview_map" >
     </activity>
         <activity
-
-            android:name="hu.rijkswaterstaat.rvaar.Home"
-            android:logo="@drawable/ic_rvaar"
-            android:label="@string/title_activity_home">
+            android:name=".Niveau"
+            android:label="@string/title_activity_overview_map" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".MenuActivity"
+            android:label="@string/title_activity_overview_map" >
+        </activity>
+        <activity
+
+            android:name="hu.rijkswaterstaat.rvaar.Home"
+            android:logo="@drawable/ic_rvaar"
+            android:label="@string/title_activity_home">
 
             </activity>
     </application>

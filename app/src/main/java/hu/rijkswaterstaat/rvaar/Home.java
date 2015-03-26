@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 
@@ -22,7 +23,7 @@ public class Home extends ActionBarActivity {
     }
     public void buttonOnClick(View v){
 
-        ImageButton button =(ImageButton) v;
+        Button button =(Button) v;
         startActivity(new Intent(getApplicationContext(), OverviewMap.class));
 /**/
     }

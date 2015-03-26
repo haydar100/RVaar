@@ -9,11 +9,12 @@
     android:layout_marginTop="20dip"
     android:layout_marginLeft="45dip"
     android:orientation="horizontal"
-    tools:context="hu.rijkswaterstaat.rvaar.Home">
+    tools:context="hu.rijkswaterstaat.rvaar.Niveau">
     <Button
         android:id="@+id/myButton"
         android:onClick="buttonOnClick"
-        android:text="Landkaart"
+        android:background="@null"
+        android:paddingLeft="10dp"
         android:drawableTop="@drawable/logo_kaart" />
 
     <TextView
@@ -26,8 +27,9 @@
     <Button
         android:id="@+id/myButton3"
         android:layout_gravity="left|top"
+        android:background="@null"
+        android:paddingLeft="10dp"
         android:onClick=" "
-        android:text="Tips &amp; Tricks"
         android:drawableTop="@drawable/tips_logo" />
 
 
@@ -40,8 +42,9 @@
     <Button
         android:id="@+id/button5"
         android:layout_gravity="left|top"
+        android:background="@null"
+        android:paddingLeft="10dp"
         android:onClick=" "
-        android:text="Settings"
         android:drawableTop="@drawable/settings_logo" />
 
     <TextView

@@ -7,8 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
+
 
 /**
  * Created by ingo on 26-3-2015.
@@ -21,7 +22,7 @@ public class Niveau extends ActionBarActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_niveau);
         getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_rvaar);
 
 
@@ -31,8 +32,8 @@ public class Niveau extends ActionBarActivity  {
 
     public void buttonOnClick(View v){
 
-        ImageButton button =(ImageButton) v;
-        startActivity(new Intent(getApplicationContext(), OverviewMap.class));
+        Button button =(Button) v;
+        startActivity(new Intent(getApplicationContext(), Home.class));
 /**/
     }
 
