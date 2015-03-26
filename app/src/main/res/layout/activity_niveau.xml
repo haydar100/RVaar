@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/GridLayout1"
@@ -14,12 +15,13 @@
         android:onClick="buttonOnClick"
         android:text="Landkaart"
         android:drawableTop="@drawable/logo_kaart" />
-    <Button
-        android:id="@+id/myButton2"
+
+    <TextView
+        android:id="@+id/myText"
         android:layout_gravity="left|top"
-        android:onClick=" "
-        android:text="Checklist"
-        android:drawableTop="@drawable/checklist_logo"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/beginner" />
 
     <Button
         android:id="@+id/myButton3"
@@ -29,13 +31,12 @@
         android:drawableTop="@drawable/tips_logo" />
 
 
-    <Button
-        android:id="@+id/button4"
+    <TextView
+        android:id="@+id/myText2"
         android:layout_gravity="left|top"
-        android:onClick=" "
-        android:text="Mijn locaties"
-        android:drawableTop="@drawable/locaties_logo"/>
-
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/gemiddeld" />
     <Button
         android:id="@+id/button5"
         android:layout_gravity="left|top"
@@ -43,14 +44,12 @@
         android:text="Settings"
         android:drawableTop="@drawable/settings_logo" />
 
-    <Button
-        android:id="@+id/button6"
+    <TextView
+        android:id="@+id/myText3"
         android:layout_gravity="left|top"
-        android:onClick=" "
-        android:text="Share"
-        android:drawableTop="@drawable/share_logo" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expert" />
+
 </GridLayout>
-
-
-
 
