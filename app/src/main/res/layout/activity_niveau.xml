@@ -6,31 +6,37 @@
     android:layout_height="wrap_content"
     android:columnCount="2"
     android:rowCount="3"
-    android:layout_marginTop="20dip"
+    android:layout_marginTop="30dip"
     android:layout_marginLeft="45dip"
     android:orientation="horizontal"
     tools:context="hu.rijkswaterstaat.rvaar.Niveau">
+
     <Button
         android:id="@+id/myButton"
         android:onClick="buttonOnClick"
         android:background="@null"
-        android:paddingLeft="10dp"
-        android:drawableTop="@drawable/logo_kaart" />
+        android:paddingTop="10dip"
+        android:paddingRight="30dip"
+        android:drawableTop="@drawable/icon_beginner" />
 
     <TextView
         android:id="@+id/myText"
         android:layout_gravity="left|top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dip"
+        android:textColor="#2b4c66"
+        android:textSize="32sp"
         android:text="@string/beginner" />
 
     <Button
         android:id="@+id/myButton3"
         android:layout_gravity="left|top"
         android:background="@null"
-        android:paddingLeft="10dp"
-        android:onClick=" "
-        android:drawableTop="@drawable/tips_logo" />
+        android:paddingRight="30dip"
+        android:paddingTop="10dip"
+        android:onClick="buttonOnClick"
+        android:drawableTop="@drawable/icon_gemiddeld" />
 
 
     <TextView
@@ -38,20 +44,27 @@
         android:layout_gravity="left|top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dip"
+        android:textColor="#2b4c66"
+        android:textSize="32sp"
         android:text="@string/gemiddeld" />
     <Button
         android:id="@+id/button5"
         android:layout_gravity="left|top"
         android:background="@null"
-        android:paddingLeft="10dp"
-        android:onClick=" "
-        android:drawableTop="@drawable/settings_logo" />
+        android:paddingRight="30dip"
+        android:paddingTop="10dip"
+        android:onClick="buttonOnClick"
+        android:drawableTop="@drawable/icon_expert" />
 
     <TextView
         android:id="@+id/myText3"
         android:layout_gravity="left|top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dip"
+        android:textColor="#2b4c66"
+        android:textSize="32sp"
         android:text="@string/expert" />
 
 </GridLayout>

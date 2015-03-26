@@ -5,35 +5,36 @@
     android:layout_height="wrap_content"
     android:columnCount="2"
     android:rowCount="3"
-    android:layout_marginTop="20dip"
+    android:layout_marginTop="30dip"
     android:layout_marginLeft="45dip"
     android:orientation="horizontal"
     tools:context="hu.rijkswaterstaat.rvaar.Home">
     <Button
         android:id="@+id/myButton"
         android:onClick="buttonOnClick"
-        android:padding="10dp"
-        android:paddingLeft="10dp"
+        android:paddingRight="40dip"
+        android:paddingBottom="10dip"
         android:background="@null"
         android:text="Landkaart"
+        android:textColor="#2b4c66"
         android:drawableTop="@drawable/logo_kaart" />
     <Button
         android:id="@+id/myButton2"
         android:layout_gravity="left|top"
         android:background="@null"
-        android:padding="10dp"
-        android:onClick=" "
+        android:paddingBottom="10dip"
         android:text="Checklist"
+        android:textColor="#2b4c66"
         android:drawableTop="@drawable/checklist_logo"/>
 
     <Button
         android:id="@+id/myButton3"
         android:layout_gravity="left|top"
         android:background="@null"
-        android:padding="10dp"
-        android:paddingLeft="10dp"
-        android:onClick=" "
+        android:paddingRight="40dip"
+        android:paddingBottom="10dip"
         android:text="Tips &amp; Tricks"
+        android:textColor="#2b4c66"
         android:drawableTop="@drawable/tips_logo" />
 
 
@@ -41,28 +42,28 @@
         android:id="@+id/button4"
         android:layout_gravity="left|top"
         android:background="@null"
-        android:padding="10dp"
-        android:onClick=" "
+        android:paddingBottom="10dip"
         android:text="Mijn locaties"
+        android:textColor="#2b4c66"
         android:drawableTop="@drawable/locaties_logo"/>
 
     <Button
         android:id="@+id/button5"
         android:layout_gravity="left|top"
         android:background="@null"
-        android:padding="10dp"
-        android:paddingLeft="10dp"
-        android:onClick=" "
+        android:paddingRight="40dip"
+        android:paddingBottom="10dip"
         android:text="Settings"
+        android:textColor="#2b4c66"
         android:drawableTop="@drawable/settings_logo" />
 
     <Button
         android:id="@+id/button6"
         android:layout_gravity="left|top"
         android:background="@null"
-        android:padding="10dp"
-        android:onClick=" "
+        android:paddingBottom="10dip"
         android:text="Share"
+        android:textColor="#2b4c66"
         android:drawableTop="@drawable/share_logo" />
 </GridLayout>
 

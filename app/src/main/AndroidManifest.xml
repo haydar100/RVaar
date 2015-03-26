@@ -31,7 +31,7 @@
     </activity>
         <activity
             android:name=".Niveau"
-            android:label="@string/title_activity_overview_map" >
+            android:label="@string/niveau" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
