@@ -300,7 +300,7 @@ public class OverviewMap extends ActionBarActivity implements
         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-        Log.d("startLocch", "startLocch");
+        Log.d("startLoc", "startLoc");
 
         mMap.clear();
         addMarkersToMap();
@@ -403,6 +403,7 @@ public class OverviewMap extends ActionBarActivity implements
         notifcationLoc.setLatitude(marker.getPosition().latitude);
         notifcationLoc.setLongitude(marker.getPosition().longitude);
         float distanceInMeters = mCurrentLocation.distanceTo(notifcationLoc);
+        Math.round(distanceInMeters); // more readable for the users
         int notifyID = 1;
         if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
             NotificationCompat.Builder mBuilder =
@@ -454,7 +455,7 @@ public class OverviewMap extends ActionBarActivity implements
 
     private void showGPSDisabledAlertToUser() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS is disabled to use rVaart please enable GPS")
+        alertDialogBuilder.setMessage("GPS is disabled to use rVaar please enable GPS")
                 .setCancelable(false)
                 .setPositiveButton("Settings",
                         new DialogInterface.OnClickListener() {
