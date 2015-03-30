@@ -63,6 +63,7 @@ public class OverviewMap extends ActionBarActivity implements
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     protected static final String TAG = "location-updates-sample";
     public GoogleMap mMap;
+
     public boolean AnimatedCameraOnce = true;
     public MarkerOptions nearestMarkerLoc;
     // Keys for storing activity state in the Bundle.
@@ -423,7 +424,7 @@ public class OverviewMap extends ActionBarActivity implements
             mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update/
 
             mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
-            Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M", Toast.LENGTH_LONG).show(); // R.string.location_updated_message
+            Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M" + "\n" + "Uw huidige snelheid : " + mCurrentLocation.getSpeed(), Toast.LENGTH_LONG).show(); // R.string.location_updated_message
 
         }
 
