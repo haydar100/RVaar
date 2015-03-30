@@ -424,10 +424,21 @@ public class OverviewMap extends ActionBarActivity implements
             mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update/
 
             mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
-            Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M" + "\n" + "Uw huidige snelheid : " + mCurrentLocation.getSpeed(), Toast.LENGTH_LONG).show(); // R.string.location_updated_message
+            Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M" + "\n" + currentSpeedInKM(), Toast.LENGTH_LONG).show(); // R.string.location_updated_message
 
         }
 
+
+    }
+
+    public String currentSpeedInKM() {
+        Double currentSpeedKM = 0.0;
+        if (mCurrentLocation.getSpeed() > 0.0) {
+            currentSpeedKM = mCurrentLocation.getSpeed() * 3.60;
+        } else {
+            return "Snelheid niet beschikbaar";
+        }
+        return " Uw huidige snelheid : " + currentSpeedKM;
 
     }
 
