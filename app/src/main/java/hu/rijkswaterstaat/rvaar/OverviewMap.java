@@ -143,6 +143,7 @@ public class OverviewMap extends ActionBarActivity implements
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
             mMap.setMyLocationEnabled(false);
+            mMap.getUiSettings().setCompassEnabled(false);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             addMarkersToMap();
 
