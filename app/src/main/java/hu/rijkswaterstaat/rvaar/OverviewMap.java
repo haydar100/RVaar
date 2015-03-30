@@ -113,8 +113,6 @@ public class OverviewMap extends ActionBarActivity implements
         // API.
         buildGoogleApiClient();
         setUpMapIfNeeded();
-        dialog = ProgressDialog.show(this, "",
-                "Getting your location", true, true);
 
 
     }
@@ -279,7 +277,8 @@ public class OverviewMap extends ActionBarActivity implements
         // moves to a new location, and then changes the device orientation, the original location
         // is displayed as the activity is re-created.
         if (mCurrentLocation == null) {
-
+            dialog = ProgressDialog.show(this, "",
+                    "Getting your location", true, true);
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
 
@@ -324,8 +323,7 @@ public class OverviewMap extends ActionBarActivity implements
 
         Log.d("Latitude", "Current Latitude " + location.getLatitude());
         Log.d("Longitude", "Current Longitude " + location.getLongitude());
-        Toast.makeText(this, getResources().getString(R.string.location_updated_message),
-                Toast.LENGTH_SHORT).show();
+
     }
 
     private void drawPolyLineOnLocation(Location location) {
@@ -397,19 +395,20 @@ public class OverviewMap extends ActionBarActivity implements
         }
     }
 
+    //
     public void notifyUser(MarkerOptions marker) {
         Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Location notifcationLoc = new Location("Marker");
         notifcationLoc.setLatitude(marker.getPosition().latitude);
         notifcationLoc.setLongitude(marker.getPosition().longitude);
         float distanceInMeters = mCurrentLocation.distanceTo(notifcationLoc);
-        Math.round(distanceInMeters); // more readable for the users
         int notifyID = 1;
+        int x = Math.round(distanceInMeters);
         if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setContentTitle("rVaar")
-                            .setContentText("Over " + distanceInMeters + "M nadert u de kruispunt " + marker.getTitle())
+                            .setContentText("Over " + x + "M nadert u de kruispunt " + marker.getTitle())
                             .setSmallIcon(R.drawable.ic_rvaar)
                             .setSound(sound);
 
@@ -424,7 +423,7 @@ public class OverviewMap extends ActionBarActivity implements
             mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update/
 
             mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
-
+            Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M", Toast.LENGTH_LONG).show(); // R.string.location_updated_message
 
         }
 
