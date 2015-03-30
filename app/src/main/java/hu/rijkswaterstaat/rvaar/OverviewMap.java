@@ -21,6 +21,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -97,6 +99,7 @@ public class OverviewMap extends ActionBarActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview_map);
+
         markers = new ArrayList<>();
         points = new ArrayList<>();
         mLastUpdateTime = "";
@@ -139,7 +142,8 @@ public class OverviewMap extends ActionBarActivity implements
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            mMap.setMyLocationEnabled(true);
+            mMap.setMyLocationEnabled(false);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
             addMarkersToMap();
 
 
@@ -157,6 +161,24 @@ public class OverviewMap extends ActionBarActivity implements
 
         return activeNetworkInfo != null;
     }
+
+    public void onClick(final View v) {
+
+        if (mCurrentLocation != null) {
+
+
+            LatLng target = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+            CameraPosition position = this.mMap.getCameraPosition();
+
+            CameraPosition.Builder builder = new CameraPosition.Builder();
+            builder.zoom(15);
+            builder.target(target);
+
+            this.mMap.animateCamera(CameraUpdateFactory.newCameraPosition(builder.build()));
+        }
+
+    }
+
 
     private void setUpMap() {
 
@@ -432,12 +454,23 @@ public class OverviewMap extends ActionBarActivity implements
     }
 
     public String currentSpeedInKM() {
+
+        final TextView textViewToChange = (TextView) findViewById(R.id.speed);
+
+
         Double currentSpeedKM = 0.0;
+        int roundedSpeedKM;
         if (mCurrentLocation.getSpeed() > 0.0) {
-            currentSpeedKM = mCurrentLocation.getSpeed() * 3.60;
+            //  currentSpeedKM = Math.round(mCurrentLocation.getSpeed() * 3.60;
+            roundedSpeedKM = Math.round(mCurrentLocation.getSpeed());
+            currentSpeedKM = roundedSpeedKM * 3.60;
+
         } else {
+            textViewToChange.setText("0,0" + " Km/u");
             return "Snelheid niet beschikbaar";
+
         }
+        textViewToChange.setText(currentSpeedKM.toString() + " Km/u");
         return " Uw huidige snelheid : " + currentSpeedKM;
 
     }
