@@ -1,3 +1,13 @@
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/achtergrond" />
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/GridLayout1"
@@ -8,7 +18,10 @@
     android:layout_marginTop="30dip"
     android:layout_marginLeft="45dip"
     android:orientation="horizontal"
-    tools:context="hu.rijkswaterstaat.rvaar.Home">
+    tools:context="hu.rijkswaterstaat.rvaar.Home"
+    >
+
+
     <Button
         android:id="@+id/myButton"
         android:onClick="buttonOnClick"
@@ -43,7 +56,7 @@
         android:layout_gravity="left|top"
         android:background="@null"
         android:paddingBottom="10dip"
-        android:text="Mijn locaties"
+        android:text="Quiz  "
         android:textColor="#2b4c66"
         android:drawableTop="@drawable/locaties_logo"/>
 
@@ -66,7 +79,7 @@
         android:textColor="#2b4c66"
         android:drawableTop="@drawable/share_logo" />
 </GridLayout>
-
+</RelativeLayout>
 
 
 
