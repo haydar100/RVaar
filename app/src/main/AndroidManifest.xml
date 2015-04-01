@@ -26,10 +26,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:screenOrientation="portrait"
             android:name=".OverviewMap"
             android:label="@string/title_activity_overview_map" >
     </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".Niveau"
             android:label="@string/title_activity_home">
         <intent-filter>
@@ -40,11 +42,12 @@
 
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".MenuActivity"
             android:label="@string/title_activity_overview_map" >
         </activity>
         <activity
-
+            android:screenOrientation="portrait"
             android:name="hu.rijkswaterstaat.rvaar.Home"
             android:logo="@drawable/ic_rvaar"
             android:label="@string/title_activity_home">

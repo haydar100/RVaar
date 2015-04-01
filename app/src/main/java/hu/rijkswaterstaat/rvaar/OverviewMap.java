@@ -46,6 +46,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+
 import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
 
 
@@ -467,11 +468,11 @@ public class OverviewMap extends ActionBarActivity implements
             currentSpeedKM = roundedSpeedKM * 3.60;
 
         } else {
-            textViewToChange.setText("0,0" + " Km/u");
+            textViewToChange.setText("Uw snelheid "+"0,0" + " Km/u");
             return "Snelheid niet beschikbaar";
 
         }
-        textViewToChange.setText(currentSpeedKM.toString() + " Km/u");
+        textViewToChange.setText("Uw snelheid "+currentSpeedKM.toString() + " Km/u");
         return " Uw huidige snelheid : " + currentSpeedKM;
 
     }
