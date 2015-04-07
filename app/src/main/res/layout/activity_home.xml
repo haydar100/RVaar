@@ -36,6 +36,7 @@
         android:layout_gravity="left|top"
         android:background="@null"
         android:paddingBottom="10dip"
+        android:onClick="onClick_Checklist"
         android:text="Checklist"
         android:textColor="#2b4c66"
         android:drawableTop="@drawable/checklist_logo"/>
