@@ -10,4 +10,12 @@
     <string name="gemiddeld">Gemiddeld</string>
     <string name="expert">Expert</string>
 
+    <string-array name="drawerItems">
+        <item>Home</item>
+        <item>Landkaart</item>
+        <item>Checklist</item>
+        <item>Quiz</item>
+        <item>Instellingen</item>
+        <item>About</item>
+    </string-array>
 </resources>
