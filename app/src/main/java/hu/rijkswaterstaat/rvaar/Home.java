@@ -7,12 +7,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+
+import java.util.List;
 
 import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
 
 
 public class Home extends ActionBarActivity {
+    private String mDrawerItems[];
+    private ListView mDrawerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +26,9 @@ public class Home extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_rvaar);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerItems = getResources().getStringArray(R.array.drawerItems);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, mDrawerItems));
 
     }
     public void buttonOnClick(View v){
