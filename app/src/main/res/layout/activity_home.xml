@@ -2,11 +2,6 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!-- The main content view -->
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
         <ImageView
             android:layout_width="match_parent"
@@ -26,6 +21,8 @@
             android:orientation="horizontal"
             android:rowCount="3"
             tools:context="hu.rijkswaterstaat.rvaar.Home">
+
+
             <Button
                 android:id="@+id/myButton"
                 android:background="@null"
@@ -35,14 +32,17 @@
                 android:paddingRight="40dip"
                 android:text="Landkaart"
                 android:textColor="#2b4c66" />
+
             <Button
                 android:id="@+id/myButton2"
                 android:layout_gravity="left|top"
                 android:background="@null"
                 android:drawableTop="@drawable/checklist_logo"
+                android:onClick="onClick_Checklist"
                 android:paddingBottom="10dip"
                 android:text="Checklist"
                 android:textColor="#2b4c66" />
+
             <Button
                 android:id="@+id/myButton3"
                 android:layout_gravity="left|top"
@@ -52,13 +52,15 @@
                 android:paddingRight="40dip"
                 android:text="Tips &amp; Tricks"
                 android:textColor="#2b4c66" />
+
+
             <Button
                 android:id="@+id/button4"
                 android:layout_gravity="left|top"
                 android:background="@null"
                 android:drawableTop="@drawable/locaties_logo"
                 android:paddingBottom="10dip"
-                android:text="Quiz  "
+                android:text="Quiz"
                 android:textColor="#2b4c66" />
 
             <Button
@@ -66,6 +68,7 @@
                 android:layout_gravity="left|top"
                 android:background="@null"
                 android:drawableTop="@drawable/settings_logo"
+                android:onClick="onClick_Preferences"
                 android:paddingBottom="10dip"
                 android:paddingRight="40dip"
                 android:text="Settings"
@@ -75,22 +78,22 @@
                 android:id="@+id/button6"
                 android:layout_gravity="left|top"
                 android:background="@null"
-                android:drawableTop="@drawable/share_logo"
+                android:drawableTop="@drawable/aboutus_logo"
+                android:onClick="onClick_Aboutus"
                 android:paddingBottom="10dip"
-                android:text="Share"
+                android:text="Over ons"
                 android:textColor="#2b4c66" />
         </GridLayout>
-    </FrameLayout>
-    <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#FFF"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
+        <ListView android:id="@+id/left_drawer"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:background="#FFF"/>
 </android.support.v4.widget.DrawerLayout>
+
 
 
 

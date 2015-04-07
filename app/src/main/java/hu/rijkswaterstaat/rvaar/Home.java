@@ -9,8 +9,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
+
+import java.util.List;
+
+import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
 
 
 public class Home extends ActionBarActivity {
@@ -27,12 +30,32 @@ public class Home extends ActionBarActivity {
         mDrawerItems = getResources().getStringArray(R.array.drawerItems);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, mDrawerItems));
 
-
     }
     public void buttonOnClick(View v){
 
         Button button =(Button) v;
         startActivity(new Intent(getApplicationContext(), OverviewMap.class));
+/**/
+    }
+    public void onClick_Aboutus(View v){
+
+        Button button =(Button) v;
+        startActivity(new Intent(getApplicationContext(), About_us.class));
+/**/
+    }
+
+
+    public void onClick_Preferences(View v) {
+
+        Button button = (Button) v;
+        startActivity(new Intent(getApplicationContext(), PreferencesActivity.class));
+/**/
+    }
+
+    public void onClick_Checklist(View v) {
+
+        Button button = (Button) v;
+        startActivity(new Intent(getApplicationContext(), Checklist.class));
 /**/
     }
 

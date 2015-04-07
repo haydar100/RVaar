@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
@@ -16,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -46,25 +48,25 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-
 import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
 
 
 public class OverviewMap extends ActionBarActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
-    public static final int DRAW_DISTANCE_MARKERS = 20000;
-    public static final int NEAREST_MARKER_METER = 10000;
+
+    protected static final String TAG = "location-updates-sample";
+    public int DRAW_DISTANCE_MARKERS = 20000;
+    public int NEAREST_MARKER_METER = 10000;
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    public long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
     /**
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
      * than this value.
      */
-    public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+    public long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-    protected static final String TAG = "location-updates-sample";
     public GoogleMap mMap;
 
     public boolean AnimatedCameraOnce = true;
@@ -100,7 +102,7 @@ public class OverviewMap extends ActionBarActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview_map);
-
+        updateFromPreferences();
         markers = new ArrayList<>();
         points = new ArrayList<>();
         mLastUpdateTime = "";
@@ -322,8 +324,8 @@ public class OverviewMap extends ActionBarActivity implements
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-        mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
         Log.d("startLoc", "startLoc");
 
         mMap.clear();
@@ -392,6 +394,16 @@ public class OverviewMap extends ActionBarActivity implements
     /**
      * Stores activity data in the Bundle.
      */
+
+    public void updateFromPreferences() {
+        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(this);
+        String valueOfDRAW_DISTANCE_MARKERS = SP.getString("DRAW_DISTANCE_MARKERS", "20000");
+        String valueOfNEAREST_MARKER_METER = SP.getString("NEAREST_MARKER_METER", "10000");
+        String valueOfUPDATE_INTERVAL_IN_MILLISECONDS = SP.getString("UPDATE_INTERVAL_IN_MILLISECONDS", "10000");
+        DRAW_DISTANCE_MARKERS = Integer.valueOf(valueOfDRAW_DISTANCE_MARKERS);
+        NEAREST_MARKER_METER = Integer.valueOf(valueOfNEAREST_MARKER_METER);
+        UPDATE_INTERVAL_IN_MILLISECONDS = Long.valueOf(valueOfUPDATE_INTERVAL_IN_MILLISECONDS);
+    }
 
 
     public void findNearestMarker() {
@@ -468,11 +480,11 @@ public class OverviewMap extends ActionBarActivity implements
             currentSpeedKM = roundedSpeedKM * 3.60;
 
         } else {
-            textViewToChange.setText("Uw snelheid "+"0,0" + " Km/u");
+            textViewToChange.setText("Uw snelheid " + "0,0" + " Km/u");
             return "Snelheid niet beschikbaar";
 
         }
-        textViewToChange.setText("Uw snelheid "+currentSpeedKM.toString() + " Km/u");
+        textViewToChange.setText("Uw snelheid " + currentSpeedKM.toString() + " Km/u");
         return " Uw huidige snelheid : " + currentSpeedKM;
 
     }

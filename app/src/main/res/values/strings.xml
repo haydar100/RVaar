@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">RVaar</string>
     <string name="title_activity_overview_map">RVaar</string>
     <string name="title_activity_home">rVaar</string>
@@ -9,6 +11,11 @@
     <string name="beginner">Beginner</string>
     <string name="gemiddeld">Gemiddeld</string>
     <string name="expert">Expert</string>
+    <string name="title_activity_about_us">Over ons</string>
+    <string name="Instellingen">Instellingen</string>
+    <string name="intro_aboutus">Deze applicatie is gemaakt in opdracht van de Hogeschool Utrecht.</string>
+    <string name="intro_aboutus2">Indien u contact met ons op wilt nemen dan kan dan via de volgende e-mail adressen:</string>
+    <string name="title_activity_checklist">Checklist</string>
 
     <string-array name="drawerItems">
         <item>Home</item>

@@ -26,33 +26,49 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:screenOrientation="portrait"
             android:name=".OverviewMap"
-            android:label="@string/title_activity_overview_map" >
-    </activity>
+            android:label="@string/title_activity_overview_map"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".Home"
-            android:label="@string/title_activity_home">
-        <intent-filter>
+            android:label="@string/title_activity_home"
+            android:screenOrientation="portrait" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".MenuActivity"
-            android:label="@string/title_activity_overview_map" >
+            android:label="@string/title_activity_overview_map"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:screenOrientation="portrait"
-            android:name="hu.rijkswaterstaat.rvaar.Niveau"
+            android:name=".Niveau"
+            android:label="@string/title_activity_home"
             android:logo="@drawable/ic_rvaar"
-            android:label="@string/title_activity_home">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".About_us"
+            android:label="@string/title_activity_about_us"
+            android:logo="@drawable/ic_rvaar"
+            android:screenOrientation="portrait" >
+        </activity>
 
-            </activity>
+        <activity
+            android:name=".utils.PreferencesActivity"
+            android:label="@string/Instellingen"
+            android:logo="@drawable/ic_rvaar"
+            android:screenOrientation="portrait"></activity>
+
+        <activity
+            android:name=".Checklist"
+            android:label="@string/title_activity_checklist"
+            android:logo="@drawable/ic_rvaar"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
