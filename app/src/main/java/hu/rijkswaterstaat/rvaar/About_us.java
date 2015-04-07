@@ -1,44 +1,24 @@
 package hu.rijkswaterstaat.rvaar;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 
 
-
-public class Home extends ActionBarActivity {
+public class About_us extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_LEFT_ICON);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_rvaar);
-
-    }
-    public void buttonOnClick(View v){
-
-        Button button =(Button) v;
-        startActivity(new Intent(getApplicationContext(), OverviewMap.class));
-/**/
-    }
-    public void onClick_Aboutus(View v){
-
-        Button button =(Button) v;
-        startActivity(new Intent(getApplicationContext(), About_us.class));
-/**/
+        setContentView(R.layout.activity_about_us);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
+        getMenuInflater().inflate(R.menu.menu_about_us, menu);
         return true;
     }
 
