@@ -5,13 +5,17 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 
-public class About_us extends ActionBarActivity {
 
+public class About_us extends MenuActivity {
+static String[] drawerItems;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
+        drawerItems = getResources().getStringArray(R.array.drawerItems);
+        setMenu(drawerItems);
     }
 
 

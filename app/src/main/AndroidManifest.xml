@@ -41,7 +41,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MenuActivity"
+            android:name=".menu.MenuActivity"
             android:label="@string/title_activity_overview_map"
             android:screenOrientation="portrait" >
         </activity>

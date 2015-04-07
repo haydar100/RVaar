@@ -1,17 +1,23 @@
-package hu.rijkswaterstaat.rvaar;
+package hu.rijkswaterstaat.rvaar.menu;
 
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import hu.rijkswaterstaat.rvaar.R;
+
 
 public class MenuActivity extends ActionBarActivity {
     private String mDrawerItems[];
     private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+    // used to store app title
+    private CharSequence mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +26,12 @@ public class MenuActivity extends ActionBarActivity {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerItems = getResources().getStringArray(R.array.drawerItems);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, mDrawerItems));
+    }
+
+    public void setMenu(String[] items) {
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerItems = getResources().getStringArray(R.array.drawerItems);
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
     }
 
 

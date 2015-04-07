@@ -13,22 +13,20 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
 
 
-public class Home extends ActionBarActivity {
-    private String mDrawerItems[];
-    private ListView mDrawerList;
-
+public class Home extends MenuActivity {
+private String[] drawerItems;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_rvaar);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerItems = getResources().getStringArray(R.array.drawerItems);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, mDrawerItems));
+        drawerItems = getResources().getStringArray(R.array.drawerItems);
+        setMenu(drawerItems);
 
     }
     public void buttonOnClick(View v){
