@@ -17,4 +17,12 @@
     <string name="intro_aboutus2">Indien u contact met ons op wilt nemen dan kan dan via de volgende e-mail adressen:</string>
     <string name="title_activity_checklist">Checklist</string>
 
+    <string-array name="drawerItems">
+        <item>Home</item>
+        <item>Landkaart</item>
+        <item>Checklist</item>
+        <item>Quiz</item>
+        <item>Instellingen</item>
+        <item>About</item>
+    </string-array>
 </resources>
