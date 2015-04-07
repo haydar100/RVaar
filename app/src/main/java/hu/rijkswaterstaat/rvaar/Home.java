@@ -43,6 +43,13 @@ public class Home extends ActionBarActivity {
 /**/
     }
 
+    public void onClick_Checklist(View v) {
+
+        Button button = (Button) v;
+        startActivity(new Intent(getApplicationContext(), Checklist.class));
+/**/
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
