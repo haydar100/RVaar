@@ -58,6 +58,7 @@
                 android:id="@+id/button4"
                 android:layout_gravity="left|top"
                 android:background="@null"
+                android:onClick="onClick_Quiz"
                 android:drawableTop="@drawable/locaties_logo"
                 android:paddingBottom="10dip"
                 android:text="Quiz"
