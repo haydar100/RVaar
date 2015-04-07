@@ -1,7 +1,7 @@
-<RelativeLayout
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="wrap_content">
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,72 +13,74 @@
     android:id="@+id/GridLayout1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:columnCount="2"
-    android:rowCount="3"
-    android:layout_marginTop="30dip"
     android:layout_marginLeft="45dip"
+    android:layout_marginTop="30dip"
+    android:columnCount="2"
     android:orientation="horizontal"
+    android:rowCount="3"
     tools:context="hu.rijkswaterstaat.rvaar.Home"
     >
 
 
     <Button
         android:id="@+id/myButton"
-        android:onClick="buttonOnClick"
-        android:paddingRight="40dip"
-        android:paddingBottom="10dip"
         android:background="@null"
+        android:drawableTop="@drawable/logo_kaart"
+        android:onClick="buttonOnClick"
+        android:paddingBottom="10dip"
+        android:paddingRight="40dip"
         android:text="Landkaart"
-        android:textColor="#2b4c66"
-        android:drawableTop="@drawable/logo_kaart" />
+        android:textColor="#2b4c66" />
+
     <Button
         android:id="@+id/myButton2"
         android:layout_gravity="left|top"
         android:background="@null"
+        android:drawableTop="@drawable/checklist_logo"
         android:paddingBottom="10dip"
         android:text="Checklist"
-        android:textColor="#2b4c66"
-        android:drawableTop="@drawable/checklist_logo"/>
+        android:textColor="#2b4c66" />
 
     <Button
         android:id="@+id/myButton3"
         android:layout_gravity="left|top"
         android:background="@null"
-        android:paddingRight="40dip"
+        android:drawableTop="@drawable/tips_logo"
         android:paddingBottom="10dip"
+        android:paddingRight="40dip"
         android:text="Tips &amp; Tricks"
-        android:textColor="#2b4c66"
-        android:drawableTop="@drawable/tips_logo" />
+        android:textColor="#2b4c66" />
 
 
     <Button
         android:id="@+id/button4"
         android:layout_gravity="left|top"
         android:background="@null"
+        android:drawableTop="@drawable/locaties_logo"
         android:paddingBottom="10dip"
         android:text="Quiz"
-        android:textColor="#2b4c66"
-        android:drawableTop="@drawable/locaties_logo"/>
+        android:textColor="#2b4c66" />
 
     <Button
         android:id="@+id/button5"
         android:layout_gravity="left|top"
         android:background="@null"
-        android:paddingRight="40dip"
+        android:drawableTop="@drawable/settings_logo"
+        android:onClick="onClick_Preferences"
         android:paddingBottom="10dip"
+        android:paddingRight="40dip"
         android:text="Settings"
-        android:textColor="#2b4c66"
-        android:drawableTop="@drawable/settings_logo" />
+        android:textColor="#2b4c66" />
 
     <Button
         android:id="@+id/button6"
         android:layout_gravity="left|top"
         android:background="@null"
+        android:drawableTop="@drawable/aboutus_logo"
         android:onClick="onClick_Aboutus"
         android:paddingBottom="10dip"
         android:text="Over ons"
-        android:textColor="#2b4c66"
-        android:drawableTop="@drawable/aboutus_logo" />
+        android:textColor="#2b4c66" />
 </GridLayout>
 </RelativeLayout>
 

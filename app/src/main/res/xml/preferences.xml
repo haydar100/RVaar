@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:inputType="numberDecimal"
+        android:key="DRAW_DISTANCE_MARKERS"
+        android:summary="Tekenafstand kruispunten in meters"
+        android:title="Tekenafstand kruispunten"></EditTextPreference>
+
+
+    <EditTextPreference
+        android:inputType="numberDecimal"
+        android:key="NEAREST_MARKER_METER"
+        android:summary="Straal tot dichtstbijzijnde kruispunt in meter"
+        android:title="Straal tot dichtstbijzijnde kruispunt"></EditTextPreference>
+
+    <EditTextPreference
+        android:inputType="numberDecimal"
+        android:key="UPDATE_INTERVAL_IN_MILLISECONDS"
+        android:summary="Ververssnelheid landkaart in milliseconden"
+        android:title="Ververssnelheid landkaart"></EditTextPreference>
+
+
+</PreferenceScreen>
