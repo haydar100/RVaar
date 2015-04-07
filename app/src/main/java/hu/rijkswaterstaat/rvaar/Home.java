@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 
-import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
 
 
 public class Home extends ActionBarActivity {
@@ -32,13 +31,6 @@ public class Home extends ActionBarActivity {
 
         Button button =(Button) v;
         startActivity(new Intent(getApplicationContext(), About_us.class));
-/**/
-    }
-
-    public void onClick_Preferences(View v) {
-
-        Button button = (Button) v;
-        startActivity(new Intent(getApplicationContext(), PreferencesActivity.class));
 /**/
     }
 

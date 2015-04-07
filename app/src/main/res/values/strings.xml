@@ -14,6 +14,6 @@
     <string name="title_activity_about_us">Over ons</string>
     <string name="intro_aboutus">Deze applicatie is gemaakt in opdracht van de Hogeschool Utrecht.</string>
     <string name="intro_aboutus2">Indien u contact met ons op wilt nemen dan kan dan via de volgende e-mail adressen:</string>
-
+    <string name="title_activity_checklist">Checklist</string>
 
 </resources>
