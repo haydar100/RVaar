@@ -29,9 +29,58 @@ public class MarkerDAOimpl implements MarkerDAO {
 
                 allMarkers.add(option);
             }
+            con.close();
         } catch (SQLException e) {
             e.printStackTrace();
             Log.d("loading markers failed", "getMarkers failed");
+        }
+        return allMarkers;
+    }
+
+    @Override
+    public void saveLocationOfUser(String id, double x, double y) {
+        Log.i("id", id.toString());
+        try {
+            Connection con = Connector.createConnection(Connector.driver, Connector.dbName, Connector.username, Connector.password, Connector.url);
+            PreparedStatement ps = con.prepareStatement("INSERT INTO TRACKINGDATA VALUES (?, ?, ?)");
+            ps.setString(1, id);
+            ps.setDouble(2, x);
+            ps.setDouble(3, y);
+            ps.execute();
+            con.close();
+        } catch (SQLException e) {
+            Connection con = Connector.createConnection(Connector.driver, Connector.dbName, Connector.username, Connector.password, Connector.url);
+            try {
+                PreparedStatement ps = con.prepareStatement("UPDATE TRACKINGDATA SET X = ?, Y = ? WHERE ID = ?");
+                ps.setDouble(1, x);
+                ps.setDouble(2, y);
+                ps.setString(3, id);
+                ps.execute();
+                ps.close();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
+            Log.d("savinglocationUser", "saveLocationofuser");
+        }
+
+    }
+
+    @Override
+    public ArrayList<MarkerOptions> getUserLocations(String id) {
+        ArrayList<MarkerOptions> allMarkers = new ArrayList<MarkerOptions>();
+        try {
+            Connection con = Connector.createConnection(Connector.driver, Connector.dbName, Connector.username, Connector.password, Connector.url);
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM TRACKINGDATA WHERE ID != ?");
+            ps.setString(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                MarkerOptions option = new MarkerOptions().position(new LatLng(rs.getDouble("y"), rs.getDouble("x")));
+                allMarkers.add(option);
+            }
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            Log.d("getUserLocations", "getUserLocations");
         }
         return allMarkers;
     }
