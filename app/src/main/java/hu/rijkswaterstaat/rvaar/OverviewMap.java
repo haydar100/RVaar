@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 
 import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
 
@@ -55,6 +56,8 @@ public class OverviewMap extends ActionBarActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     protected static final String TAG = "location-updates-sample";
+    private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
+    private static String uniqueID = null;
     public int DRAW_DISTANCE_MARKERS = 20000;
     public int NEAREST_MARKER_METER = 10000;
     /**
@@ -89,6 +92,7 @@ public class OverviewMap extends ActionBarActivity implements
      * Time when the location was updated represented as a String.
      */
     protected String mLastUpdateTime;
+    ArrayList<MarkerOptions> userLocationMarker;
     ProgressDialog dialog;
 
     // UI Widgets.
@@ -97,6 +101,21 @@ public class OverviewMap extends ActionBarActivity implements
      * Start Updates and Stop Updates buttons.
      */
     private ArrayList<LatLng> points;
+
+    public synchronized static String id(Context context) {
+        if (uniqueID == null) {
+            SharedPreferences sharedPrefs = context.getSharedPreferences(
+                    PREF_UNIQUE_ID, Context.MODE_PRIVATE);
+            uniqueID = sharedPrefs.getString(PREF_UNIQUE_ID, null);
+            if (uniqueID == null) {
+                uniqueID = UUID.randomUUID().toString();
+                SharedPreferences.Editor editor = sharedPrefs.edit();
+                editor.putString(PREF_UNIQUE_ID, uniqueID);
+                editor.commit();
+            }
+        }
+        return uniqueID;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,7 +126,8 @@ public class OverviewMap extends ActionBarActivity implements
         points = new ArrayList<>();
         mLastUpdateTime = "";
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
+        Context c = this.getApplicationContext();
+        uniqueID = id(c);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this, "GPS is enabled... launching rVaar", Toast.LENGTH_SHORT).show();
         } else {
@@ -124,7 +144,6 @@ public class OverviewMap extends ActionBarActivity implements
 
     }
 
-
     /**
      * Builds a GoogleApiClient. Uses the {@code #addApi} method to request the
      * LocationServices API.
@@ -138,7 +157,6 @@ public class OverviewMap extends ActionBarActivity implements
                 .build();
         createLocationRequest();
     }
-
 
     private void setUpMapIfNeeded() {
         if (mMap == null) {
@@ -183,7 +201,6 @@ public class OverviewMap extends ActionBarActivity implements
 
     }
 
-
     private void setUpMap() {
 
         Thread t1 = new Thread(new Runnable() {
@@ -205,7 +222,6 @@ public class OverviewMap extends ActionBarActivity implements
 
     }
 
-
     /**
      * Sets up the location request. Android has two location request settings:
      * {@code ACCESS_COARSE_LOCATION} and {@code ACCESS_FINE_LOCATION}. These settings control
@@ -226,7 +242,6 @@ public class OverviewMap extends ActionBarActivity implements
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
-
     protected void startLocationUpdates() {
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
         // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
@@ -234,7 +249,6 @@ public class OverviewMap extends ActionBarActivity implements
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
     }
-
 
     /**
      * Removes location updates from the FusedLocationApi.
@@ -325,10 +339,31 @@ public class OverviewMap extends ActionBarActivity implements
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
 
+
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         Log.d("startLoc", "startLoc");
 
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                MarkerDAOimpl daoImpl = new MarkerDAOimpl();
+                daoImpl.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude());
+                userLocationMarker = daoImpl.getUserLocations(uniqueID);
+
+
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
         mMap.clear();
+        addUserLocToMap();
         addMarkersToMap();
         MarkerOptions k = new MarkerOptions();
         k.position(loc);
@@ -390,7 +425,6 @@ public class OverviewMap extends ActionBarActivity implements
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() = " + result.getErrorCode());
     }
 
-
     /**
      * Stores activity data in the Bundle.
      */
@@ -404,7 +438,6 @@ public class OverviewMap extends ActionBarActivity implements
         NEAREST_MARKER_METER = Integer.valueOf(valueOfNEAREST_MARKER_METER);
         UPDATE_INTERVAL_IN_MILLISECONDS = Long.valueOf(valueOfUPDATE_INTERVAL_IN_MILLISECONDS);
     }
-
 
     public void findNearestMarker() {
         double minDist = 1E38;
@@ -531,6 +564,24 @@ public class OverviewMap extends ActionBarActivity implements
                 });
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+    }
+
+    public void addUserLocToMap() {
+        for (MarkerOptions m : userLocationMarker) {
+            Location loc = new Location("");
+            loc.setLongitude(m.getPosition().longitude);
+            loc.setLatitude(m.getPosition().latitude);
+            if (mCurrentLocation.distanceTo(loc) < 100000000) {
+                if (m == nearestMarkerLoc) {
+                    mMap.addMarker(m);
+                } else {
+                    m.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                    mMap.addMarker(m);
+                }
+
+            }
+
+        }
     }
 
 

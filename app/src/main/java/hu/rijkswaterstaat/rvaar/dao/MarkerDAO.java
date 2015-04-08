@@ -9,6 +9,10 @@ import java.util.ArrayList;
  */
 public interface MarkerDAO {
     public ArrayList<MarkerOptions> getMarkers();
+
+    public void saveLocationOfUser(String id, double x, double y);
+
+    public ArrayList<MarkerOptions> getUserLocations(String id);
 //
 
 }

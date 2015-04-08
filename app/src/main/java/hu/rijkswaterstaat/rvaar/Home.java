@@ -40,6 +40,11 @@ private String[] drawerItems;
         Button button =(Button) v;
         startActivity(new Intent(getApplicationContext(), About_us.class));
 /**/
+    }  public void onClick_Quiz(View v){
+
+        Button button =(Button) v;
+        startActivity(new Intent(getApplicationContext(), Quiz.class));
+/**/
     }
 
 

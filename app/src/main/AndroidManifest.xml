@@ -57,18 +57,24 @@
             android:logo="@drawable/ic_rvaar"
             android:screenOrientation="portrait" >
         </activity>
-
         <activity
             android:name=".utils.PreferencesActivity"
             android:label="@string/Instellingen"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Checklist"
             android:label="@string/title_activity_checklist"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Quiz"
+            android:label="@string/title_activity_quiz" >
+        </activity>
+        <activity
+            android:name=".Result"
+            android:label="@string/title_activity_result" >
+        </activity>
     </application>
 
 </manifest>
