@@ -9,15 +9,34 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
 
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/textResult"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.08"
             android:text="Large Text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
+
     </LinearLayout>
+    <ImageView
+        android:id="@+id/ImageResult"
+        android:layout_width="300dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="75dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/achtergrond" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Terug naar Home"
+        android:id="@+id/terughome"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:onClick="terughome"/>
 </RelativeLayout>

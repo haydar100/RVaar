@@ -33,20 +33,20 @@ public class Quiz extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
-        Question q1 = new Question("Wat is links op een schip" +
-                " ", "Bakboord", "Stuurboord", "Motorboord", "Bakboord");
+        Question q1 = new Question("Een vaarwater is zó smal, dat u met uw schip niet in één keer kunt draaien (er staat geen stroom of wind). Uw schip heeft een rechtse schroef. U draait het gemakkelijkst over:" +
+                " ", "Stuurboord", "Bakboord", "beide boegen", "Stuurboord");
 
-        Question q2 = new Question("Wat is links op een schip" +
-                " ", "Bakboord", "Stuurboord", "Motorboord", "Bakboord");
+        Question q2 = new Question("Hoeveel reddingsvesten moeten aan boord van een snelle motorboot zijn?" +
+                " ", "één voor elke opvarende binnen handbereik", "minimaal één aantal opvarende maakt niet uit", "geen", "één voor elke opvarende binnen handbereik");
 
-        Question q3 = new Question("Wat is links op een schip" +
-                " ", "Bakboord", "Stuurboord", "Motorboord", "Bakboord");
+        Question q3 = new Question("'s Nachts ziet u een rood en een groen boordlicht. Dit is het vooraanzicht van een:" +
+                " ", "klein zeilschip", "vissend vissersschip", "vrachtschip", "klein zeilschip");
 
-        Question q4 = new Question("Wat is links op een schip" +
-                " ", "Bakboord", "Stuurboord", "Motorboord", "Bakboord");
+        Question q4 = new Question("U vaart 's nachts een haven aan. U ziet aan uw stuurboordzijde :" +
+                " ", "groen vast licht of groen flikkerlicht", "wit vast licht of wit flikkerlicht", "rood vast licht of rood flikkerlicht", "groen vast licht of groen flikkerlicht");
 
-        Question q5 = new Question("Wat is links op een schip" +
-                " ", "Bakboord", "Stuurboord", "Motorboord", "Bakboord");
+        Question q5 = new Question("U meet windkracht 5 op de schaal van Beaufort. Dit is een :" +
+                " ", "vrij krachtige wind", "zwakke wind", "stormachtige wind", "vrij krachtige wind");
         quesList.add(q1);
         quesList.add(q2);
         quesList.add(q3);
