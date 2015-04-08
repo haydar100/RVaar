@@ -21,12 +21,29 @@
         <item>Home</item>
         <item>Landkaart</item>
         <item>Checklist</item>
+        <item>Tips en Tricks</item>
         <item>Quiz</item>
         <item>Instellingen</item>
         <item>About</item>
     </string-array>
 
+    <!-- Static test tips -->
+    <string-array name="tips_categories">
+        <item>Tips voor de beroepsvaart,1. Goed voorbereid op reis
+        Zorg aan boord voor actuele vaarkaarten van de
+        wateren die u gaat bevaren. Blijf op de hoogte van de
+        weersverwachtingen en vaar niet bij slecht zicht of
+        in het donker als het niet nodig is. Zorg dat bij slecht
+        weer alles zeevast staat.
+        </item>
+        <item>Tips voor de recreatievaart,1.Zorg voor een vrij uitzicht om u heen. De dode hoek
+        mag niet langer zijn dan 350 meter</item>
+    </string-array>
+    <!-- etc. -->
+
     <string name="title_activity_quiz">Quiz</string>
     <string name="title_activity_result">Result</string>
+    <string name="title_activity_tips">TipsActivity</string>
+    <string name="title_activity_tips_content">TipsContentActivity</string>
 
 </resources>

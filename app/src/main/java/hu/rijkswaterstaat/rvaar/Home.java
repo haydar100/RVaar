@@ -55,6 +55,10 @@ private String[] drawerItems;
 /**/
     }
 
+    public void onClick_Tips(View v){
+        startActivity(new Intent(getApplicationContext(),TipsActivity.class));
+    }
+
     public void onClick_Checklist(View v) {
 
         Button button = (Button) v;

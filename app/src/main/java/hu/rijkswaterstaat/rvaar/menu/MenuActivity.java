@@ -1,15 +1,20 @@
 package hu.rijkswaterstaat.rvaar.menu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import hu.rijkswaterstaat.rvaar.Home;
 import hu.rijkswaterstaat.rvaar.R;
+import hu.rijkswaterstaat.rvaar.TipsContentActivity;
 
 
 public class MenuActivity extends ActionBarActivity {
@@ -25,7 +30,7 @@ public class MenuActivity extends ActionBarActivity {
         setContentView(R.layout.activity_menu);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerItems = getResources().getStringArray(R.array.drawerItems);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, mDrawerItems));
+        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mDrawerItems));
     }
 
     public void setMenu(String[] items) {

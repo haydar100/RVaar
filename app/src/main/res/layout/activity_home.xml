@@ -53,6 +53,7 @@
                 android:layout_gravity="left|top"
                 android:background="@null"
                 android:drawableTop="@drawable/tips_logo"
+                android:onClick="onClick_Tips"
                 android:paddingBottom="10dip"
                 android:paddingRight="40dip"
                 android:text="Tips &amp; Tricks"
