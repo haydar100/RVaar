@@ -117,6 +117,7 @@ public class OverviewMap extends ActionBarActivity implements
         return uniqueID;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,7 +128,7 @@ public class OverviewMap extends ActionBarActivity implements
         mLastUpdateTime = "";
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Context c = this.getApplicationContext();
-        uniqueID = id(c);
+        uniqueID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Toast.makeText(this, "GPS is enabled... launching rVaar", Toast.LENGTH_SHORT).show();
         } else {
