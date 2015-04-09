@@ -42,8 +42,8 @@
     <!-- etc. -->
 
     <string name="title_activity_quiz">Quiz</string>
-    <string name="title_activity_result">Result</string>
+    <string name="title_activity_result">Resultaat</string>
     <string name="title_activity_tips">TipsActivity</string>
-    <string name="title_activity_tips_content">TipsContentActivity</string>
+    <string name="title_activity_tips_content">Tips en Tricks</string>
 
 </resources>
