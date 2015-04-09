@@ -1,11 +1,7 @@
 package hu.rijkswaterstaat.rvaar;
 
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,15 +12,17 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 
 
 public class TipsActivity extends MenuActivity {
+    protected ArrayList list = new ArrayList();
+    protected List content = new ArrayList();
+    protected ArrayList tipsAndTricks = new ArrayList();
     private String[] drawerItems;
     private ListView listView;
     private String[] tips;
-    protected ArrayList list = new ArrayList();
-    protected List content = new ArrayList();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +32,22 @@ public class TipsActivity extends MenuActivity {
         setMenu(drawerItems);
         listView = (ListView) findViewById(R.id.tips_category);
         tips = getResources().getStringArray(R.array.tips_categories);
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                MarkerDAOimpl dao = new MarkerDAOimpl();
+                tipsAndTricks = dao.getTipsTricks();
+               
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         for (int i = 0; i < tips.length; i++) {
             String[] seperated = tips[i].split(",");

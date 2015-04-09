@@ -38,6 +38,27 @@ public class MarkerDAOimpl implements MarkerDAO {
     }
 
     @Override
+    public ArrayList<String> getTipsTricks() {
+        ArrayList<String> allTipsTricks = new ArrayList<String>();
+        try {
+
+            Connection con = Connector.createConnection(Connector.driver, Connector.dbName, Connector.username, Connector.password, Connector.url);
+            PreparedStatement ps = con.prepareStatement("select * from TIPSTRICKS");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String tipAndTrick = rs.getString("OMSCHRIJVING");
+                allTipsTricks.add(tipAndTrick);
+            }
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allTipsTricks;
+    }
+
+
+    @Override
     public void saveLocationOfUser(String id, double x, double y) {
         Log.i("id", id.toString());
         try {
