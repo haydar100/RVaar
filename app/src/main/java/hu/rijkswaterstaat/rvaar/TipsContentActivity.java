@@ -1,28 +1,31 @@
 package hu.rijkswaterstaat.rvaar;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 
+public class TipsContentActivity extends ActionBarActivity {
 
-public class About_us extends MenuActivity {
-static String[] drawerItems;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_us);
-        drawerItems = getResources().getStringArray(R.array.drawerItems);
-        setMenu(drawerItems);
+        setContentView(R.layout.activity_tips_content);
+
+        Intent intent = getIntent();
+        String content = intent.getStringExtra("content");
+        TextView contentarea = (TextView)findViewById(R.id.description);
+        contentarea.setText(content);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_about_us, menu);
+        getMenuInflater().inflate(R.menu.menu_tips_content, menu);
         return true;
     }
 
