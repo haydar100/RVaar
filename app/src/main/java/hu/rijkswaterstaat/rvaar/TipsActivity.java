@@ -38,7 +38,7 @@ public class TipsActivity extends MenuActivity {
 
                 MarkerDAOimpl dao = new MarkerDAOimpl();
                 tipsAndTricks = dao.getTipsTricks();
-               
+
             }
         });
         t1.start();
