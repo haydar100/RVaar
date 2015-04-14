@@ -1,32 +1,33 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
-    <FrameLayout
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/achtergrond" />
+
+    <LinearLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/achtergrond" />
-
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!-- android.support.v7.toolbar -->
+        <include layout="@layout/v7_toolbar"/>
         <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/GridLayout1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="45dip"
-            android:layout_marginTop="30dip"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
             android:columnCount="2"
-            android:orientation="horizontal"
             android:rowCount="3"
             tools:context="hu.rijkswaterstaat.rvaar.Home">
-
 
             <Button
                 android:id="@+id/myButton"
@@ -91,7 +92,11 @@
                 android:text="Over ons"
                 android:textColor="#2b4c66" />
         </GridLayout>
-    </FrameLayout>
+
+
+
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/left_drawer"
