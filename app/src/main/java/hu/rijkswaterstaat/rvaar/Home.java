@@ -24,7 +24,7 @@ private String[] drawerItems;
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_rvaar);
+        getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_icon_app);
         drawerItems = getResources().getStringArray(R.array.drawerItems);
         setMenu(drawerItems);
 

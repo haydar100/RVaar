@@ -1,16 +1,9 @@
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <!-- The main content view -->
-
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="hu.rijkswaterstaat.rvaar.TipsContentActivity">
-    <include layout="@layout/v7_toolbar" />
 
     <TextView
         android:id="@+id/description"
@@ -19,5 +12,3 @@
         android:padding="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium"/>
 </LinearLayout>
-
-</android.support.v4.widget.DrawerLayout>

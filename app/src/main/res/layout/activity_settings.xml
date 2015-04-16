@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context=".utils.PreferencesActivity">
 
+    <LinearLayout
+        android:id="@+id/content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/v7_toolbar" />
+    </LinearLayout>
+
     <ListView
         android:id="@+id/left_drawer"
         android:layout_width="240dp"
