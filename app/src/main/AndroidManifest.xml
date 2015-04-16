@@ -83,7 +83,8 @@
         </activity>
         <activity
             android:name=".TipsActivity"
-            android:label="Tips en Tricks" >
+            android:label="Tips en Tricks"
+            android:launchMode="singleInstance">
         </activity>
         <activity
             android:name=".TipsContentActivity"
