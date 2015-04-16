@@ -14,12 +14,15 @@ import java.util.List;
 
 import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
+import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
 
 public class TipsActivity extends MenuActivity {
     protected ArrayList list = new ArrayList();
     protected List content = new ArrayList();
     protected ArrayList tipsAndTricks = new ArrayList();
+    protected ArrayList markersTest = new ArrayList();
+
     private String[] drawerItems;
     private ListView listView;
     private String[] tips;
@@ -35,7 +38,7 @@ public class TipsActivity extends MenuActivity {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-
+                WSConnector wsc = new WSConnector();
                 MarkerDAOimpl dao = new MarkerDAOimpl();
                 tipsAndTricks = dao.getTipsTricks();
 
