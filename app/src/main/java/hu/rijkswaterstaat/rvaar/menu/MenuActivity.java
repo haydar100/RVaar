@@ -1,20 +1,14 @@
 package hu.rijkswaterstaat.rvaar.menu;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import hu.rijkswaterstaat.rvaar.Home;
 import hu.rijkswaterstaat.rvaar.R;
-import hu.rijkswaterstaat.rvaar.TipsContentActivity;
 
 
 public class MenuActivity extends ActionBarActivity {
@@ -23,6 +17,9 @@ public class MenuActivity extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     // used to store app title
     private CharSequence mTitle;
+
+    public MenuActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

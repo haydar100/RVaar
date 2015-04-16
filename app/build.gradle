@@ -18,6 +18,7 @@ android {
         }
         repositories {
             maven { url 'http://ksoap2-android.googlecode.com/svn/m2-repo' }
+
         }
     }
 }

@@ -50,6 +50,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
+import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
 
 public class OverviewMap extends ActionBarActivity implements
@@ -207,8 +208,12 @@ public class OverviewMap extends ActionBarActivity implements
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                MarkerDAOimpl positionDao = new MarkerDAOimpl();
-                markers = positionDao.getMarkers();
+                WSConnector ws = new WSConnector();
+                markers = ws.getMarkers();
+                ws.getMarkers().size();
+                markers.size();
+//                MarkerDAOimpl positionDao = new MarkerDAOimpl();
+//                markers = positionDao.getMarkers();
 
 
             }
