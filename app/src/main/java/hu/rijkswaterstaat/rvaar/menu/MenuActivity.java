@@ -1,22 +1,33 @@
 package hu.rijkswaterstaat.rvaar.menu;
 
-import android.content.res.Configuration;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import hu.rijkswaterstaat.rvaar.About_us;
+import hu.rijkswaterstaat.rvaar.Checklist;
+import hu.rijkswaterstaat.rvaar.Home;
+import hu.rijkswaterstaat.rvaar.OverviewMap;
+import hu.rijkswaterstaat.rvaar.Quiz;
 import hu.rijkswaterstaat.rvaar.R;
+import hu.rijkswaterstaat.rvaar.TipsActivity;
+import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
 
 
 public class MenuActivity extends ActionBarActivity {
-    private String mDrawerItems[];
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -30,21 +41,25 @@ public class MenuActivity extends ActionBarActivity {
         setContentView(R.layout.activity_menu);
 
     }
+
     public void setMenu(String[] items) {
-        Toolbar mToolbar = (Toolbar)findViewById(R.id.toolbar);
+        Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,mToolbar,R.string.drawer_open,R.string.drawer_closed){
-            public void onDrawerClosed(View view){
+        //Toggle
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_closed) {
+            public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
             }
-            public void onDrawerOpened(View view){
+
+            public void onDrawerOpened(View view) {
                 super.onDrawerOpened(view);
             }
         };
@@ -53,8 +68,6 @@ public class MenuActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
-
-
     }
 
     @Override
@@ -62,6 +75,13 @@ public class MenuActivity extends ActionBarActivity {
         // Inflate the activity_menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
     }
 
     @Override
@@ -78,4 +98,56 @@ public class MenuActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+    private void selectItem(int position) {
+        // Create a new fragment and specify the planet to show based on position
+        // Highlight the selected item, update the title, and close the drawer
+        switch (position) {
+            case 0: {
+                Intent a = new Intent(this, Home.class);
+                startActivity(a);
+            }
+            break;
+            case 1:
+                Intent b = new Intent(this, OverviewMap.class);
+                startActivity(b);
+                break;
+            case 2:
+                Intent c = new Intent(this, Checklist.class);
+                startActivity(c);
+                break;
+            case 3:
+                Intent d = new Intent(this, TipsActivity.class);
+                startActivity(d);
+                break;
+            case 4:
+                Intent e = new Intent(this, Quiz.class);
+                startActivity(e);
+                break;
+            case 5:
+                Intent f = new Intent(this, PreferencesActivity.class);
+                startActivity(f);
+                break;
+            case 6:
+                Intent g = new Intent(this, About_us.class);
+                startActivity(g);
+                break;
+            default:
+                break;
+        }
+
+        mDrawerList.setItemChecked(position, true);
+        mDrawerLayout.closeDrawer(mDrawerList);
+
+    }
 }
+
+
+

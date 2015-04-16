@@ -28,12 +28,14 @@
         <activity
             android:name=".OverviewMap"
             android:label="@string/title_activity_overview_map"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance">
         </activity>
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,21 +57,25 @@
             android:name=".About_us"
             android:label="@string/title_activity_about_us"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance">
         </activity>
         <activity
             android:name=".utils.PreferencesActivity"
             android:label="@string/Instellingen"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".Checklist"
             android:label="@string/title_activity_checklist"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".Quiz"
-            android:label="@string/title_activity_quiz" >
+            android:label="@string/title_activity_quiz"
+            android:launchMode="singleInstance">
         </activity>
         <activity
             android:name=".Result"

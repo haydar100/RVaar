@@ -11,7 +11,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/achtergrond" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -95,7 +95,7 @@
 
 
 
-    </LinearLayout>
+    </FrameLayout>
 
 
     <ListView
