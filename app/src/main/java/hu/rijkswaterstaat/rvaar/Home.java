@@ -38,7 +38,7 @@ private String[] drawerItems;
     public void onClick_Aboutus(View v){
 
         Button button =(Button) v;
-        startActivity(new Intent(getApplicationContext(), About_us.class));
+        startActivity(new Intent(getApplicationContext(), AccordianSampleActivity.class));
 /**/
     }  public void onClick_Quiz(View v){
 

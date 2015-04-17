@@ -2,8 +2,10 @@ package hu.rijkswaterstaat.rvaar;
 //https://guides.codepath.com/android/Basic-Todo-App-Tutorial
 //http://www.anwbwatersport.nl/vaarinformatie/varen-in-europa/checklist-voor-vertrekkers.html
 
+import android.graphics.Color;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +27,6 @@ public class Checklist extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checklist);
-
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = new ArrayList<String>();
         itemsAdapter = new ArrayAdapter<String>(this,
@@ -46,7 +47,10 @@ public class Checklist extends ActionBarActivity {
                     public boolean onItemLongClick(AdapterView<?> adapter,
                                                    View item, int pos, long id) {
                         // Remove the item within array at position
-                        items.remove(pos);
+                     /*   items.remove(pos);*/
+
+                        item.setBackgroundColor(Color.parseColor("#803a9200"));
+
                         // Refresh the adapter
                         itemsAdapter.notifyDataSetChanged();
                         // Return true consumes the long click event (marks it handled)
@@ -55,6 +59,8 @@ public class Checklist extends ActionBarActivity {
 
                 });
     }
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

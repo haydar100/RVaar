@@ -1,3 +1,4 @@
+/*
 package hu.rijkswaterstaat.rvaar;
 
 import android.support.v7.app.ActionBarActivity;
@@ -41,3 +42,4 @@ static String[] drawerItems;
         return super.onOptionsItemSelected(item);
     }
 }
+*/
