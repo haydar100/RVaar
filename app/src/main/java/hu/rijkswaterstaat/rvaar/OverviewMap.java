@@ -59,6 +59,7 @@ public class OverviewMap extends ActionBarActivity implements
     protected static final String TAG = "location-updates-sample";
     private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
     private static String uniqueID = null;
+    public boolean gps_disabled;
     public int DRAW_DISTANCE_MARKERS = 20000;
     public int NEAREST_MARKER_METER = 10000;
     /**
@@ -130,10 +131,14 @@ public class OverviewMap extends ActionBarActivity implements
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Context c = this.getApplicationContext();
         uniqueID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            gps_disabled = false;
             Toast.makeText(this, "GPS is enabled... launching rVaar", Toast.LENGTH_SHORT).show();
         } else {
+            gps_disabled = true;
             showGPSDisabledAlertToUser();
+
         }
         // Update values using data stored in the Bundle.
 
@@ -252,6 +257,7 @@ public class OverviewMap extends ActionBarActivity implements
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
         // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
         Log.d("startLocup", "startLocup");
+        displayProgressDialogGettingLoc();
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
     }
@@ -285,7 +291,6 @@ public class OverviewMap extends ActionBarActivity implements
         // Within {@code onPause()}, we pause location updates, but leave the
         // connection to GoogleApiClient intact.  Here, we resume receiving
         // location updates if the user has requested them.
-
         if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
         }
@@ -323,7 +328,15 @@ public class OverviewMap extends ActionBarActivity implements
         // user launches the activity,
         // moves to a new location, and then changes the device orientation, the original location
         // is displayed as the activity is re-created.
-        if (mCurrentLocation == null) {
+
+        displayProgressDialogGettingLoc();
+
+
+        startLocationUpdates();
+    }
+
+    public void displayProgressDialogGettingLoc() {
+        if (mCurrentLocation == null && gps_disabled == false) {
             dialog = ProgressDialog.show(this, "",
                     "Getting your location", true, true);
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -331,9 +344,6 @@ public class OverviewMap extends ActionBarActivity implements
 
 
         }
-
-
-        startLocationUpdates();
     }
 
     /**
@@ -344,7 +354,6 @@ public class OverviewMap extends ActionBarActivity implements
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
-
 
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         Log.d("startLoc", "startLoc");
@@ -386,11 +395,13 @@ public class OverviewMap extends ActionBarActivity implements
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             AnimatedCameraOnce = false;
         }
-        dialog.dismiss();
         drawPolyLineOnLocation(location);
 
         Log.d("Latitude", "Current Latitude " + location.getLatitude());
         Log.d("Longitude", "Current Longitude " + location.getLongitude());
+        if (dialog != null) {
+            dialog.dismiss();
+        }
 
     }
 
