@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.SoapFault;
+import org.ksoap2.serialization.PropertyInfo;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpResponseException;
@@ -24,6 +25,30 @@ import java.util.ArrayList;
 public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions>> {
     final static String NAMESPACE = "http://tempuri.org/";
     final static String URL = "http://145.89.186.168/WebserviceRvaar/Service1.svc?wsdl";
+
+    //     public void saveLocationOfUser(String id, double x, double y) {
+    //     public ArrayList<MarkerOptions> getUserLocations(String id) {
+
+
+    public void saveLocationOfUser(String id, double x, double y) {
+        SoapObject request = new SoapObject(NAMESPACE, "SaveLocationOfUser");
+        PropertyInfo p = new PropertyInfo();
+        p.setName("id");
+        p.setValue(id);
+        p.setType(String.class);
+        p.setName("x");
+        p.setValue(x);
+        p.setType(double.class);
+        p.setName("y");
+        p.setValue(y);
+        p.setType(double.class);
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.implicitTypes = true;
+        envelope.setOutputSoapObject(request);
+        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+
+    }
 
 
     public ArrayList<MarkerOptions> getMarkers() {
