@@ -85,10 +85,10 @@
                 android:id="@+id/button6"
                 android:layout_gravity="left|top"
                 android:background="@null"
-                android:drawableTop="@drawable/aboutus_logo"
+                android:drawableTop="@drawable/sos_logo"
                 android:onClick="onClick_Aboutus"
                 android:paddingBottom="10dip"
-                android:text="Over ons"
+                android:text="SOS"
                 android:textColor="#2b4c66" />
         </GridLayout>
     </FrameLayout>
