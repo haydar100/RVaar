@@ -1,161 +1,169 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    <ImageView
+    android:fitsSystemWindows="true">
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/achtergrond" />
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
         android:orientation="vertical">
+        <include layout="@layout/v7_toolbar" />
 
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#80cbd3d9"
-            android:textColor="#2b4c66"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:padding="5dip"
-            android:text="Rijkswaterstaat" />
 
         <LinearLayout
-            android:id="@+id/panel1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-                 <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dip"
-                android:textColor="#2b4c66"
-                android:padding="5dip"
-                android:text="U kunt Rijkswaterstaat op dit nummer bereiken:" />
             <TextView
+                android:id="@+id/text1"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dip"
+                android:background="#80cbd3d9"
                 android:textColor="#2b4c66"
+                android:gravity="center"
+                android:textStyle="bold"
                 android:padding="5dip"
-                android:autoLink="phone"
-                android:linksClickable="true"
-                android:text="0618981464"/>
+                android:text="Rijkswaterstaat" />
+
+            <LinearLayout
+                android:id="@+id/panel1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dip"
+                    android:textColor="#2b4c66"
+                    android:padding="5dip"
+                    android:text="U kunt Rijkswaterstaat op dit nummer bereiken:" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dip"
+                    android:textColor="#2b4c66"
+                    android:padding="5dip"
+                    android:autoLink="phone"
+                    android:linksClickable="true"
+                    android:text="0618981464"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="2dip"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/text2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#80cbd3d9"
-            android:textColor="#2b4c66"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:padding="5dip"
-            android:text="Politie" />
 
         <LinearLayout
-            android:id="@+id/panel2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_gravity="center"
+            android:layout_marginTop="2dip"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/text2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dip"
+                android:background="#80cbd3d9"
                 android:textColor="#2b4c66"
+                android:gravity="center"
+                android:textStyle="bold"
                 android:padding="5dip"
-                android:text="U kunt de Politie op dit nummer bereiken:" />
-            <TextView
+                android:text="Politie" />
+
+            <LinearLayout
+                android:id="@+id/panel2"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dip"
-                android:textColor="#2b4c66"
-                android:padding="5dip"
-                android:autoLink="phone"
-                android:linksClickable="true"
-                android:text="0101010101"/>
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dip"
+                    android:textColor="#2b4c66"
+                    android:padding="5dip"
+                    android:text="U kunt de Politie op dit nummer bereiken:" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dip"
+                    android:textColor="#2b4c66"
+                    android:padding="5dip"
+                    android:autoLink="phone"
+                    android:linksClickable="true"
+                    android:text="0101010101"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="2dip"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/text3"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="#80cbd3d9"
-            android:textColor="#2b4c66"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:padding="5dip"
-            android:text="ANWB" />
 
         <LinearLayout
-            android:id="@+id/panel3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:layout_gravity="center"
+            android:layout_marginTop="2dip"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/text3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dip"
+                android:background="#80cbd3d9"
                 android:textColor="#2b4c66"
+                android:gravity="center"
+                android:textStyle="bold"
                 android:padding="5dip"
-                android:text="U kunt de ANWB op dit nummer bereiken:" />
-            <TextView
+                android:text="ANWB" />
+
+            <LinearLayout
+                android:id="@+id/panel3"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dip"
-                android:textColor="#2b4c66"
-                android:padding="5dip"
-                android:autoLink="phone"
-                android:linksClickable="true"
-                android:text="0101010101"/>
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dip"
+                    android:textColor="#2b4c66"
+                    android:padding="5dip"
+                    android:text="U kunt de ANWB op dit nummer bereiken:" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dip"
+                    android:textColor="#2b4c66"
+                    android:padding="5dip"
+                    android:autoLink="phone"
+                    android:linksClickable="true"
+                    android:text="0101010101"/>
+            </LinearLayout>
         </LinearLayout>
+
+
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="340dip"
+            android:dividerHeight="0px"
+            android:drawSelectorOnTop="false"
+            android:visibility="gone" />
     </LinearLayout>
 
-
-
+    <!-- drawer -->
     <ListView
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="340dip"
-        android:dividerHeight="0px"
-        android:drawSelectorOnTop="false"
-        android:visibility="gone" />
-</LinearLayout>
-    </RelativeLayout>
+        android:id="@+id/left_drawer"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#FFF"
+        android:choiceMode="singleChoice"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp" />
+
+</android.support.v4.widget.DrawerLayout>

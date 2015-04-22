@@ -28,23 +28,21 @@
         <activity
             android:name=".OverviewMap"
             android:label="@string/title_activity_overview_map"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance">
         </activity>
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".menu.MenuActivity"
-            android:label="@string/title_activity_overview_map"
-            android:screenOrientation="portrait" >
-        </activity>
+
         <activity
             android:name=".Niveau"
             android:label="@string/title_activity_home"
@@ -55,21 +53,25 @@
             android:name=".AccordianSampleActivity"
             android:label="@string/title_activity_about_us"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance">
         </activity>
         <activity
             android:name=".utils.PreferencesActivity"
             android:label="@string/Instellingen"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".Checklist"
             android:label="@string/title_activity_checklist"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance"/>
         <activity
             android:name=".Quiz"
-            android:label="@string/title_activity_quiz" >
+            android:label="@string/title_activity_quiz"
+            android:launchMode="singleInstance">
         </activity>
         <activity
             android:name=".Result"
@@ -77,7 +79,8 @@
         </activity>
         <activity
             android:name=".TipsActivity"
-            android:label="Tips en Tricks" >
+            android:label="Tips en Tricks"
+            android:launchMode="singleInstance">
         </activity>
         <activity
             android:name=".TipsContentActivity"

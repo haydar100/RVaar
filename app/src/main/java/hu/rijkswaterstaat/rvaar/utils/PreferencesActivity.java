@@ -16,7 +16,7 @@ public class PreferencesActivity extends MenuActivity {
         this.setContentView(R.layout.activity_settings);
         drawerItems = getResources().getStringArray(R.array.drawerItems);
         setMenu(drawerItems);
-        getFragmentManager().beginTransaction().replace(android.R.id.content, new PreferenceFragment()).commit();
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new PreferenceFragment()).commit();
 
 
     }
