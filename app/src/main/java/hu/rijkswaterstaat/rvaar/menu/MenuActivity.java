@@ -14,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import hu.rijkswaterstaat.rvaar.About_us;
+import hu.rijkswaterstaat.rvaar.AccordianSampleActivity;
 import hu.rijkswaterstaat.rvaar.Checklist;
 import hu.rijkswaterstaat.rvaar.Home;
 import hu.rijkswaterstaat.rvaar.OverviewMap;
@@ -44,11 +44,15 @@ public class MenuActivity extends ActionBarActivity {
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        if(mDrawerLayout != null) {
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+        }
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        if(mDrawerList != null) {
+            mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+            mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+        }
         //Toggle
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_closed) {
             public void onDrawerClosed(View view) {
@@ -60,7 +64,6 @@ public class MenuActivity extends ActionBarActivity {
             }
         };
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
     }
 
@@ -136,7 +139,7 @@ public class MenuActivity extends ActionBarActivity {
                 startActivity(f);
                 break;
             case 6:
-                Intent g = new Intent(this, About_us.class);
+                Intent g = new Intent(this,AccordianSampleActivity.class);
                 startActivity(g);
                 break;
             default:
