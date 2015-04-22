@@ -361,9 +361,12 @@ public class OverviewMap extends ActionBarActivity implements
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                MarkerDAOimpl daoImpl = new MarkerDAOimpl();
-                daoImpl.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude());
-                userLocationMarker = daoImpl.getUserLocations(uniqueID);
+
+                if (isNetworkAvailable()) {
+                    MarkerDAOimpl daoImpl = new MarkerDAOimpl();
+                    daoImpl.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude());
+                    userLocationMarker = daoImpl.getUserLocations(uniqueID);
+                }
 
 
             }
@@ -478,7 +481,10 @@ public class OverviewMap extends ActionBarActivity implements
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
             notifyUser(nearestMarkerLoc);
         } else {
-            nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            if (nearestMarkerLoc != null) {
+                nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            }
+
         }
     }
 
@@ -584,21 +590,24 @@ public class OverviewMap extends ActionBarActivity implements
     }
 
     public void addUserLocToMap() {
-        for (MarkerOptions m : userLocationMarker) {
-            Location loc = new Location("");
-            loc.setLongitude(m.getPosition().longitude);
-            loc.setLatitude(m.getPosition().latitude);
-            if (mCurrentLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
-                if (m == nearestMarkerLoc) {
-                    mMap.addMarker(m);
-                } else {
-                    m.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-                    mMap.addMarker(m);
+        if (userLocationMarker != null) {
+            for (MarkerOptions m : userLocationMarker) {
+                Location loc = new Location("");
+                loc.setLongitude(m.getPosition().longitude);
+                loc.setLatitude(m.getPosition().latitude);
+                if (mCurrentLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
+                    if (m == nearestMarkerLoc) {
+                        mMap.addMarker(m);
+                    } else {
+                        m.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                        mMap.addMarker(m);
+                    }
+
                 }
 
             }
-
         }
+
     }
 
 

@@ -1,6 +1,9 @@
 package hu.rijkswaterstaat.rvaar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +30,13 @@ public class TipsActivity extends MenuActivity {
     private ListView listView;
     private String[] tips;
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+
+        return activeNetworkInfo != null;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +48,14 @@ public class TipsActivity extends MenuActivity {
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                WSConnector wsc = new WSConnector();
-                MarkerDAOimpl dao = new MarkerDAOimpl();
-                tipsAndTricks = dao.getTipsTricks();
+                if (isNetworkAvailable()) {
+                    WSConnector wsc = new WSConnector();
+                    MarkerDAOimpl dao = new MarkerDAOimpl();
+                    tipsAndTricks = dao.getTipsTricks();
+                } else {
+                    tipsAndTricks = new ArrayList<String>();
+                }
+
 
             }
         });
