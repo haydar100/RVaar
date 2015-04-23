@@ -1,24 +1,29 @@
 package hu.rijkswaterstaat.rvaar;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-
-import java.util.List;
+import android.widget.EditText;
 
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
 
 
 public class Home extends MenuActivity {
-private String[] drawerItems;
+    private static String BOAT_NAME = "";
+    private String[] drawerItems;
+    private String valueOf;
+//public String BOAT_NAME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
@@ -27,7 +32,47 @@ private String[] drawerItems;
         getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_icon_app);
         drawerItems = getResources().getStringArray(R.array.drawerItems);
         setMenu(drawerItems);
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        showPromptForUsername();
+        Log.v("" + preferences.getString("BOAT_NAME", null), "");
 
+    }
+
+    public void showPromptForUsername() {
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(getResources().getString(R.string.titleAlertUser));
+        alert.setMessage(getResources().getString(R.string.bootnaaminfo));
+        final EditText input = new EditText(this);
+        //  BOAT_NAME = String.valueOf(input.getText());
+        alert.setView(input);
+
+        if (!preferences.contains("showedPromptForUsernameOnStartup")) {
+
+
+            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    String valueOfInput = String.valueOf(input.getText());
+                    valueOf = String.valueOf(input.getText());
+                    Log.v("valueOfInput", "" + valueOfInput);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("BOAT_NAME", valueOfInput);
+                    editor.putBoolean("showedPromptForUsernameOnStartup", true);
+                    editor.commit();
+                }
+            });
+
+            alert.setNegativeButton("Nee, bedankt", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Log.i("Cancel", "Cancel");
+                }
+            });
+            alert.show();
+        }
     }
     public void buttonOnClick(View v){
 

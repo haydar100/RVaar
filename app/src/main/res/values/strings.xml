@@ -4,6 +4,8 @@
     <string name="drawer_closed">false</string>
 
     <string name="app_name">RVaar</string>
+    <string name="titleAlertUser">Bootnaam</string>
+    <string name="bootnaaminfo">Vul naam van boot in </string>
     <string name="title_activity_overview_map">RVaar</string>
     <string name="title_activity_home">rVaar</string>
     <string name="hello_world">Hello world!</string>
