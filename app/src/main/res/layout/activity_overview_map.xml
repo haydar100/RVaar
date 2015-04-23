@@ -9,36 +9,35 @@
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:scrollbars="vertical" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top">
+
+        <Button
+            android:id="@+id/myButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawableBottom="@drawable/gps_logo"
+            android:onClick="onClick"
+            android:padding="0dp"
+            android:textColor="#ffffffff"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
     <RadioGroup
         android:id="@+id/radio_group_list_selector"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
         android:background="#802b4c66"
         android:orientation="horizontal"
         android:padding="4dp">
-
-        <Button
-            android:id="@+id/myButton"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:drawableBottom="@drawable/gps_logo"
-            android:gravity="center_horizontal|center_vertical"
-            android:onClick="onClick"
-            android:text="Vind uw locatie"
-            android:textStyle="bold"
-            android:textColor="#ffffffff"/>
-        <View
-            android:id="@+id/VerticalLine6"
-            android:layout_width="1dip"
-            android:layout_height="match_parent"
-            android:textColor="#aaa" />
-
-
 
         <TextView
             android:id="@+id/speed"
@@ -48,15 +47,7 @@
             android:textStyle="bold"
             android:textColor="#ffffffff"
             android:textSize="20sp"
-            android:gravity="center_horizontal|center_vertical"
-             />
-
-        <View
-            android:id="@+id/VerticalLine2"
-            android:layout_width="1dip"
-            android:layout_height="match_parent"
-            android:textColor="#ffffffff"/>
-
+            android:gravity="center_horizontal|center_vertical"/>
 
     </RadioGroup>
 </FrameLayout>

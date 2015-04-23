@@ -135,11 +135,11 @@ public class MenuActivity extends ActionBarActivity {
                 startActivity(e);
                 break;
             case 5:
-                Intent f = new Intent(this, PreferencesActivity.class);
+                Intent f = new Intent(this, AccordianSampleActivity.class);
                 startActivity(f);
                 break;
             case 6:
-                Intent g = new Intent(this,AccordianSampleActivity.class);
+                Intent g = new Intent(this,PreferencesActivity.class);
                 startActivity(g);
                 break;
             default:

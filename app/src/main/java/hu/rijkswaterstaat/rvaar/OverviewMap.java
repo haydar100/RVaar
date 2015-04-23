@@ -23,7 +23,13 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -360,7 +366,6 @@ public class OverviewMap extends ActionBarActivity implements
         final String bootnaam = preferences.getString("BOAT_NAME", null);
 
 
-
         mMap.clear();
         addUserLocToMap();
         addMarkersToMap();
@@ -533,17 +538,44 @@ public class OverviewMap extends ActionBarActivity implements
 
             mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
             Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M" + "\n" + currentSpeedInKM(), Toast.LENGTH_LONG).show(); // R.string.location_updated_message
-
+            notifyPopup();
         }
+    }
 
+    public void notifyPopup() {
+        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = layoutInflater.inflate(R.layout.popup, null);
+        final PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+        if(userLocationMarker != null) {
+            for (MarkerOptions m : userLocationMarker) {
+                Location loc = new Location("");
+                loc.setLatitude(m.getPosition().latitude);
+                loc.setLongitude(m.getPosition().longitude);
+                if (mCurrentLocation.distanceTo(loc) < 50) {
+                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                    ImageButton btnDismiss = (ImageButton) popupView.findViewById(R.id.dismiss);
+                    btnDismiss.setOnClickListener(new Button.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // TODO Auto-generated method stub
+                            popupWindow.dismiss();
+                        }
+                    });
+                }
+            }
+        }
+    }
 
+    public void openSOS(View v) {
+        Intent sos = new Intent(this, AccordianSampleActivity.class);
+        startActivity(sos);
     }
 
     public String currentSpeedInKM() {
-
         final TextView textViewToChange = (TextView) findViewById(R.id.speed);
-
-
         Double currentSpeedKM = 0.0;
         int roundedSpeedKM;
         if (mCurrentLocation.getSpeed() > 0.0) {

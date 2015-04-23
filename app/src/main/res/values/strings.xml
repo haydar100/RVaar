@@ -27,8 +27,9 @@
         <item>Checklist</item>
         <item>Tips en Tricks</item>
         <item>Quiz</item>
+        <item>SOS</item>
         <item>Instellingen</item>
-        <item>About</item>
+        <item>Over ons</item>
     </string-array>
 
     <!-- Static test tips -->
