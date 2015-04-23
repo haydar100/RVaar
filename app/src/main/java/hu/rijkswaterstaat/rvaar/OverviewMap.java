@@ -49,7 +49,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
-import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
 
@@ -336,7 +335,7 @@ public class OverviewMap extends ActionBarActivity implements
     }
 
     public void displayProgressDialogGettingLoc() {
-        if (mCurrentLocation == null && gps_disabled == false) {
+        if (mCurrentLocation == null && !gps_disabled) {
             dialog = ProgressDialog.show(this, "",
                     "Getting your location", true, true);
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
@@ -363,11 +362,11 @@ public class OverviewMap extends ActionBarActivity implements
             public void run() {
 
                 if (isNetworkAvailable()) {
-                    MarkerDAOimpl daoImpl = new MarkerDAOimpl();
-                    daoImpl.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude());
-                    userLocationMarker = daoImpl.getUserLocations(uniqueID);
+                    WSConnector connector = new WSConnector();
+                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude(), "Sven's boot");
+                    userLocationMarker = connector.getUserLocations(uniqueID);
+                    Log.i("aantal users", userLocationMarker.size() + " aant");
                 }
-
 
             }
         });

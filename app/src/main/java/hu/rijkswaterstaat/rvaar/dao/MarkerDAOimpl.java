@@ -60,16 +60,20 @@ public class MarkerDAOimpl implements MarkerDAO {
 
     @Override
     public void saveLocationOfUser(String id, double x, double y) {
-        Log.i("id", id.toString());
+        Log.i("id", id);
+        Log.i("X", String.valueOf(x));
+        Log.i("Y", String.valueOf(y));
         try {
             Connection con = Connector.createConnection(Connector.driver, Connector.dbName, Connector.username, Connector.password, Connector.url);
-            PreparedStatement ps = con.prepareStatement("INSERT INTO TRACKINGDATA VALUES (?, ?, ?)");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO TRACKINGDATA VALUES (?, ?, ?, ?)");
             ps.setString(1, id);
             ps.setDouble(2, x);
             ps.setDouble(3, y);
+            ps.setString(4, null);
             ps.execute();
             con.close();
         } catch (SQLException e) {
+            e.printStackTrace();
             Connection con = Connector.createConnection(Connector.driver, Connector.dbName, Connector.username, Connector.password, Connector.url);
             try {
                 PreparedStatement ps = con.prepareStatement("UPDATE TRACKINGDATA SET X = ?, Y = ? WHERE ID = ?");
