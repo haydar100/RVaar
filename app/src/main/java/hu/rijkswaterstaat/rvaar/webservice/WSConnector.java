@@ -37,10 +37,11 @@ public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions
         request.addProperty("bootnaam", bootnaam);
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.dotNet = true;
-        envelope.implicitTypes = true;
+        //envelope.implicitTypes = true;
         envelope.setOutputSoapObject(request);
-        HttpTransportSE httpTransport = new HttpTransportSE(URL);
+
         try {
+            HttpTransportSE httpTransport = new HttpTransportSE(URL);
             httpTransport.call("http://tempuri.org/IService1/SaveLocationOfUser", envelope);
         } catch (Exception e) {
             e.printStackTrace();

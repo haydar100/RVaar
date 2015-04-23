@@ -356,6 +356,8 @@ public class OverviewMap extends ActionBarActivity implements
 
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         Log.d("startLoc", "startLoc");
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        final String bootnaam = preferences.getString("BOAT_NAME", null);
 
         Thread t1 = new Thread(new Runnable() {
             @Override
@@ -363,7 +365,7 @@ public class OverviewMap extends ActionBarActivity implements
 
                 if (isNetworkAvailable()) {
                     WSConnector connector = new WSConnector();
-                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude(), "Sven's boot");
+                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude(), bootnaam);
                     userLocationMarker = connector.getUserLocations(uniqueID);
                     Log.i("aantal users", userLocationMarker.size() + " aant");
                 }
