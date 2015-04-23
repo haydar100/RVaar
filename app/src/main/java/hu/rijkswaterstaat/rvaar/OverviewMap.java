@@ -359,26 +359,6 @@ public class OverviewMap extends ActionBarActivity implements
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final String bootnaam = preferences.getString("BOAT_NAME", null);
 
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                if (isNetworkAvailable()) {
-                    WSConnector connector = new WSConnector();
-                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude(), bootnaam);
-                    userLocationMarker = connector.getUserLocations(uniqueID);
-                    Log.i("aantal users", userLocationMarker.size() + " aant");
-                }
-
-            }
-        });
-        t1.start();
-        try {
-            t1.join();
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
 
         mMap.clear();
@@ -400,6 +380,41 @@ public class OverviewMap extends ActionBarActivity implements
             AnimatedCameraOnce = false;
         }
         drawPolyLineOnLocation(location);
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (isNetworkAvailable()) {
+                    WSConnector connector = new WSConnector();
+
+                    LatLng laatstePositie = points.get(points.size() - 1);
+                    LatLng eennaLaatstePositie = points.get(points.size() - 2);
+
+                    Location locLaatste = new Location("");
+                    locLaatste.setLatitude(laatstePositie.latitude);
+                    locLaatste.setLongitude(laatstePositie.longitude);
+
+                    Location locEennaLaatste = new Location("");
+                    locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
+                    locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
+
+                    if (locLaatste.distanceTo(locEennaLaatste) > 1.5) {
+                        connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude(), bootnaam);
+                    }
+                    userLocationMarker = connector.getUserLocations(uniqueID);
+                }
+
+            }
+        });
+        t1.start();
+        try {
+            t1.join();
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
 
         Log.d("Latitude", "Current Latitude " + location.getLatitude());
         Log.d("Longitude", "Current Longitude " + location.getLongitude());
