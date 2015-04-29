@@ -28,14 +28,6 @@
             android:textColor="@android:color/white"
             android:textSize="20dp" />
 
-        <ImageButton
-            android:layout_alignParentRight="true"
-            android:id="@+id/sos"
-            android:layout_width="55dp"
-            android:layout_height="40dp"
-            android:onClick="openSOS"
-            android:src="@drawable/ic_sos_logo"/>
-
     </RelativeLayout>
 
     <View
