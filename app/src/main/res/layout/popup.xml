@@ -24,7 +24,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"
             android:orientation="vertical"
-            android:text="Pas op!"
+            android:text="Pas op, kruispunt!"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
 
@@ -46,8 +46,7 @@
             android:layout_height="200dp"
             android:layout_weight="1"
             android:background="#80eeeeee"
-            android:scaleType="fitStart"
-            android:src="@mipmap/ic_klasse1" />
+            android:scaleType="fitStart"/>
 
         <ImageView
             android:id="@+id/imageView2"

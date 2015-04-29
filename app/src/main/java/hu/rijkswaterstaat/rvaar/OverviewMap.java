@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.RingtoneManager;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +59,8 @@ import java.util.UUID;
 
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
+import static hu.rijkswaterstaat.rvaar.R.drawable.*;
+
 
 public class OverviewMap extends ActionBarActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
@@ -65,6 +69,7 @@ public class OverviewMap extends ActionBarActivity implements
     private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
     private static String uniqueID = null;
     public boolean gps_disabled;
+    public boolean popupIsOpen = false;
     public int DRAW_DISTANCE_MARKERS = 20000;
     public int NEAREST_MARKER_METER = 10000;
     /**
@@ -371,7 +376,7 @@ public class OverviewMap extends ActionBarActivity implements
         addMarkersToMap();
         MarkerOptions k = new MarkerOptions();
         k.position(loc);
-        mMap.addMarker(k.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericon)));
+        mMap.addMarker(k.icon(BitmapDescriptorFactory.fromResource(ic_markericon)));
         findNearestMarker();
 
         if (AnimatedCameraOnce) { // tijdelijk
@@ -501,6 +506,9 @@ public class OverviewMap extends ActionBarActivity implements
             // mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
             notifyUser(nearestMarkerLoc);
+            if(!popupIsOpen) {
+                notifyPopup(nearestMarkerLoc);
+            }
         } else {
             if (nearestMarkerLoc != null) {
                 nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
@@ -523,7 +531,7 @@ public class OverviewMap extends ActionBarActivity implements
                     new NotificationCompat.Builder(this)
                             .setContentTitle("rVaar")
                             .setContentText("Over " + x + "M nadert u de kruispunt " + marker.getTitle())
-                            .setSmallIcon(R.drawable.ic_rvaar)
+                            .setSmallIcon(ic_rvaar)
                             .setSound(sound);
 
             Intent resultIntent = new Intent(this, OverviewMap.class);
@@ -538,23 +546,67 @@ public class OverviewMap extends ActionBarActivity implements
 
             mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
             Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M" + "\n" + currentSpeedInKM(), Toast.LENGTH_LONG).show(); // R.string.location_updated_message
-            notifyPopup();
         }
     }
 
-    public void notifyPopup() {
+    public void notifyPopup(MarkerOptions marker) {
+        popupIsOpen = true;
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.popup, null);
         final PopupWindow popupWindow = new PopupWindow(
                 popupView,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+
         if(userLocationMarker != null) {
-            for (MarkerOptions m : userLocationMarker) {
-                Location loc = new Location("");
-                loc.setLatitude(m.getPosition().latitude);
-                loc.setLongitude(m.getPosition().longitude);
-                if (mCurrentLocation.distanceTo(loc) < 50) {
+            Location loc = new Location("");
+            loc.setLatitude(marker.getPosition().latitude);
+            loc.setLongitude(marker.getPosition().longitude);
+            float distanceInMeters = mCurrentLocation.distanceTo(loc);
+                if (distanceInMeters < NEAREST_MARKER_METER) {
+                    ImageView iv = (ImageView)findViewById(R.id.imageView1);
+                    switch(marker.getTitle()){
+                        case "I": {
+                            iv.setImageResource(R.drawable.klasse1);
+                            break;
+                        }
+                        case "II":{
+                            iv.setImageResource(R.drawable.klasse2);
+                            break;
+                        }
+                        case "III":{
+                            iv.setImageResource(R.drawable.klasse3);
+                            break;
+                        }
+                        case "IV":{
+                            iv.setImageResource(R.drawable.klasse4);
+                            break;
+                        }
+                        case "V":{
+                            iv.setImageResource(R.drawable.klasse5);
+                            break;
+                        }
+                        case "VI":{
+                            iv.setImageResource(R.drawable.klasse6);
+                            break;
+                        }
+                        case "VII":{
+                            iv.setImageResource(R.drawable.klasse7);
+                            break;
+                        }
+                        case "VIII":{
+                            iv.setImageResource(R.drawable.klasse8);
+                            break;
+                        }
+                        case "IX":{
+                            iv.setImageResource(R.drawable.klasse9);
+                            break;
+                        }
+                        case "X":{
+                            iv.setImageResource(R.drawable.klasse10);
+                            break;
+                        }
+                    }
                     popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
                     ImageButton btnDismiss = (ImageButton) popupView.findViewById(R.id.dismiss);
                     btnDismiss.setOnClickListener(new Button.OnClickListener() {
@@ -562,10 +614,11 @@ public class OverviewMap extends ActionBarActivity implements
                         public void onClick(View v) {
                             // TODO Auto-generated method stub
                             popupWindow.dismiss();
+                            popupIsOpen = false;
                         }
                     });
                 }
-            }
+
         }
     }
 
@@ -668,7 +721,7 @@ public class OverviewMap extends ActionBarActivity implements
                 if (m == nearestMarkerLoc) {
                     mMap.addMarker(m);
                 } else {
-                    m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_iconkruispunt));
+                    m.icon(BitmapDescriptorFactory.fromResource(ic_iconkruispunt));
                     mMap.addMarker(m);
                 }
 
