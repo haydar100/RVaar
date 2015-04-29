@@ -139,7 +139,7 @@ public class OverviewMap extends ActionBarActivity implements
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             gps_disabled = false;
-            Toast.makeText(this, "GPS is enabled... launching rVaar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.gps_enabled_message, Toast.LENGTH_SHORT).show();
         } else {
             gps_disabled = true;
             showGPSDisabledAlertToUser();
@@ -343,7 +343,7 @@ public class OverviewMap extends ActionBarActivity implements
     public void displayProgressDialogGettingLoc() {
         if (mCurrentLocation == null && !gps_disabled) {
             dialog = ProgressDialog.show(this, "",
-                    "Getting your location", true, true);
+                    "Laden.......", true, true);
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
 
@@ -419,7 +419,6 @@ public class OverviewMap extends ActionBarActivity implements
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
 
         Log.d("Latitude", "Current Latitude " + location.getLatitude());
         Log.d("Longitude", "Current Longitude " + location.getLongitude());
@@ -595,9 +594,9 @@ public class OverviewMap extends ActionBarActivity implements
 
     private void showNetworkdisabledAlertToUser() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Network connection is not available")
+        alertDialogBuilder.setMessage(R.string.network_connection_unavailable)
                 .setCancelable(false)
-                .setPositiveButton("Settings",
+                .setPositiveButton(R.string.Settings_message,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent callSettingIntent = new Intent(
@@ -605,7 +604,7 @@ public class OverviewMap extends ActionBarActivity implements
                                 startActivity(callSettingIntent);
                             }
                         });
-        alertDialogBuilder.setNegativeButton("Cancel",
+        alertDialogBuilder.setNegativeButton(R.string.Cancel_button_message,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -617,9 +616,9 @@ public class OverviewMap extends ActionBarActivity implements
 
     private void showGPSDisabledAlertToUser() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS is disabled to use rVaar please enable GPS")
+        alertDialogBuilder.setMessage(R.string.gps_disabled_message)
                 .setCancelable(false)
-                .setPositiveButton("Settings",
+                .setPositiveButton(R.string.Settings_message,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Intent callGPSSettingIntent = new Intent(
@@ -667,6 +666,7 @@ public class OverviewMap extends ActionBarActivity implements
             if (mCurrentLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
                 if (m == nearestMarkerLoc) {
                     mMap.addMarker(m);
+
                 } else {
                     m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_iconkruispunt));
                     mMap.addMarker(m);
