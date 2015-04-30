@@ -417,9 +417,8 @@ public class OverviewMap extends MenuActivity implements
                     locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
                     locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
 
-                    if (locLaatste.distanceTo(locEennaLaatste) > 5000000) {
                         connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude(), bootnaam);
-                    }
+
                     userLocationMarker = connector.getUserLocations(uniqueID);
                     Log.d(userLocationMarker.size() + "peynir", "");
                 }
