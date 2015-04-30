@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.RingtoneManager;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,18 +58,23 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
+import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
+import static hu.rijkswaterstaat.rvaar.R.drawable.*;
 
-public class OverviewMap extends ActionBarActivity implements
+
+public class OverviewMap extends MenuActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     protected static final String TAG = "location-updates-sample";
     private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
     private static String uniqueID = null;
     public boolean gps_disabled;
+    public boolean popupIsOpen = false;
     public int DRAW_DISTANCE_MARKERS = 20000;
     public int NEAREST_MARKER_METER = 10000;
+    public boolean POPUP_SHOW = true;
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
@@ -130,6 +137,7 @@ public class OverviewMap extends ActionBarActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview_map);
+        setMenu();
         updateFromPreferences();
         markers = new ArrayList<>();
         points = new ArrayList<>();
@@ -179,6 +187,7 @@ public class OverviewMap extends ActionBarActivity implements
             mMap.setMyLocationEnabled(false);
             mMap.getUiSettings().setCompassEnabled(false);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(false);
             addMarkersToMap();
 
 
@@ -297,6 +306,7 @@ public class OverviewMap extends ActionBarActivity implements
         // Within {@code onPause()}, we pause location updates, but leave the
         // connection to GoogleApiClient intact.  Here, we resume receiving
         // location updates if the user has requested them.
+        updateFromPreferences();
         if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
         }
@@ -372,7 +382,7 @@ public class OverviewMap extends ActionBarActivity implements
         addMarkersToMap();
         MarkerOptions k = new MarkerOptions();
         k.position(loc);
-        mMap.addMarker(k.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericon)));
+        mMap.addMarker(k.icon(BitmapDescriptorFactory.fromResource(ic_markericon)));
         findNearestMarker();
 
         if (AnimatedCameraOnce) { // tijdelijk
@@ -475,6 +485,7 @@ public class OverviewMap extends ActionBarActivity implements
         String valueOfDRAW_DISTANCE_MARKERS = SP.getString("DRAW_DISTANCE_MARKERS", "20000");
         String valueOfNEAREST_MARKER_METER = SP.getString("NEAREST_MARKER_METER", "10000");
         String valueOfUPDATE_INTERVAL_IN_MILLISECONDS = SP.getString("UPDATE_INTERVAL_IN_MILLISECONDS", "10000");
+        POPUP_SHOW = SP.getBoolean("POPUP_SHOW",true);
         DRAW_DISTANCE_MARKERS = Integer.valueOf(valueOfDRAW_DISTANCE_MARKERS);
         NEAREST_MARKER_METER = Integer.valueOf(valueOfNEAREST_MARKER_METER);
         UPDATE_INTERVAL_IN_MILLISECONDS = Long.valueOf(valueOfUPDATE_INTERVAL_IN_MILLISECONDS);
@@ -501,6 +512,12 @@ public class OverviewMap extends ActionBarActivity implements
             // mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
             notifyUser(nearestMarkerLoc);
+            showCEMT(nearestMarkerLoc);
+            if(POPUP_SHOW) {
+                if (popupIsOpen == false) {
+                    notifyPopup(nearestMarkerLoc);
+                }
+            }
         } else {
             if (nearestMarkerLoc != null) {
                 nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
@@ -523,7 +540,7 @@ public class OverviewMap extends ActionBarActivity implements
                     new NotificationCompat.Builder(this)
                             .setContentTitle("rVaar")
                             .setContentText("Over " + x + "M nadert u de kruispunt " + marker.getTitle())
-                            .setSmallIcon(R.drawable.ic_rvaar)
+                            .setSmallIcon(ic_rvaar)
                             .setSound(sound);
 
             Intent resultIntent = new Intent(this, OverviewMap.class);
@@ -538,34 +555,92 @@ public class OverviewMap extends ActionBarActivity implements
 
             mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
             Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M" + "\n" + currentSpeedInKM(), Toast.LENGTH_LONG).show(); // R.string.location_updated_message
-            notifyPopup();
+        }
+    }
+    public void showCEMT(MarkerOptions marker) {
+        if (userLocationMarker != null) {
+            Location loc = new Location("");
+            loc.setLatitude(marker.getPosition().latitude);
+            loc.setLongitude(marker.getPosition().longitude);
+            float distanceInMeters = mCurrentLocation.distanceTo(loc);
+            if (distanceInMeters < NEAREST_MARKER_METER) {
+                ImageView iv = (ImageView) findViewById(R.id.imageView1);
+                switch (marker.getSnippet()) {
+                    case "I": {
+                        iv.setImageResource(R.drawable.klasse1);
+                        break;
+                    }
+                    case "II": {
+                        iv.setImageResource(R.drawable.klasse2);
+                        break;
+                    }
+                    case "III": {
+                        iv.setImageResource(R.drawable.klasse3);
+                        break;
+                    }
+                    case "IV": {
+                        iv.setImageResource(R.drawable.klasse4);
+                        break;
+                    }
+                    case "Va": {
+                        iv.setImageResource(R.drawable.klasse5);
+                        break;
+                    }
+                    case "Vb": {
+                        iv.setImageResource(R.drawable.klasse6);
+                        break;
+                    }
+                    case "VIa": {
+                        iv.setImageResource(R.drawable.klasse7);
+                        break;
+                    }
+                    case "VIb": {
+                        iv.setImageResource(R.drawable.klasse8);
+                        break;
+                    }
+                    case "VIc": {
+                        iv.setImageResource(R.drawable.klasse9);
+                        break;
+                    }
+                    case "VIIb": {
+                        iv.setImageResource(R.drawable.klasse10);
+                        break;
+                    }
+                }
+            }
         }
     }
 
-    public void notifyPopup() {
+    public void notifyPopup(MarkerOptions marker) {
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.popup, null);
+
         final PopupWindow popupWindow = new PopupWindow(
                 popupView,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+
         if(userLocationMarker != null) {
-            for (MarkerOptions m : userLocationMarker) {
-                Location loc = new Location("");
-                loc.setLatitude(m.getPosition().latitude);
-                loc.setLongitude(m.getPosition().longitude);
-                if (mCurrentLocation.distanceTo(loc) < 50) {
+            Location loc = new Location("");
+            loc.setLatitude(marker.getPosition().latitude);
+            loc.setLongitude(marker.getPosition().longitude);
+            float distanceInMeters = mCurrentLocation.distanceTo(loc);
+                if (distanceInMeters < NEAREST_MARKER_METER) {
+
+                    Log.d("marktitle",marker.getSnippet());
                     popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                    popupIsOpen = true;
                     ImageButton btnDismiss = (ImageButton) popupView.findViewById(R.id.dismiss);
                     btnDismiss.setOnClickListener(new Button.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             // TODO Auto-generated method stub
                             popupWindow.dismiss();
+                            popupIsOpen = false;
                         }
                     });
                 }
-            }
+
         }
     }
 
@@ -673,7 +748,7 @@ public class OverviewMap extends ActionBarActivity implements
                     mMap.addMarker(m);
 
                 } else {
-                    m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_iconkruispunt));
+                    m.icon(BitmapDescriptorFactory.fromResource(ic_iconkruispunt));
                     mMap.addMarker(m);
                 }
 

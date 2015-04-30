@@ -2,9 +2,12 @@ package hu.rijkswaterstaat.rvaar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,19 +19,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
+import hu.rijkswaterstaat.rvaar.domain.TipsAndTricks;
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
+import hu.rijkswaterstaat.rvaar.sqlite.SQLiteHelper;
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
 
 public class TipsActivity extends MenuActivity {
+    private static final String DB_NAME = "RvaarDB";
+    private static final String TABLE_NAME = "tipsAndTricks";
+    private static final String tipsAndTricks_ID = "_id";
+    private static final String tipsAndTricks_headerName = "headerName";
+    private static final String tipsAndTricks_content = "content";
+    public ArrayList<TipsAndTricks> tipsAndTricks = new ArrayList<TipsAndTricks>();
+    protected ArrayList<String> headers = new ArrayList<String>();
     protected ArrayList list = new ArrayList();
     protected List content = new ArrayList();
-    protected ArrayList tipsAndTricks = new ArrayList();
     protected ArrayList markersTest = new ArrayList();
-
-    private String[] drawerItems;
+    private SQLiteDatabase database;
     private ListView listView;
-    private String[] tips;
+    //private String[] tips;
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -41,19 +51,25 @@ public class TipsActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tips);
-        drawerItems = getResources().getStringArray(R.array.drawerItems);
-        setMenu(drawerItems);
+        setMenu();
         listView = (ListView) findViewById(R.id.tips_category);
-        tips = getResources().getStringArray(R.array.tips_categories);
+        SQLiteHelper sqllite = new SQLiteHelper(this, DB_NAME);
+        database = sqllite.openDataBase();
+
+
+        // tips = getResources().getStringArray(R.array.tips_categories);
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
                     WSConnector wsc = new WSConnector();
                     MarkerDAOimpl dao = new MarkerDAOimpl();
-                    tipsAndTricks = dao.getTipsTricks();
+                    tipsAndTricks = fillTipsAndTricks();
+                    Log.d(tipsAndTricks.size() + "", "");
                 } else {
-                    tipsAndTricks = new ArrayList<String>();
+                    //tipsAndTricks = new ArrayList<String>();
+                    tipsAndTricks = fillTipsAndTricks();
+
                 }
 
 
@@ -66,24 +82,28 @@ public class TipsActivity extends MenuActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+//
+        ArrayList<TipsAndTricks> kaas = new ArrayList<TipsAndTricks>();
+//        for (int i = 0; i < tips.length; i++) {
+//            String[] seperated = tips[i].split(",");
+//            list.add(seperated[0]);
+//            content.add(seperated[1]);
+//        }
+        for (TipsAndTricks tt : tipsAndTricks) {
+            headers.add(tt.getHeaderName());
 
-        for (int i = 0; i < tips.length; i++) {
-            String[] seperated = tips[i].split(",");
-            list.add(seperated[0]);
-            content.add(seperated[1]);
         }
 
-
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
+        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, headers));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), TipsContentActivity.class);
 
-                for (int i = 0; i < content.size(); i++) {
-                    if (content.get(position) != null) {
-                        String cnt = content.get(position).toString();
+                for (int i = 0; i < tipsAndTricks.size(); i++) {
+                    if (tipsAndTricks.get(position) != null) {
+                        String cnt = tipsAndTricks.get(position).getContent();
                         intent.putExtra("content", cnt);
                     }
                 }
@@ -115,4 +135,30 @@ public class TipsActivity extends MenuActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private ArrayList<TipsAndTricks> fillTipsAndTricks() {
+        tipsAndTricks = new ArrayList<TipsAndTricks>();
+        Cursor tipsAndTricksCursor = database.query(TABLE_NAME, new String[]{tipsAndTricks_ID, tipsAndTricks_headerName, tipsAndTricks_content}, null, null, null, null, tipsAndTricks_headerName);
+        tipsAndTricksCursor.moveToFirst();
+        if (!tipsAndTricksCursor.isAfterLast()) {
+            do {
+                String headerName = tipsAndTricksCursor.getString(1);
+                String content = tipsAndTricksCursor.getString(2);
+                TipsAndTricks tipstricks = new TipsAndTricks(headerName, content);
+                tipsAndTricks.add(tipstricks);
+                Log.d(tipsAndTricks.size() + "aminakoyim", "");
+
+            } while (tipsAndTricksCursor.moveToNext());
+            {
+
+            }
+
+
+        }
+        tipsAndTricksCursor.close();
+        return tipsAndTricks;
+    }
 }
+
+
+

@@ -9,13 +9,11 @@ import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
  * Created by Haydar on 07-04-15.
  */
 public class PreferencesActivity extends MenuActivity {
-    static String[] drawerItems;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_settings);
-        drawerItems = getResources().getStringArray(R.array.drawerItems);
-        setMenu(drawerItems);
+        setMenu();
         getFragmentManager().beginTransaction().replace(R.id.content_frame, new PreferenceFragment()).commit();
 
 
