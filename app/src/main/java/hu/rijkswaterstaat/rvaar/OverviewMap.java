@@ -522,6 +522,7 @@ public class OverviewMap extends MenuActivity implements
             }
         } else {
             if (nearestMarkerLoc != null) {
+                nearestMarkerLoc.visible(false);
                 nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             }
 
@@ -537,7 +538,8 @@ public class OverviewMap extends MenuActivity implements
         float distanceInMeters = mCurrentLocation.distanceTo(notifcationLoc);
         int notifyID = 1;
         int x = Math.round(distanceInMeters);
-        if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
+        Log.v(currentSpeedInKM(), "huidige snelheid");
+       /* if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setContentTitle("rVaar")
@@ -555,9 +557,11 @@ public class OverviewMap extends MenuActivity implements
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update/
 
-            mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
+            mBuilder.setDefaults(-1);*/ // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
+/*
             Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M" + "\n" + currentSpeedInKM(), Toast.LENGTH_LONG).show(); // R.string.location_updated_message
-        }
+*/
+        //}
     }
     public void showCEMT(MarkerOptions marker) {
         if (userLocationMarker != null) {
@@ -664,8 +668,8 @@ public class OverviewMap extends MenuActivity implements
         startActivity(sos);
     }
 
-    public String currentSpeedInKM() {
-        final TextView textViewToChange = (TextView) findViewById(R.id.speed);
+        public String currentSpeedInKM() {
+        TextView textViewToChange = (TextView) findViewById(R.id.speed);
         Double currentSpeedKM = 0.0;
         int roundedSpeedKM;
         if (mCurrentLocation.getSpeed() > 0.0) {
@@ -760,7 +764,7 @@ public class OverviewMap extends MenuActivity implements
             loc.setLatitude(m.getPosition().latitude);
             if (mCurrentLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
                 if (m == nearestMarkerLoc) {
-                    mMap.addMarker(m);
+                   mMap.addMarker(m);
 
                 } else {
                     m.icon(BitmapDescriptorFactory.fromResource(ic_iconkruispunt));
