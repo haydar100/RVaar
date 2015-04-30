@@ -3,7 +3,6 @@ package hu.rijkswaterstaat.rvaar;
 /**
  * Created by ingo on 16-4-2015.
  */
-
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -18,21 +17,26 @@ import android.widget.TextView;
 
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 
-public class AccordianSampleActivity extends MenuActivity implements OnClickListener {
+public class AccordianSampleActivity extends MenuActivity implements OnClickListener
+{
     public OnLongClickListener longClickListner;
-    LinearLayout panel1, panel2, panel3, panel4, panel5;
-    TextView text1, text2, text3, text4, text5;
+    LinearLayout panel1,panel2,panel3,panel4,panel5;
+    TextView text1,text2,text3,text4,text5;
     View openLayout;
+    private String[] mDrawerItems;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        setMenu();
+        mDrawerItems = getResources().getStringArray(R.array.drawerItems);
+        setMenu(mDrawerItems);
 
         panel1 = (LinearLayout) findViewById(R.id.panel1);
         panel2 = (LinearLayout) findViewById(R.id.panel2);
         panel3 = (LinearLayout) findViewById(R.id.panel3);
+        panel4 = (LinearLayout) findViewById(R.id.panel4);
 
 
         //panel1.setVisibility(View.VISIBLE);
@@ -44,57 +48,80 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
         text1 = (TextView) findViewById(R.id.text1);
         text2 = (TextView) findViewById(R.id.text2);
         text3 = (TextView) findViewById(R.id.text3);
+        text4 = (TextView) findViewById(R.id.text4);
 
 
         text1.setOnClickListener(this);
         text2.setOnClickListener(this);
         text3.setOnClickListener(this);
+        text4.setOnClickListener(this);
 
 
     }
-
     @Override
-    public void onClick(View v) {
+    public void onClick(View v)
+    {
         hideOthers(v);
     }
-
-    private void hideThemAll() {
-        if (openLayout == null) return;
-        if (openLayout == panel1)
+    private void hideThemAll()
+    {
+        if(openLayout == null) return;
+        if(openLayout == panel1)
             panel1.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel1, true));
-        if (openLayout == panel2)
+        if(openLayout == panel2)
             panel2.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel2, true));
-        if (openLayout == panel3)
-            panel3.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel3, true));
-    }
+        if(openLayout == panel3)
+        panel3.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel3, true));
+        if(openLayout == panel4)
+            panel4.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel4, true));
+}
 
-    private void hideOthers(View layoutView) {
+    private void hideOthers(View layoutView)
+    {
         {
             int v;
-            if (layoutView.getId() == R.id.text1) {
+            if(layoutView.getId() == R.id.text1)
+            {
                 v = panel1.getVisibility();
-                if (v != View.VISIBLE) {
+                if(v != View.VISIBLE)
+                {
                     panel1.setVisibility(View.VISIBLE);
-                    Log.v("CZ", "height..." + panel1.getHeight());
+                    Log.v("CZ","height..." + panel1.getHeight());
                 }
 
                 //panel1.setVisibility(View.GONE);
                 //Log.v("CZ","again height..." + panel1.getHeight());
                 hideThemAll();
-                if (v != View.VISIBLE) {
+                if(v != View.VISIBLE)
+                {
                     panel1.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f, 0.0f, 500, panel1, true));
                 }
-            } else if (layoutView.getId() == R.id.text2) {
+            }
+            else if(layoutView.getId() == R.id.text2)
+            {
                 v = panel2.getVisibility();
                 hideThemAll();
-                if (v != View.VISIBLE) {
+                if(v != View.VISIBLE)
+                {
                     panel2.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f, 0.0f, 500, panel2, true));
                 }
-            } else if (layoutView.getId() == R.id.text3) {
+            }
+            else if(layoutView.getId() == R.id.text3)
+            {
                 v = panel3.getVisibility();
                 hideThemAll();
-                if (v != View.VISIBLE) {
+                if(v != View.VISIBLE)
+                {
                     panel3.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f, 0.0f, 500, panel3, true));
+                }
+            }
+            else if(layoutView.getId() == R.id.text4)
+            {
+                v = panel4.getVisibility();
+                hideThemAll();
+                if(v != View.VISIBLE)
+                {
+                    panel4.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f, 0.0f, 500, panel4, true));
                 }
             }
 
@@ -102,7 +129,8 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
         }
     }
 
-    public class ScaleAnimToHide extends ScaleAnimation {
+    public class ScaleAnimToHide extends ScaleAnimation
+    {
 
         private View mView;
 
@@ -112,7 +140,8 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
 
         private boolean mVanishAfter = false;
 
-        public ScaleAnimToHide(float fromX, float toX, float fromY, float toY, int duration, View view, boolean vanishAfter) {
+        public ScaleAnimToHide(float fromX, float toX, float fromY, float toY, int duration, View view,boolean vanishAfter)
+        {
             super(fromX, toX, fromY, toY);
             setDuration(duration);
             openLayout = null;
@@ -123,24 +152,28 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
             mMarginBottomFromY = (int) (height * fromY) + mLayoutParams.bottomMargin - height;
             mMarginBottomToY = (int) (0 - ((height * toY) + mLayoutParams.bottomMargin)) - height;
 
-            Log.v("CZ", "height..." + height + " , mMarginBottomFromY...." + mMarginBottomFromY + " , mMarginBottomToY.." + mMarginBottomToY);
+            Log.v("CZ","height..." + height + " , mMarginBottomFromY...." + mMarginBottomFromY  + " , mMarginBottomToY.." +mMarginBottomToY);
         }
 
         @Override
-        protected void applyTransformation(float interpolatedTime, Transformation t) {
+        protected void applyTransformation(float interpolatedTime, Transformation t)
+        {
             super.applyTransformation(interpolatedTime, t);
-            if (interpolatedTime < 1.0f) {
+            if (interpolatedTime < 1.0f)
+            {
                 int newMarginBottom = mMarginBottomFromY + (int) ((mMarginBottomToY - mMarginBottomFromY) * interpolatedTime);
-                mLayoutParams.setMargins(mLayoutParams.leftMargin, mLayoutParams.topMargin, mLayoutParams.rightMargin, newMarginBottom);
+                mLayoutParams.setMargins(mLayoutParams.leftMargin, mLayoutParams.topMargin,mLayoutParams.rightMargin, newMarginBottom);
                 mView.getParent().requestLayout();
                 //Log.v("CZ","newMarginBottom..." + newMarginBottom + " , mLayoutParams.topMargin..." + mLayoutParams.topMargin);
-            } else if (mVanishAfter) {
+            }
+            else if (mVanishAfter)
+            {
                 mView.setVisibility(View.GONE);
             }
         }
     }
-
-    public class ScaleAnimToShow extends ScaleAnimation {
+    public class ScaleAnimToShow extends ScaleAnimation
+    {
 
         private View mView;
 
@@ -150,7 +183,8 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
 
         private boolean mVanishAfter = false;
 
-        public ScaleAnimToShow(float toX, float fromX, float toY, float fromY, int duration, View view, boolean vanishAfter) {
+        public ScaleAnimToShow(float toX, float fromX, float toY, float fromY, int duration, View view,boolean vanishAfter)
+        {
             super(fromX, toX, fromY, toY);
             openLayout = view;
             setDuration(duration);
@@ -165,15 +199,17 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
             mMarginBottomFromY = 0;
             mMarginBottomToY = height;
 
-            Log.v("CZ", ".................height..." + height + " , mMarginBottomFromY...." + mMarginBottomFromY + " , mMarginBottomToY.." + mMarginBottomToY);
+            Log.v("CZ",".................height..." + height + " , mMarginBottomFromY...." + mMarginBottomFromY  + " , mMarginBottomToY.." +mMarginBottomToY);
         }
 
         @Override
-        protected void applyTransformation(float interpolatedTime, Transformation t) {
+        protected void applyTransformation(float interpolatedTime, Transformation t)
+        {
             super.applyTransformation(interpolatedTime, t);
-            if (interpolatedTime < 1.0f) {
+            if (interpolatedTime < 1.0f)
+            {
                 int newMarginBottom = (int) ((mMarginBottomToY - mMarginBottomFromY) * interpolatedTime) - mMarginBottomToY;
-                mLayoutParams.setMargins(mLayoutParams.leftMargin, mLayoutParams.topMargin, mLayoutParams.rightMargin, newMarginBottom);
+                mLayoutParams.setMargins(mLayoutParams.leftMargin, mLayoutParams.topMargin,mLayoutParams.rightMargin, newMarginBottom);
                 mView.getParent().requestLayout();
                 //Log.v("CZ","newMarginBottom..." + newMarginBottom + " , mLayoutParams.topMargin..." + mLayoutParams.topMargin);
             }

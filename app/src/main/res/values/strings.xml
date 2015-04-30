@@ -8,7 +8,6 @@
     <string name="bootnaaminfo">Vul naam van boot in </string>
     <string name="title_activity_overview_map">RVaar</string>
     <string name="title_activity_home">rVaar</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="location_updated_message">Location updated</string>
     <string name="niveau">Kies uw niveau</string>
@@ -20,6 +19,45 @@
     <string name="intro_aboutus">Deze applicatie is gemaakt in opdracht van de Hogeschool Utrecht.</string>
     <string name="intro_aboutus2">Indien u contact met ons op wilt nemen dan kan dan via de volgende e-mail adressen:</string>
     <string name="title_activity_checklist">Checklist</string>
+
+    <!-- SOS strings  -->
+    <string name="Rijkswaterstaat">Verkeerspost Wijk bij Duurstede</string>
+    <string name="Rijkswaterstaattext">Rijkswaterstaat heeft verschillende posten door Nederland die het water en waterverkeer in de gaten houden.
+        Zij behandelen vragen over:\n
+        • Waterverontreinigingen.\n
+        • Scheepsongevallen, strandingen, zinken etc.\n
+        • Ongewone sterfte van watervogels en vissen.\n
+        • Storingen aan betonning en rivierverlichting.\n
+        • Ondiepten in het vaarwater.\n
+        • Alle bijzonderheden die u op of aan het water waarneemt.\n
+    </string>
+    <string name ="Rijkswaterstaattel1">Bel direct: 0343595111</string>
+
+    <string name="Rijkswaterstaat2">Verkeerspost Schellingwoude</string>
+    <string name="Rijkswaterstaattext2">Rijkswaterstaat heeft verschillende posten door Nederland die het water en waterverkeer in de gaten houden.
+        Zij behandelen vragen over:\n
+        • Waterverontreinigingen.\n
+        • Scheepsongevallen, strandingen, zinken etc.\n
+        • Ongewone sterfte van watervogels en vissen.\n
+        • Storingen aan betonning en rivierverlichting.\n
+        • Ondiepten in het vaarwater.\n
+        • Alle bijzonderheden die u op of aan het water waarneemt.\n</string>
+    <string name ="Rijkswaterstaattel2">Bel direct: 0206659752</string>
+
+    <string name="Politie">Politie</string>
+    <string name="Politietext">
+        Geen spoed, wel politie? Bel dan! Op dit nummer kunt u terecht met al uw niet-spoedeisende vragen en problemen.
+        Zonodig wordt u snel doorgeschakeld naar het dichtstbijzijnde politiebureau.
+    </string>
+    <string name ="Politietel">Bel direct: 0900-8844</string>
+
+    <string name="Rijkswaterstaatcentraal">Rijkswaterstaat</string>
+    <string name="Rijkswaterstaatcentraaltext">
+       Heeft u nog overige vragen bel dan gerust de Rijkswaterstaat, zij zullen uw vraag zo goed mogelijk beantwoorden.
+    </string>
+    <string name ="Rijkswaterstaatcentraaltel">Bel direct: 0800-8002</string>
+
+
 
     <string-array name="drawerItems">
         <item>Home</item>
@@ -45,7 +83,12 @@
         mag niet langer zijn dan 350 meter</item>
     </string-array>
     <!-- etc. -->
-
+    <string name="gps_enabled_message">GPS is ingeschakeld.. RVaar wordt uitgevoerd."</string>
+    <string name="loading_message">Laden....</string>
+    <string name="Cancel_button_message">Annuleren</string>
+    <string name="network_connection_unavailable">Netwerkverbinding is niet beschikbaar</string>
+    <string name="gps_disabled_message"> GPS is uitgeschakeld, om gebruik te maken van rVaar dient u de GPS in te schakelen</string>
+    <string name="Settings_message">Settings</string>
     <string name="title_activity_quiz">Quiz</string>
     <string name="title_activity_result">Resultaat</string>
     <string name="title_activity_tips">TipsActivity</string>

@@ -27,8 +27,9 @@
                 android:textColor="#2b4c66"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:padding="5dip"
-                android:text="Rijkswaterstaat" />
+                android:padding="10dip"
+                android:textSize="15dp"
+                android:text="@string/Rijkswaterstaat" />
 
             <LinearLayout
                 android:id="@+id/panel1"
@@ -37,13 +38,21 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:src="@drawable/rwslogo" />
+
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dip"
                     android:textColor="#2b4c66"
                     android:padding="5dip"
-                    android:text="U kunt Rijkswaterstaat op dit nummer bereiken:" />
+                    android:text="@string/Rijkswaterstaattext" />
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -52,7 +61,63 @@
                     android:padding="5dip"
                     android:autoLink="phone"
                     android:linksClickable="true"
-                    android:text="0618981464"/>
+                    android:gravity="center"
+                    android:text="@string/Rijkswaterstaattel1"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="2dip"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="#80cbd3d9"
+                android:textColor="#2b4c66"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:padding="10dip"
+                android:textSize="15dp"
+                android:text="@string/Rijkswaterstaat2" />
+
+            <LinearLayout
+                android:id="@+id/panel4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:src="@drawable/rwslogo" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dip"
+                    android:textColor="#2b4c66"
+                    android:padding="5dip"
+                    android:text="@string/Rijkswaterstaattext2" />
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dip"
+                    android:textColor="#2b4c66"
+                    android:padding="5dip"
+                    android:autoLink="phone"
+                    android:linksClickable="true"
+                    android:gravity="center"
+                    android:text="@string/Rijkswaterstaattel2"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -71,8 +136,9 @@
                 android:textColor="#2b4c66"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:padding="5dip"
-                android:text="Politie" />
+                android:padding="10dip"
+                android:textSize="15dp"
+                android:text="@string/Politie" />
 
             <LinearLayout
                 android:id="@+id/panel2"
@@ -81,13 +147,21 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:src="@drawable/politielogo" />
+
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dip"
                     android:textColor="#2b4c66"
                     android:padding="5dip"
-                    android:text="U kunt de Politie op dit nummer bereiken:" />
+                    android:text="@string/Politietext" />
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -96,7 +170,8 @@
                     android:padding="5dip"
                     android:autoLink="phone"
                     android:linksClickable="true"
-                    android:text="0101010101"/>
+                    android:gravity="center"
+                    android:text="@string/Politietel"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -114,9 +189,10 @@
                 android:background="#80cbd3d9"
                 android:textColor="#2b4c66"
                 android:gravity="center"
+                android:textSize="15dp"
                 android:textStyle="bold"
-                android:padding="5dip"
-                android:text="ANWB" />
+                android:padding="10dip"
+                android:text="@string/Rijkswaterstaatcentraal" />
 
             <LinearLayout
                 android:id="@+id/panel3"
@@ -125,13 +201,21 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:src="@drawable/rwslogo" />
+
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dip"
                     android:textColor="#2b4c66"
                     android:padding="5dip"
-                    android:text="U kunt de ANWB op dit nummer bereiken:" />
+                    android:text="@string/Rijkswaterstaatcentraaltext" />
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +224,8 @@
                     android:padding="5dip"
                     android:autoLink="phone"
                     android:linksClickable="true"
-                    android:text="0101010101"/>
+                    android:gravity="center"
+                    android:text="@string/Rijkswaterstaatcentraaltel"/>
             </LinearLayout>
         </LinearLayout>
 
