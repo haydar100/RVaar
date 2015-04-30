@@ -513,7 +513,7 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             // mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
-            //notifyUser(nearestMarkerLoc);
+            notifyUser(nearestMarkerLoc);
             showCEMT(nearestMarkerLoc);
             if(POPUP_SHOW) {
                 if (popupIsOpen == false) {
