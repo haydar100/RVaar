@@ -417,10 +417,11 @@ public class OverviewMap extends MenuActivity implements
                     locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
                     locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
 
-                    if (locLaatste.distanceTo(locEennaLaatste) > 1.5) {
+                    if (locLaatste.distanceTo(locEennaLaatste) > 5000000) {
                         connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude(), bootnaam);
                     }
                     userLocationMarker = connector.getUserLocations(uniqueID);
+                    Log.d(userLocationMarker.size() + "peynir", "");
                 }
 
             }
@@ -513,8 +514,8 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             // mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
-            notifyUser(nearestMarkerLoc);
             showCEMT(nearestMarkerLoc);
+            currentSpeedInKM();
             if(POPUP_SHOW) {
                 if (popupIsOpen == false) {
                     notifyPopup(nearestMarkerLoc);
@@ -538,7 +539,6 @@ public class OverviewMap extends MenuActivity implements
         float distanceInMeters = mCurrentLocation.distanceTo(notifcationLoc);
         int notifyID = 1;
         int x = Math.round(distanceInMeters);
-        Log.v(currentSpeedInKM(), "huidige snelheid");
        /* if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
