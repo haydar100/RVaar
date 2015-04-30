@@ -17,7 +17,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 
-
 public class Checklist extends ActionBarActivity {
     private ArrayList<String> items;
     private ArrayAdapter<String> itemsAdapter;
@@ -39,6 +38,7 @@ public class Checklist extends ActionBarActivity {
 
         setupListViewListener();
     }
+
     // Attaches a long click listener to the listview
     private void setupListViewListener() {
         lvItems.setOnItemLongClickListener(
@@ -67,6 +67,7 @@ public class Checklist extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_checklist, menu);
         return true;
     }
+
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();

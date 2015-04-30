@@ -1,5 +1,6 @@
 package hu.rijkswaterstaat.rvaar.menu;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -35,7 +36,8 @@ public class MenuActivity extends ActionBarActivity {
         setContentView(R.layout.activity_menu);
     }
 
-    public void setMenu(String[] items) {
+    public void setMenu() {
+        String[] drawerItems = getResources().getStringArray(R.array.drawerItems);
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
@@ -44,13 +46,13 @@ public class MenuActivity extends ActionBarActivity {
         }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if(mDrawerLayout != null) {
+        if (mDrawerLayout != null) {
             mDrawerLayout.setDrawerListener(mDrawerToggle);
         }
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        if(mDrawerList != null) {
-            mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items));
+        if (mDrawerList != null) {
+            mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawerItems));
             mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         }
         //Toggle
@@ -139,7 +141,7 @@ public class MenuActivity extends ActionBarActivity {
                 startActivity(f);
                 break;
             case 6:
-                Intent g = new Intent(this,PreferencesActivity.class);
+                Intent g = new Intent(this, PreferencesActivity.class);
                 startActivity(g);
                 break;
             default:

@@ -22,5 +22,10 @@
         android:summary="Naam van boot "
         android:title="Verander naam van boot" />
 
+    <SwitchPreference
+        android:key="POPUP_SHOW"
+        android:defaultValue="true"
+        android:title="Toon kruispunten melding"
+        />
 
 </PreferenceScreen>

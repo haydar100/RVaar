@@ -20,7 +20,6 @@ import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
 
 public class Home extends MenuActivity {
     private static String BOAT_NAME = "";
-    private String[] drawerItems;
     private String valueOf;
 //public String BOAT_NAME;
 
@@ -30,8 +29,7 @@ public class Home extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_icon_app);
-        drawerItems = getResources().getStringArray(R.array.drawerItems);
-        setMenu(drawerItems);
+        setMenu();
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         showPromptForUsername();
         Log.v("" + preferences.getString("BOAT_NAME", null), "");
@@ -74,20 +72,24 @@ public class Home extends MenuActivity {
             alert.show();
         }
     }
-    public void buttonOnClick(View v){
 
-        Button button =(Button) v;
+    public void buttonOnClick(View v) {
+
+        Button button = (Button) v;
         startActivity(new Intent(getApplicationContext(), OverviewMap.class));
 /**/
     }
-    public void onClick_Aboutus(View v){
 
-        Button button =(Button) v;
+    public void onClick_Aboutus(View v) {
+
+        Button button = (Button) v;
         startActivity(new Intent(getApplicationContext(), AccordianSampleActivity.class));
 /**/
-    }  public void onClick_Quiz(View v){
+    }
 
-        Button button =(Button) v;
+    public void onClick_Quiz(View v) {
+
+        Button button = (Button) v;
         startActivity(new Intent(getApplicationContext(), Quiz.class));
 /**/
     }
@@ -100,8 +102,8 @@ public class Home extends MenuActivity {
 /**/
     }
 
-    public void onClick_Tips(View v){
-        startActivity(new Intent(getApplicationContext(),TipsActivity.class));
+    public void onClick_Tips(View v) {
+        startActivity(new Intent(getApplicationContext(), TipsActivity.class));
     }
 
     public void onClick_Checklist(View v) {

@@ -57,12 +57,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
 import static hu.rijkswaterstaat.rvaar.R.drawable.*;
 
 
-public class OverviewMap extends ActionBarActivity implements
+public class OverviewMap extends MenuActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
     protected static final String TAG = "location-updates-sample";
@@ -72,6 +73,7 @@ public class OverviewMap extends ActionBarActivity implements
     public boolean popupIsOpen = false;
     public int DRAW_DISTANCE_MARKERS = 20000;
     public int NEAREST_MARKER_METER = 10000;
+    public boolean POPUP_SHOW = true;
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
@@ -134,6 +136,7 @@ public class OverviewMap extends ActionBarActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview_map);
+        setMenu();
         updateFromPreferences();
         markers = new ArrayList<>();
         points = new ArrayList<>();
@@ -183,6 +186,7 @@ public class OverviewMap extends ActionBarActivity implements
             mMap.setMyLocationEnabled(false);
             mMap.getUiSettings().setCompassEnabled(false);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
+            mMap.getUiSettings().setMapToolbarEnabled(false);
             addMarkersToMap();
 
 
@@ -480,6 +484,7 @@ public class OverviewMap extends ActionBarActivity implements
         String valueOfDRAW_DISTANCE_MARKERS = SP.getString("DRAW_DISTANCE_MARKERS", "20000");
         String valueOfNEAREST_MARKER_METER = SP.getString("NEAREST_MARKER_METER", "10000");
         String valueOfUPDATE_INTERVAL_IN_MILLISECONDS = SP.getString("UPDATE_INTERVAL_IN_MILLISECONDS", "10000");
+        POPUP_SHOW = SP.getBoolean("POPUP_SHOW",true);
         DRAW_DISTANCE_MARKERS = Integer.valueOf(valueOfDRAW_DISTANCE_MARKERS);
         NEAREST_MARKER_METER = Integer.valueOf(valueOfNEAREST_MARKER_METER);
         UPDATE_INTERVAL_IN_MILLISECONDS = Long.valueOf(valueOfUPDATE_INTERVAL_IN_MILLISECONDS);
@@ -506,8 +511,11 @@ public class OverviewMap extends ActionBarActivity implements
             // mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
             notifyUser(nearestMarkerLoc);
-            if(!popupIsOpen) {
-                notifyPopup(nearestMarkerLoc);
+            showCEMT(nearestMarkerLoc);
+            if(POPUP_SHOW) {
+                if (popupIsOpen == false) {
+                    notifyPopup(nearestMarkerLoc);
+                }
             }
         } else {
             if (nearestMarkerLoc != null) {
@@ -548,11 +556,64 @@ public class OverviewMap extends ActionBarActivity implements
             Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M" + "\n" + currentSpeedInKM(), Toast.LENGTH_LONG).show(); // R.string.location_updated_message
         }
     }
+    public void showCEMT(MarkerOptions marker) {
+        if (userLocationMarker != null) {
+            Location loc = new Location("");
+            loc.setLatitude(marker.getPosition().latitude);
+            loc.setLongitude(marker.getPosition().longitude);
+            float distanceInMeters = mCurrentLocation.distanceTo(loc);
+            if (distanceInMeters < NEAREST_MARKER_METER) {
+                ImageView iv = (ImageView) findViewById(R.id.imageView1);
+                switch (marker.getSnippet()) {
+                    case "I": {
+                        iv.setImageResource(R.drawable.klasse1);
+                        break;
+                    }
+                    case "II": {
+                        iv.setImageResource(R.drawable.klasse2);
+                        break;
+                    }
+                    case "III": {
+                        iv.setImageResource(R.drawable.klasse3);
+                        break;
+                    }
+                    case "IV": {
+                        iv.setImageResource(R.drawable.klasse4);
+                        break;
+                    }
+                    case "Va": {
+                        iv.setImageResource(R.drawable.klasse5);
+                        break;
+                    }
+                    case "Vb": {
+                        iv.setImageResource(R.drawable.klasse6);
+                        break;
+                    }
+                    case "VIa": {
+                        iv.setImageResource(R.drawable.klasse7);
+                        break;
+                    }
+                    case "VIb": {
+                        iv.setImageResource(R.drawable.klasse8);
+                        break;
+                    }
+                    case "VIc": {
+                        iv.setImageResource(R.drawable.klasse9);
+                        break;
+                    }
+                    case "VIIb": {
+                        iv.setImageResource(R.drawable.klasse10);
+                        break;
+                    }
+                }
+            }
+        }
+    }
 
     public void notifyPopup(MarkerOptions marker) {
-        popupIsOpen = true;
         LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.popup, null);
+
         final PopupWindow popupWindow = new PopupWindow(
                 popupView,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -563,51 +624,11 @@ public class OverviewMap extends ActionBarActivity implements
             loc.setLatitude(marker.getPosition().latitude);
             loc.setLongitude(marker.getPosition().longitude);
             float distanceInMeters = mCurrentLocation.distanceTo(loc);
-                if (distanceInMeters < NEAREST_MARKER_METER) {
-                    ImageView iv = (ImageView)findViewById(R.id.imageView1);
-                    switch(marker.getTitle()){
-                        case "I": {
-                            iv.setImageResource(R.drawable.klasse1);
-                            break;
-                        }
-                        case "II":{
-                            iv.setImageResource(R.drawable.klasse2);
-                            break;
-                        }
-                        case "III":{
-                            iv.setImageResource(R.drawable.klasse3);
-                            break;
-                        }
-                        case "IV":{
-                            iv.setImageResource(R.drawable.klasse4);
-                            break;
-                        }
-                        case "V":{
-                            iv.setImageResource(R.drawable.klasse5);
-                            break;
-                        }
-                        case "VI":{
-                            iv.setImageResource(R.drawable.klasse6);
-                            break;
-                        }
-                        case "VII":{
-                            iv.setImageResource(R.drawable.klasse7);
-                            break;
-                        }
-                        case "VIII":{
-                            iv.setImageResource(R.drawable.klasse8);
-                            break;
-                        }
-                        case "IX":{
-                            iv.setImageResource(R.drawable.klasse9);
-                            break;
-                        }
-                        case "X":{
-                            iv.setImageResource(R.drawable.klasse10);
-                            break;
-                        }
-                    }
+                if (distanceInMeters < 1000) {
+
+                    Log.d("marktitle",marker.getSnippet());
                     popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                    popupIsOpen = true;
                     ImageButton btnDismiss = (ImageButton) popupView.findViewById(R.id.dismiss);
                     btnDismiss.setOnClickListener(new Button.OnClickListener() {
                         @Override
