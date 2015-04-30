@@ -13,11 +13,13 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
@@ -511,7 +513,7 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             // mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
-            notifyUser(nearestMarkerLoc);
+            //notifyUser(nearestMarkerLoc);
             showCEMT(nearestMarkerLoc);
             if(POPUP_SHOW) {
                 if (popupIsOpen == false) {
@@ -610,25 +612,35 @@ public class OverviewMap extends MenuActivity implements
             }
         }
     }
-
+    MarkerOptions last;
     public void notifyPopup(MarkerOptions marker) {
-        LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.popup, null);
+        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
+        Vibrator v = (Vibrator)this.getSystemService(Context.VIBRATOR_SERVICE);
 
-        final PopupWindow popupWindow = new PopupWindow(
-                popupView,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (last != null && last == marker){
+                Log.d("donothing","true");
+        }else {
 
-        if(userLocationMarker != null) {
-            Location loc = new Location("");
-            loc.setLatitude(marker.getPosition().latitude);
-            loc.setLongitude(marker.getPosition().longitude);
-            float distanceInMeters = mCurrentLocation.distanceTo(loc);
+            LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+            View popupView = layoutInflater.inflate(R.layout.popup,null);
+
+            final PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
+
+            if (userLocationMarker != null) {
+                Location loc = new Location("");
+                loc.setLatitude(marker.getPosition().latitude);
+                loc.setLongitude(marker.getPosition().longitude);
+                float distanceInMeters = mCurrentLocation.distanceTo(loc);
                 if (distanceInMeters < NEAREST_MARKER_METER) {
 
-                    Log.d("marktitle",marker.getSnippet());
+                    Log.d("marktitle", marker.getSnippet());
                     popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                    r.play();
+                    v.vibrate(750);
                     popupIsOpen = true;
                     ImageButton btnDismiss = (ImageButton) popupView.findViewById(R.id.dismiss);
                     btnDismiss.setOnClickListener(new Button.OnClickListener() {
@@ -639,10 +651,13 @@ public class OverviewMap extends MenuActivity implements
                             popupIsOpen = false;
                         }
                     });
+                    last = marker;
                 }
-
+            }
         }
     }
+
+
 
     public void openSOS(View v) {
         Intent sos = new Intent(this, AccordianSampleActivity.class);
