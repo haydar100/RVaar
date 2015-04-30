@@ -14,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#2b4c66"
+        android:background="#99990000"
         android:orientation="vertical">
 
         <TextView
@@ -46,14 +46,14 @@
             android:layout_height="200dp"
             android:background="#80eeeeee"
             android:scaleType="fitStart"
-            android:src="@drawable/ic_overstekenafb" />
+            android:src="@drawable/ic_oversteken" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rvaarblue"
+        android:background="#99990000"
         android:orientation="horizontal">
 
         <ImageButton
