@@ -624,7 +624,7 @@ public class OverviewMap extends MenuActivity implements
             loc.setLatitude(marker.getPosition().latitude);
             loc.setLongitude(marker.getPosition().longitude);
             float distanceInMeters = mCurrentLocation.distanceTo(loc);
-                if (distanceInMeters < 1000) {
+                if (distanceInMeters < NEAREST_MARKER_METER) {
 
                     Log.d("marktitle",marker.getSnippet());
                     popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
