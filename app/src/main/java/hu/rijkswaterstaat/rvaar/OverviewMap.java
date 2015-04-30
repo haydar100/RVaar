@@ -306,6 +306,7 @@ public class OverviewMap extends MenuActivity implements
         // Within {@code onPause()}, we pause location updates, but leave the
         // connection to GoogleApiClient intact.  Here, we resume receiving
         // location updates if the user has requested them.
+        updateFromPreferences();
         if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
         }
