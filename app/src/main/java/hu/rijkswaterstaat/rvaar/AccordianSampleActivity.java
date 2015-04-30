@@ -23,15 +23,13 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
     LinearLayout panel1,panel2,panel3,panel4,panel5;
     TextView text1,text2,text3,text4,text5;
     View openLayout;
-    private String[] mDrawerItems;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_us);
-        mDrawerItems = getResources().getStringArray(R.array.drawerItems);
-        setMenu(mDrawerItems);
+        setMenu();
 
         panel1 = (LinearLayout) findViewById(R.id.panel1);
         panel2 = (LinearLayout) findViewById(R.id.panel2);

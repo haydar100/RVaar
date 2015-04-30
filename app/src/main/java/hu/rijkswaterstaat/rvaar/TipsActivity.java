@@ -37,7 +37,6 @@ public class TipsActivity extends MenuActivity {
     protected List content = new ArrayList();
     protected ArrayList markersTest = new ArrayList();
     private SQLiteDatabase database;
-    private String[] drawerItems;
     private ListView listView;
     //private String[] tips;
 
@@ -52,8 +51,7 @@ public class TipsActivity extends MenuActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tips);
-        drawerItems = getResources().getStringArray(R.array.drawerItems);
-        setMenu(drawerItems);
+        setMenu();
         listView = (ListView) findViewById(R.id.tips_category);
         SQLiteHelper sqllite = new SQLiteHelper(this, DB_NAME);
         database = sqllite.openDataBase();
