@@ -138,7 +138,7 @@ public class TipsActivity extends MenuActivity {
 
     private ArrayList<TipsAndTricks> fillTipsAndTricks() {
         tipsAndTricks = new ArrayList<TipsAndTricks>();
-        Cursor tipsAndTricksCursor = database.query(TABLE_NAME, new String[]{tipsAndTricks_ID, tipsAndTricks_headerName, tipsAndTricks_content}, null, null, null, null, tipsAndTricks_headerName);
+        Cursor tipsAndTricksCursor = database.query(TABLE_NAME, new String[]{tipsAndTricks_ID, tipsAndTricks_headerName, tipsAndTricks_content}, null, null, null, null, tipsAndTricks_ID);
         tipsAndTricksCursor.moveToFirst();
         if (!tipsAndTricksCursor.isAfterLast()) {
             do {
