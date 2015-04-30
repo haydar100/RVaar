@@ -417,7 +417,7 @@ public class OverviewMap extends MenuActivity implements
                     locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
                     locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
 
-                        connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLongitude(), mCurrentLocation.getLatitude(), bootnaam);
+                        connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam);
 
                     userLocationMarker = connector.getUserLocations(uniqueID);
                     Log.d(userLocationMarker.size() + "peynir", "");
