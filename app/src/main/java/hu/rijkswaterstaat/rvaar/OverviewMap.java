@@ -53,6 +53,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
@@ -635,19 +636,23 @@ public class OverviewMap extends ActionBarActivity implements
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
-
+    public int num = 0;
     public void addUserLocToMap() {
+
         if (userLocationMarker != null) {
+
             for (MarkerOptions m : userLocationMarker) {
                 Location loc = new Location("");
+
                 loc.setLongitude(m.getPosition().longitude);
                 loc.setLatitude(m.getPosition().latitude);
                 if (mCurrentLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
                     if (m == nearestMarkerLoc) {
                         mMap.addMarker(m);
-                    } else {
-                        m.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-                        mMap.addMarker(m);
+
+                    }else  {
+                                m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericonandere));
+                                mMap.addMarker(m);
                     }
 
                 }

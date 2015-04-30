@@ -36,6 +36,7 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
         panel1 = (LinearLayout) findViewById(R.id.panel1);
         panel2 = (LinearLayout) findViewById(R.id.panel2);
         panel3 = (LinearLayout) findViewById(R.id.panel3);
+        panel4 = (LinearLayout) findViewById(R.id.panel4);
 
 
         //panel1.setVisibility(View.VISIBLE);
@@ -47,11 +48,13 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
         text1 = (TextView) findViewById(R.id.text1);
         text2 = (TextView) findViewById(R.id.text2);
         text3 = (TextView) findViewById(R.id.text3);
+        text4 = (TextView) findViewById(R.id.text4);
 
 
         text1.setOnClickListener(this);
         text2.setOnClickListener(this);
         text3.setOnClickListener(this);
+        text4.setOnClickListener(this);
 
 
     }
@@ -68,8 +71,11 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
         if(openLayout == panel2)
             panel2.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel2, true));
         if(openLayout == panel3)
-            panel3.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel3, true));
-          }
+        panel3.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel3, true));
+        if(openLayout == panel4)
+            panel4.startAnimation(new ScaleAnimToHide(1.0f, 1.0f, 1.0f, 0.0f, 500, panel4, true));
+}
+
     private void hideOthers(View layoutView)
     {
         {
@@ -107,6 +113,15 @@ public class AccordianSampleActivity extends MenuActivity implements OnClickList
                 if(v != View.VISIBLE)
                 {
                     panel3.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f, 0.0f, 500, panel3, true));
+                }
+            }
+            else if(layoutView.getId() == R.id.text4)
+            {
+                v = panel4.getVisibility();
+                hideThemAll();
+                if(v != View.VISIBLE)
+                {
+                    panel4.startAnimation(new ScaleAnimToShow(1.0f, 1.0f, 1.0f, 0.0f, 500, panel4, true));
                 }
             }
 
