@@ -53,14 +53,24 @@
         android:padding="4dp">
 
         <TextView
+            android:id="@+id/approaching"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textColor="#ffffffff"
+            android:textSize="12sp"
+            android:gravity="center_horizontal|center_vertical|left"
+            />
+        <TextView
             android:id="@+id/speed"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textStyle="bold"
             android:textColor="#ffffffff"
             android:textSize="20sp"
-            android:gravity="center_horizontal|center_vertical"/>
+            android:gravity="center_horizontal|center_vertical" />
         <ImageButton
             android:id="@+id/sos"
             android:layout_width="45dp"
@@ -70,6 +80,8 @@
             android:src="@drawable/ic_sos_logomap"
             android:baselineAlignBottom="false"
             android:layout_gravity="right|bottom" />
+
+
 
     </RadioGroup>
 </FrameLayout>

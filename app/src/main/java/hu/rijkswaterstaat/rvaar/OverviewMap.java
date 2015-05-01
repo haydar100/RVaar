@@ -50,6 +50,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -75,6 +76,7 @@ public class OverviewMap extends MenuActivity implements
     public boolean gps_disabled;
     public boolean popupIsOpen = false;
     public int DRAW_DISTANCE_MARKERS = 20000;
+    public int DRAW_DISTANCE_POPUP = 1000;
     public int NEAREST_MARKER_METER = 10000;
     public boolean POPUP_SHOW = true;
     /**
@@ -485,10 +487,12 @@ public class OverviewMap extends MenuActivity implements
     public void updateFromPreferences() {
         SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(this);
         String valueOfDRAW_DISTANCE_MARKERS = SP.getString("DRAW_DISTANCE_MARKERS", "20000");
+        String valueOfDRAW_DISTANCE_POPUP = SP.getString("DRAW_DISTANCE_POPUP", "1000");
         String valueOfNEAREST_MARKER_METER = SP.getString("NEAREST_MARKER_METER", "10000");
         String valueOfUPDATE_INTERVAL_IN_MILLISECONDS = SP.getString("UPDATE_INTERVAL_IN_MILLISECONDS", "10000");
         POPUP_SHOW = SP.getBoolean("POPUP_SHOW",true);
         DRAW_DISTANCE_MARKERS = Integer.valueOf(valueOfDRAW_DISTANCE_MARKERS);
+        DRAW_DISTANCE_POPUP = Integer.valueOf(valueOfDRAW_DISTANCE_POPUP);
         NEAREST_MARKER_METER = Integer.valueOf(valueOfNEAREST_MARKER_METER);
         UPDATE_INTERVAL_IN_MILLISECONDS = Long.valueOf(valueOfUPDATE_INTERVAL_IN_MILLISECONDS);
     }
@@ -515,6 +519,7 @@ public class OverviewMap extends MenuActivity implements
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
             showCEMT(nearestMarkerLoc);
             currentSpeedInKM();
+            currentMarkerDistance(nearestMarkerLoc);
             if(POPUP_SHOW) {
                 if (popupIsOpen == false) {
                     notifyPopup(nearestMarkerLoc);
@@ -638,7 +643,7 @@ public class OverviewMap extends MenuActivity implements
                 loc.setLatitude(marker.getPosition().latitude);
                 loc.setLongitude(marker.getPosition().longitude);
                 float distanceInMeters = mCurrentLocation.distanceTo(loc);
-                if (distanceInMeters < NEAREST_MARKER_METER) {
+                if (distanceInMeters < DRAW_DISTANCE_POPUP) {
 
                     Log.d("marktitle", marker.getSnippet());
                     popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
@@ -683,6 +688,18 @@ public class OverviewMap extends MenuActivity implements
         }
         textViewToChange.setText("Uw snelheid " + currentSpeedKM.toString() + " Km/u");
         return " Uw huidige snelheid : " + currentSpeedKM;
+
+    }
+    public String currentMarkerDistance(MarkerOptions opt) {
+        TextView textViewToChange = (TextView) findViewById(R.id.approaching);
+        Location notifcationLoc = new Location("Marker");
+        notifcationLoc.setLatitude(opt.getPosition().latitude);
+        notifcationLoc.setLongitude(opt.getPosition().longitude);
+        float distanceInMeters = mCurrentLocation.distanceTo(notifcationLoc);
+        int x = Math.round(distanceInMeters);
+        String s = x + "m";
+        textViewToChange.setText(s);
+        return s;
 
     }
 
@@ -739,7 +756,7 @@ public class OverviewMap extends MenuActivity implements
 
                 loc.setLongitude(m.getPosition().longitude);
                 loc.setLatitude(m.getPosition().latitude);
-                if (mCurrentLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
+
                     if (m == nearestMarkerLoc) {
                         mMap.addMarker(m);
 
@@ -748,7 +765,7 @@ public class OverviewMap extends MenuActivity implements
                                 mMap.addMarker(m);
                     }
 
-                }
+
 
             }
         }
