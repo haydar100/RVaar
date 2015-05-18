@@ -69,10 +69,7 @@ public class TipsActivity extends MenuActivity {
                 } else {
                     //tipsAndTricks = new ArrayList<String>();
                     tipsAndTricks = fillTipsAndTricks();
-
                 }
-
-
             }
         });
         t1.start();
@@ -108,7 +105,6 @@ public class TipsActivity extends MenuActivity {
                     }
                 }
                 startActivity(intent);
-
             }
         });
     }
@@ -149,11 +145,6 @@ public class TipsActivity extends MenuActivity {
                 Log.d(tipsAndTricks.size() + "aminakoyim", "");
 
             } while (tipsAndTricksCursor.moveToNext());
-            {
-
-            }
-
-
         }
         tipsAndTricksCursor.close();
         return tipsAndTricks;

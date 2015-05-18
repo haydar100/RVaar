@@ -15,12 +15,8 @@ public class Result extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
-
-//get text view
         TextView t=(TextView)findViewById(R.id.textResult);
-//get score
-        Bundle b = getIntent().getExtras();
-        int score= b.getInt("score");
+        int score = Integer.parseInt(getIntent().getStringExtra("score"));
 
         switch (score)
         {

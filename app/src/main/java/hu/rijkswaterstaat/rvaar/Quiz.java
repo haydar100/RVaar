@@ -53,7 +53,6 @@ public class Quiz extends ActionBarActivity {
         rdb = (RadioButton) findViewById(R.id.radio1);
         rdc = (RadioButton) findViewById(R.id.radio2);
         butNext = (Button) findViewById(R.id.button1);
-
         setQuestionView();
     }
 
@@ -71,29 +70,26 @@ public class Quiz extends ActionBarActivity {
         rdc.setText(currentQ.getOPTC());
         qid++;
     }
-    public void onClick_QuizNext(View v){
-        RadioGroup grp=(RadioGroup)findViewById(R.id.radioGroup1);
-        RadioButton answer=(RadioButton)findViewById(grp.getCheckedRadioButtonId());
+
+    public void onClick_QuizNext(View v) {
+        RadioGroup grp = (RadioGroup) findViewById(R.id.radioGroup1);
+        RadioButton answer = (RadioButton) findViewById(grp.getCheckedRadioButtonId());
         Log.d("yourans", currentQ.getANSWER() + " " + answer.getText());
-        if(currentQ.getANSWER().equals(answer.getText()))
-        {
+        if (currentQ.getANSWER().equals(answer.getText())) {
             score++;
-            Log.d("score", "Your score "+score);
+            Log.d("score", "Your score " + score);
         }
-        if(qid<5){
-            currentQ=quesList.get(qid);
+        if (qid < 5) {
+            currentQ = quesList.get(qid);
             setQuestionView();
-        }else{
-            Intent intent = new Intent(Quiz.this, Result.class);
-            Bundle b = new Bundle();
-            Log.i("" , ""+ score);
-            b.putInt("score", score); //Your score
-            intent.putExtras(b); //Put your score to your next Intent
+        } else {
+            Intent intent = new Intent(this, Result.class);
+            intent.putExtra("score", Integer.toString(score));
             startActivity(intent);
             finish();
+        }
     }
-/**/
-    }}
+}
 
 
 
