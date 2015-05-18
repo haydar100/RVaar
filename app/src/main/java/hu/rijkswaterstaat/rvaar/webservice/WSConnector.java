@@ -31,13 +31,14 @@ public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions
     //     public ArrayList<MarkerOptions> getUserLocations(String id) {
 
 
-    public void saveLocationOfUser(String id, double x, double y, String bootnaam, float direction) {
+    public void saveLocationOfUser(String id, double x, double y, String bootnaam, float direction, String boottype) {
         SoapObject request = new SoapObject(NAMESPACE, "SaveLocationOfUser");
         request.addProperty("id", id);
         request.addProperty("x", String.valueOf(x));
         request.addProperty("y", String.valueOf(y));
         request.addProperty("bootnaam", bootnaam);
         request.addProperty("richting", String.valueOf(direction));
+        request.addProperty("boottype", boottype);
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.dotNet = true;
         //envelope.implicitTypes = true;
@@ -117,10 +118,12 @@ public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions
                     double y = Double.parseDouble(soapResult.getProperty("y").toString());
                     String bootnaam = soapResult.getPrimitivePropertyAsString("bootnaam");
                     String idenitity = soapResult.getPrimitivePropertyAsString("ID");
+                    String bootType = soapResult.getPrimitivePropertyAsString("boottype");
+
                     float direction = Float.parseFloat(soapResult.getProperty("richting").toString());
 
 
-                    UserLocation userLoc = new UserLocation(idenitity, bootnaam, x, y, direction);
+                    UserLocation userLoc = new UserLocation(idenitity, bootnaam, bootType, x, y, direction);
                     markers.add(userLoc);
                 }
             }

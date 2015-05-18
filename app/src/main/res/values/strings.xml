@@ -84,6 +84,7 @@
     </string-array>
     <!-- etc. -->
     <string name="gps_enabled_message">GPS is ingeschakeld.. RVaar wordt uitgevoerd."</string>
+    <string name="title_boattype">Boottype selecteren</string>
     <string name="loading_message">Laden....</string>
     <string name="Cancel_button_message">Annuleren</string>
     <string name="network_connection_unavailable">Netwerkverbinding is niet beschikbaar</string>
@@ -93,5 +94,14 @@
     <string name="title_activity_result">Resultaat</string>
     <string name="title_activity_tips">TipsActivity</string>
     <string name="title_activity_tips_content">Tips en Tricks</string>
+
+    <string-array name="boatTypes">
+        <item>Kano</item>
+        <item>Roeiboot</item>
+        <item>Sloep</item>
+        <item>Speedboot</item>
+        <item>Zeilboot</item>
+    </string-array>
+
 
 </resources>

@@ -4,15 +4,17 @@ package hu.rijkswaterstaat.rvaar.domain;
  * Created by Haydar on 18-05-15.
  */
 public class UserLocation {
-    String id, boatname;
+    String id, boatname, boatType;
     double x, y;
     float direction;
 
 
-    public UserLocation(String id, String boatname, double x, double y, float direction) {
+    public UserLocation(String id, String boatname, String boatType, double x, double y, float direction) {
 
         this.id = id;
         this.boatname = boatname;
+        this.boatType = boatType;
+
         this.x = x;
         this.y = y;
         this.direction = direction;
@@ -61,5 +63,13 @@ public class UserLocation {
 
     public void setDirection(float direction) {
         this.direction = direction;
+    }
+
+    public String getBoatType() {
+        return boatType;
+    }
+
+    public void setBoatType(String boatType) {
+        this.boatType = boatType;
     }
 }

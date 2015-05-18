@@ -2,6 +2,8 @@ package hu.rijkswaterstaat.rvaar;
 
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,6 +15,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.Ringtone;
@@ -24,6 +27,8 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -63,6 +68,7 @@ import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
 import static hu.rijkswaterstaat.rvaar.R.drawable.ic_iconkruispunt;
+import static hu.rijkswaterstaat.rvaar.R.drawable.ic_rvaar;
 
 
 public class OverviewMap extends MenuActivity implements
@@ -192,6 +198,7 @@ public class OverviewMap extends MenuActivity implements
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.getUiSettings().setMapToolbarEnabled(false);
             mMap.getUiSettings().setRotateGesturesEnabled(false);
+
             addMarkersToMap();
 
 
@@ -379,6 +386,7 @@ public class OverviewMap extends MenuActivity implements
         Log.d("startLoc", "startLoc");
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final String bootnaam = preferences.getString("BOAT_NAME", null);
+        final String boottype = preferences.getString("boatType", null);
 
 
         mMap.clear();
@@ -424,7 +432,7 @@ public class OverviewMap extends MenuActivity implements
                     locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
                     locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
 
-                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam, mCurrentLocation.getBearing());
+                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam, mCurrentLocation.getBearing(), boottype);
 
                     convertUserLocToMarkerOptions(connector.getUserLocations(uniqueID));
 
@@ -480,7 +488,28 @@ public class OverviewMap extends MenuActivity implements
             MarkerOptions convertedMarkerOption = new MarkerOptions();
             convertedMarkerOption.position(new LatLng(ul.getX(), ul.getY()));
             convertedMarkerOption.title(ul.getBoatname());
-            convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonandere)).getBitmap()));
+
+            switch (ul.getBoatType().toLowerCase()) {
+                case "kano":
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonkanoandere)).getBitmap()));
+                    break;
+                case "roeiboot":
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonroeiboatandere)).getBitmap()));
+                    break;
+                case "speedboot":
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonspeedboatandere)).getBitmap()));
+                    break;
+                case "zeilboot":
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonzeilboatandere)).getBitmap()));
+                    break;
+                case "sloep":
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonanderesloep)).getBitmap()));
+                    break;
+                default:
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonandere)).getBitmap()));
+                    break;
+
+            }
             userLocationMarker.add(convertedMarkerOption);
         }
     }
@@ -563,6 +592,8 @@ public class OverviewMap extends MenuActivity implements
             if (POPUP_SHOW) {
                 if (popupIsOpen == false) {
                     notifyPopup(nearestMarkerLoc);
+                    notifyUserNotificationBar(nearestMarkerLoc);
+
                 }
             }
         } else {
@@ -575,21 +606,23 @@ public class OverviewMap extends MenuActivity implements
     }
 
     //
-    public void notifyUser(MarkerOptions marker) {
-        Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+    public void notifyUserNotificationBar(MarkerOptions marker) {
+        // Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Location notifcationLoc = new Location("Marker");
         notifcationLoc.setLatitude(marker.getPosition().latitude);
         notifcationLoc.setLongitude(marker.getPosition().longitude);
         float distanceInMeters = mCurrentLocation.distanceTo(notifcationLoc);
         int notifyID = 1;
         int x = Math.round(distanceInMeters);
-       /* if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
+        if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
+
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
                             .setContentTitle("rVaar")
-                            .setContentText("Over " + x + "M nadert u de kruispunt " + marker.getTitle())
+                            .setContentText("Over " + x + "Meter nadert u de kruispunt " + marker.getTitle())
                             .setSmallIcon(ic_rvaar)
-                            .setSound(sound);
+                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_rvaar));
+            //.setSound(sound);
 
             Intent resultIntent = new Intent(this, OverviewMap.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -601,12 +634,29 @@ public class OverviewMap extends MenuActivity implements
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update/
 
-            mBuilder.setDefaults(-1);*/ // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
-/*
-            Toast.makeText(this, "Afstand tot kruispunt " + marker.getTitle() + " is " + x + "M" + "\n" + currentSpeedInKM(), Toast.LENGTH_LONG).show(); // R.string.location_updated_message
-*/
-        //}
+            mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
+
+
+        }
     }
+
+    public Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable) drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
+
+
+
 
     public void showCEMT(MarkerOptions marker) {
         if (userLocationMarker != null) {
