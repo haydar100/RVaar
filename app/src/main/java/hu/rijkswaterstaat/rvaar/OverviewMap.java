@@ -2,15 +2,17 @@ package hu.rijkswaterstaat.rvaar;
 
 
 import android.app.AlertDialog;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
+import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.Ringtone;
@@ -22,9 +24,6 @@ import android.os.Bundle;
 import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -50,7 +49,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -58,13 +56,12 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 import java.util.UUID;
 
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
-import static hu.rijkswaterstaat.rvaar.R.drawable.*;
+import static hu.rijkswaterstaat.rvaar.R.drawable.ic_iconkruispunt;
 
 
 public class OverviewMap extends MenuActivity implements
@@ -95,6 +92,7 @@ public class OverviewMap extends MenuActivity implements
     public MarkerOptions nearestMarkerLoc;
     // Keys for storing activity state in the Bundle.
     public ArrayList<MarkerOptions> markers;
+    public int num = 0;
     /**
      * Provides the entry point to Google Play services.
      */
@@ -112,9 +110,10 @@ public class OverviewMap extends MenuActivity implements
      */
     protected String mLastUpdateTime;
     ArrayList<MarkerOptions> userLocationMarker;
-    ProgressDialog dialog;
 
     // UI Widgets.
+    ProgressDialog dialog;
+    MarkerOptions last;
     /**
      * Tracks the status of the location updates request. Value changes when the user presses the
      * Start Updates and Stop Updates buttons.
@@ -135,7 +134,6 @@ public class OverviewMap extends MenuActivity implements
         }
         return uniqueID;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -386,7 +384,12 @@ public class OverviewMap extends MenuActivity implements
         addMarkersToMap();
         MarkerOptions k = new MarkerOptions();
         k.position(loc);
-        mMap.addMarker(k.icon(BitmapDescriptorFactory.fromResource(ic_markericon)));
+        float myBearing = location.getBearing();
+        rotateDrawable(myBearing);
+        Bitmap rotateBoatIcon = ((BitmapDrawable) rotateDrawable(myBearing)).getBitmap();
+
+        mMap.addMarker(k.icon(BitmapDescriptorFactory.fromBitmap(rotateBoatIcon)));
+
         findNearestMarker();
 
         if (AnimatedCameraOnce) { // tijdelijk
@@ -419,7 +422,7 @@ public class OverviewMap extends MenuActivity implements
                     locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
                     locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
 
-                        connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam);
+                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam);
 
                     userLocationMarker = connector.getUserLocations(uniqueID);
                     Log.d(userLocationMarker.size() + "peynir", "");
@@ -444,25 +447,29 @@ public class OverviewMap extends MenuActivity implements
     }
 
     private void drawPolyLineOnLocation(Location location) {
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        LatLng latLngP = new LatLng(latitude, longitude);
 
-        PolylineOptions polyLineOpt = new PolylineOptions()
-                .width(5)
-                .color(Color.RED)
-                .geodesic(true);
+        if (location != null) {
 
-        points.add(latLngP);
+            double latitude = location.getLatitude();
+            double longitude = location.getLongitude();
+            LatLng latLngP = new LatLng(latitude, longitude);
 
-        for (int z = 0; z < points.size(); z++) {
-            LatLng point = points.get(z);
-            polyLineOpt.add(point);
+            PolylineOptions polyLineOpt = new PolylineOptions()
+                    .width(5)
+                    .color(Color.RED)
+                    .geodesic(true);
+
+            points.add(latLngP);
+
+            for (int z = 0; z < points.size(); z++) {
+                LatLng point = points.get(z);
+                polyLineOpt.add(point);
+            }
+
+            Polyline line = mMap.addPolyline(polyLineOpt);
+
+            points.add(latLngP);
         }
-
-        Polyline line = mMap.addPolyline(polyLineOpt);
-
-        points.add(latLngP);
     }
 
     @Override
@@ -490,11 +497,31 @@ public class OverviewMap extends MenuActivity implements
         String valueOfDRAW_DISTANCE_POPUP = SP.getString("DRAW_DISTANCE_POPUP", "1000");
         String valueOfNEAREST_MARKER_METER = SP.getString("NEAREST_MARKER_METER", "10000");
         String valueOfUPDATE_INTERVAL_IN_MILLISECONDS = SP.getString("UPDATE_INTERVAL_IN_MILLISECONDS", "10000");
-        POPUP_SHOW = SP.getBoolean("POPUP_SHOW",true);
+        POPUP_SHOW = SP.getBoolean("POPUP_SHOW", true);
         DRAW_DISTANCE_MARKERS = Integer.valueOf(valueOfDRAW_DISTANCE_MARKERS);
         DRAW_DISTANCE_POPUP = Integer.valueOf(valueOfDRAW_DISTANCE_POPUP);
         NEAREST_MARKER_METER = Integer.valueOf(valueOfNEAREST_MARKER_METER);
         UPDATE_INTERVAL_IN_MILLISECONDS = Long.valueOf(valueOfUPDATE_INTERVAL_IN_MILLISECONDS);
+    }
+
+    public BitmapDrawable rotateDrawable(float angle) {
+        Bitmap arrowBitmap = BitmapFactory.decodeResource(this.getResources(),
+                R.drawable.ic_markericon);
+        // Create blank bitmap of equal size
+        Bitmap canvasBitmap = arrowBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        canvasBitmap.eraseColor(0x00000000);
+
+        // Create canvas
+        Canvas canvas = new Canvas(canvasBitmap);
+
+        // Create rotation matrix
+        Matrix rotateMatrix = new Matrix();
+        rotateMatrix.setRotate(angle, canvas.getWidth() / 2, canvas.getHeight() / 2);
+
+        // Draw bitmap onto canvas using matrix
+        canvas.drawBitmap(arrowBitmap, rotateMatrix, null);
+
+        return new BitmapDrawable(canvasBitmap);
     }
 
     public void findNearestMarker() {
@@ -520,7 +547,7 @@ public class OverviewMap extends MenuActivity implements
             showCEMT(nearestMarkerLoc);
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
-            if(POPUP_SHOW) {
+            if (POPUP_SHOW) {
                 if (popupIsOpen == false) {
                     notifyPopup(nearestMarkerLoc);
                 }
@@ -567,6 +594,7 @@ public class OverviewMap extends MenuActivity implements
 */
         //}
     }
+
     public void showCEMT(MarkerOptions marker) {
         if (userLocationMarker != null) {
             Location loc = new Location("");
@@ -620,18 +648,18 @@ public class OverviewMap extends MenuActivity implements
             }
         }
     }
-    MarkerOptions last;
+
     public void notifyPopup(MarkerOptions marker) {
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-        Vibrator v = (Vibrator)this.getSystemService(Context.VIBRATOR_SERVICE);
+        Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
-        if (last != null && last == marker){
-                Log.d("donothing","true");
-        }else {
+        if (last != null && last == marker) {
+            Log.d("donothing", "true");
+        } else {
 
             LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-            View popupView = layoutInflater.inflate(R.layout.popup,null);
+            View popupView = layoutInflater.inflate(R.layout.popup, null);
 
             final PopupWindow popupWindow = new PopupWindow(
                     popupView,
@@ -665,14 +693,12 @@ public class OverviewMap extends MenuActivity implements
         }
     }
 
-
-
     public void openSOS(View v) {
         Intent sos = new Intent(this, AccordianSampleActivity.class);
         startActivity(sos);
     }
 
-        public String currentSpeedInKM() {
+    public String currentSpeedInKM() {
         TextView textViewToChange = (TextView) findViewById(R.id.speed);
         Double currentSpeedKM = 0.0;
         int roundedSpeedKM;
@@ -690,6 +716,7 @@ public class OverviewMap extends MenuActivity implements
         return " Uw huidige snelheid : " + currentSpeedKM;
 
     }
+
     public String currentMarkerDistance(MarkerOptions opt) {
         TextView textViewToChange = (TextView) findViewById(R.id.approaching);
         Location notifcationLoc = new Location("Marker");
@@ -746,7 +773,7 @@ public class OverviewMap extends MenuActivity implements
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
     }
-    public int num = 0;
+
     public void addUserLocToMap() {
 
         if (userLocationMarker != null) {
