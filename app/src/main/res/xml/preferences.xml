@@ -23,6 +23,7 @@
         android:title="Ververssnelheid landkaart" />
 
     <EditTextPreference
+        android:defaultValue="anoniem"
         android:inputType="text"
         android:key="BOAT_NAME"
         android:summary="Naam van boot "
