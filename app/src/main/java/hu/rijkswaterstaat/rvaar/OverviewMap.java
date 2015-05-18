@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
+import hu.rijkswaterstaat.rvaar.domain.UserLocation;
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
@@ -190,6 +191,7 @@ public class OverviewMap extends MenuActivity implements
             mMap.getUiSettings().setCompassEnabled(false);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
             mMap.getUiSettings().setMapToolbarEnabled(false);
+            mMap.getUiSettings().setRotateGesturesEnabled(false);
             addMarkersToMap();
 
 
@@ -385,8 +387,7 @@ public class OverviewMap extends MenuActivity implements
         MarkerOptions k = new MarkerOptions();
         k.position(loc);
         float myBearing = location.getBearing();
-        rotateDrawable(myBearing);
-        Bitmap rotateBoatIcon = ((BitmapDrawable) rotateDrawable(myBearing)).getBitmap();
+        Bitmap rotateBoatIcon = ((BitmapDrawable) rotateDrawable(myBearing, R.drawable.ic_markericon)).getBitmap();
 
         mMap.addMarker(k.icon(BitmapDescriptorFactory.fromBitmap(rotateBoatIcon)));
 
@@ -414,6 +415,7 @@ public class OverviewMap extends MenuActivity implements
                     LatLng laatstePositie = points.get(points.size() - 1);
                     LatLng eennaLaatstePositie = points.get(points.size() - 2);
 
+
                     Location locLaatste = new Location("");
                     locLaatste.setLatitude(laatstePositie.latitude);
                     locLaatste.setLongitude(laatstePositie.longitude);
@@ -422,10 +424,10 @@ public class OverviewMap extends MenuActivity implements
                     locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
                     locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
 
-                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam);
+                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam, mCurrentLocation.getBearing());
 
-                    userLocationMarker = connector.getUserLocations(uniqueID);
-                    Log.d(userLocationMarker.size() + "peynir", "");
+                    convertUserLocToMarkerOptions(connector.getUserLocations(uniqueID));
+
                 }
 
             }
@@ -472,6 +474,17 @@ public class OverviewMap extends MenuActivity implements
         }
     }
 
+    public void convertUserLocToMarkerOptions(ArrayList<UserLocation> userLocations) {
+        userLocationMarker = new ArrayList<MarkerOptions>();
+        for (UserLocation ul : userLocations) {
+            MarkerOptions convertedMarkerOption = new MarkerOptions();
+            convertedMarkerOption.position(new LatLng(ul.getX(), ul.getY()));
+            convertedMarkerOption.title(ul.getBoatname());
+            convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonandere)).getBitmap()));
+            userLocationMarker.add(convertedMarkerOption);
+        }
+    }
+
     @Override
     public void onConnectionSuspended(int cause) {
         // The connection to Google Play services was lost for some reason. We call connect() to
@@ -504,9 +517,9 @@ public class OverviewMap extends MenuActivity implements
         UPDATE_INTERVAL_IN_MILLISECONDS = Long.valueOf(valueOfUPDATE_INTERVAL_IN_MILLISECONDS);
     }
 
-    public BitmapDrawable rotateDrawable(float angle) {
+    public BitmapDrawable rotateDrawable(float angle, int iconToRotate) {
         Bitmap arrowBitmap = BitmapFactory.decodeResource(this.getResources(),
-                R.drawable.ic_markericon);
+                iconToRotate);
         // Create blank bitmap of equal size
         Bitmap canvasBitmap = arrowBitmap.copy(Bitmap.Config.ARGB_8888, true);
         canvasBitmap.eraseColor(0x00000000);
@@ -788,7 +801,7 @@ public class OverviewMap extends MenuActivity implements
                         mMap.addMarker(m);
 
                     }else  {
-                                m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericonandere));
+                        //  m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericonandere));
                                 mMap.addMarker(m);
                     }
 

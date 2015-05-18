@@ -17,6 +17,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import hu.rijkswaterstaat.rvaar.domain.UserLocation;
+
 
 /**
  * Created by Berkan on 25-3-2015.
@@ -29,12 +31,13 @@ public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions
     //     public ArrayList<MarkerOptions> getUserLocations(String id) {
 
 
-    public void saveLocationOfUser(String id, double x, double y, String bootnaam) {
+    public void saveLocationOfUser(String id, double x, double y, String bootnaam, float direction) {
         SoapObject request = new SoapObject(NAMESPACE, "SaveLocationOfUser");
         request.addProperty("id", id);
         request.addProperty("x", String.valueOf(x));
         request.addProperty("y", String.valueOf(y));
         request.addProperty("bootnaam", bootnaam);
+        request.addProperty("richting", String.valueOf(direction));
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
         envelope.dotNet = true;
         //envelope.implicitTypes = true;
@@ -91,8 +94,8 @@ public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions
         return markers;
     }
 
-    public ArrayList<MarkerOptions> getUserLocations(String id) {
-        ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+    public ArrayList<UserLocation> getUserLocations(String id) {
+        ArrayList<UserLocation> markers = new ArrayList<UserLocation>();
         SoapObject request = new SoapObject(NAMESPACE, "geefUserLocaties");
         request.addProperty("id", id);
         SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
@@ -113,9 +116,12 @@ public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions
                     double x = Double.parseDouble(soapResult.getProperty("x").toString());
                     double y = Double.parseDouble(soapResult.getProperty("y").toString());
                     String bootnaam = soapResult.getPrimitivePropertyAsString("bootnaam");
-                    MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(x, y)).title(bootnaam);
-                    //    Log.i("Created Markeroption", "markeroption created wcf");
-                    markers.add(markerOptions);
+                    String idenitity = soapResult.getPrimitivePropertyAsString("ID");
+                    float direction = Float.parseFloat(soapResult.getProperty("richting").toString());
+
+
+                    UserLocation userLoc = new UserLocation(idenitity, bootnaam, x, y, direction);
+                    markers.add(userLoc);
                 }
             }
         } catch (XmlPullParserException e) {
