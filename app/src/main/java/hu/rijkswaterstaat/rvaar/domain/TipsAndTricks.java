@@ -11,7 +11,6 @@ public class TipsAndTricks {
     public TipsAndTricks() {
     }
 
-    ////dssd
     public TipsAndTricks(String headerName, String content) {
         super();
         this.headerName = headerName;
