@@ -864,21 +864,24 @@ public class OverviewMap extends MenuActivity implements
 
 
     public void addMarkersToMap() {
-        for (MarkerOptions m : markers) {
-            Location loc = new Location("");
-            loc.setLongitude(m.getPosition().longitude);
-            loc.setLatitude(m.getPosition().latitude);
-            if (mCurrentLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
-                if (m == nearestMarkerLoc) {
-                   mMap.addMarker(m);
+        if (isNetworkAvailable()) {
+            for (MarkerOptions m : markers) {
+                Location loc = new Location("");
+                loc.setLongitude(m.getPosition().longitude);
+                loc.setLatitude(m.getPosition().latitude);
+                if (mCurrentLocation.distanceTo(loc) < DRAW_DISTANCE_MARKERS) {
+                    if (m == nearestMarkerLoc) {
+                        mMap.addMarker(m);
 
-                } else {
-                    m.icon(BitmapDescriptorFactory.fromResource(ic_iconkruispunt));
-                    mMap.addMarker(m);
+                    } else {
+                        m.icon(BitmapDescriptorFactory.fromResource(ic_iconkruispunt));
+                        mMap.addMarker(m);
+                    }
+
                 }
 
             }
-
         }
+
     }
 }
