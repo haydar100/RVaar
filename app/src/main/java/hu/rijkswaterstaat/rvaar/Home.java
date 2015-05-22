@@ -42,6 +42,7 @@ public class Home extends MenuActivity {
         alert.setTitle(getResources().getString(R.string.titleAlertUser));
         alert.setMessage(getResources().getString(R.string.bootnaaminfo));
         final EditText input = new EditText(this);
+        input.setText("Anoniem");
         //  BOAT_NAME = String.valueOf(input.getText());
         alert.setView(input);
 

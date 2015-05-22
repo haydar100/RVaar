@@ -23,15 +23,24 @@
         android:title="Ververssnelheid landkaart" />
 
     <EditTextPreference
+        android:defaultValue="anoniem"
         android:inputType="text"
         android:key="BOAT_NAME"
         android:summary="Naam van boot "
         android:title="Verander naam van boot" />
 
     <SwitchPreference
-        android:key="POPUP_SHOW"
         android:defaultValue="true"
+        android:key="POPUP_SHOW"
         android:title="Toon kruispunten melding"
         />
+    <ListPreference
+        android:defaultValue="Sloep"
+        android:entries="@array/boatTypes"
+        android:entryValues="@array/boatTypes"
+        android:key="boatType"
+        android:summary="Selecteer boottype"
+        android:title="@string/title_boattype" />
+
 
 </PreferenceScreen>
