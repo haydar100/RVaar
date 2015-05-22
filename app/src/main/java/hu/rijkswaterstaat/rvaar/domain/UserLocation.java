@@ -8,7 +8,7 @@ public class UserLocation {
     double x, y;
     float direction;
 
-
+    //
     public UserLocation(String id, String boatname, String boatType, double x, double y, float direction) {
 
         this.id = id;
