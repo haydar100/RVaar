@@ -142,8 +142,6 @@ public class TipsActivity extends MenuActivity {
                 String content = tipsAndTricksCursor.getString(2);
                 TipsAndTricks tipstricks = new TipsAndTricks(headerName, content);
                 tipsAndTricks.add(tipstricks);
-                Log.d(tipsAndTricks.size() + "aminakoyim", "");
-
             } while (tipsAndTricksCursor.moveToNext());
         }
         tipsAndTricksCursor.close();
