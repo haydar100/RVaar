@@ -13,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -65,6 +64,7 @@ import java.util.UUID;
 
 import hu.rijkswaterstaat.rvaar.domain.UserLocation;
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
+import hu.rijkswaterstaat.rvaar.utils.MapHelper;
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
 import static hu.rijkswaterstaat.rvaar.R.drawable.ic_iconkruispunt;
@@ -147,7 +147,7 @@ public class OverviewMap extends MenuActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview_map);
         setMenu();
-        updateFromPreferences();
+        MapHelper.updateFromPreferences(this);
         markers = new ArrayList<>();
         points = new ArrayList<>();
         mLastUpdateTime = "";
@@ -235,27 +235,42 @@ public class OverviewMap extends MenuActivity implements
     }
 
     private void setUpMap() {
+        if (isNetworkAvailable()) {
+            Thread t1 = new Thread(new Runnable() {
+                @Override
+                public void run() {
 
-        Thread t1 = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                WSConnector ws = new WSConnector();
-                markers = ws.getMarkers();
-                ws.getMarkers().size();
-                markers.size();
-//                MarkerDAOimpl positionDao = new MarkerDAOimpl();
-//                markers = positionDao.getMarkers();
+                    WSConnector ws = new WSConnector();
+                    markers = ws.getMarkers();
+                    ws.getMarkers().size();
+                    markers.size();
 
 
+                }
+            });
+            t1.start();
+            try {
+                t1.join();
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        });
-        t1.start();
-        try {
-            t1.join();
+        } else {
+            new AlertDialog.Builder(OverviewMap.this)
+                    .setTitle("Geen netwerkverbinding beschikbaar")
+                    .setMessage("Kan kruispunten niet ophalen.. netwerkfout")
+                    .setCancelable(false)
+                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent t = new Intent(OverviewMap.this, Home.class);
+                            startActivity(t);
+                            finish();
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+                        }
+                    }).create().show();
         }
+
 
     }
 
@@ -317,7 +332,7 @@ public class OverviewMap extends MenuActivity implements
         // Within {@code onPause()}, we pause location updates, but leave the
         // connection to GoogleApiClient intact.  Here, we resume receiving
         // location updates if the user has requested them.
-        updateFromPreferences();
+        MapHelper.updateFromPreferences(this);
         if (mGoogleApiClient.isConnected()) {
             startLocationUpdates();
         }
@@ -395,7 +410,7 @@ public class OverviewMap extends MenuActivity implements
         MarkerOptions k = new MarkerOptions();
         k.position(loc);
         float myBearing = location.getBearing();
-        Bitmap rotateBoatIcon = ((BitmapDrawable) rotateDrawable(myBearing, R.drawable.ic_markericon)).getBitmap();
+        Bitmap rotateBoatIcon = ((BitmapDrawable) MapHelper.rotateDrawable(this, myBearing, R.drawable.ic_markericon)).getBitmap();
 
         mMap.addMarker(k.icon(BitmapDescriptorFactory.fromBitmap(rotateBoatIcon)));
 
@@ -483,35 +498,8 @@ public class OverviewMap extends MenuActivity implements
     }
 
     public void convertUserLocToMarkerOptions(ArrayList<UserLocation> userLocations) {
-        userLocationMarker = new ArrayList<MarkerOptions>();
-        for (UserLocation ul : userLocations) {
-            MarkerOptions convertedMarkerOption = new MarkerOptions();
-            convertedMarkerOption.position(new LatLng(ul.getX(), ul.getY()));
-            convertedMarkerOption.title(ul.getBoatname());
+        userLocationMarker = MapHelper.convertUserLocToMarkerOptions(this, userLocations);
 
-            switch (ul.getBoatType().toLowerCase()) {
-                case "kano":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonkanoandere)).getBitmap()));
-                    break;
-                case "roeiboot":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonroeiboatandere)).getBitmap()));
-                    break;
-                case "speedboot":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonspeedboatandere)).getBitmap()));
-                    break;
-                case "zeilboot":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonzeilboatandere)).getBitmap()));
-                    break;
-                case "sloep":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonanderesloep)).getBitmap()));
-                    break;
-                default:
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(ul.getDirection(), R.drawable.ic_markericonandere)).getBitmap()));
-                    break;
-
-            }
-            userLocationMarker.add(convertedMarkerOption);
-        }
     }
 
     @Override
@@ -533,20 +521,9 @@ public class OverviewMap extends MenuActivity implements
      * Stores activity data in the Bundle.
      */
 
-    public void updateFromPreferences() {
-        SharedPreferences SP = PreferenceManager.getDefaultSharedPreferences(this);
-        String valueOfDRAW_DISTANCE_MARKERS = SP.getString("DRAW_DISTANCE_MARKERS", "20000");
-        String valueOfDRAW_DISTANCE_POPUP = SP.getString("DRAW_DISTANCE_POPUP", "1000");
-        String valueOfNEAREST_MARKER_METER = SP.getString("NEAREST_MARKER_METER", "10000");
-        String valueOfUPDATE_INTERVAL_IN_MILLISECONDS = SP.getString("UPDATE_INTERVAL_IN_MILLISECONDS", "10000");
-        POPUP_SHOW = SP.getBoolean("POPUP_SHOW", true);
-        DRAW_DISTANCE_MARKERS = Integer.valueOf(valueOfDRAW_DISTANCE_MARKERS);
-        DRAW_DISTANCE_POPUP = Integer.valueOf(valueOfDRAW_DISTANCE_POPUP);
-        NEAREST_MARKER_METER = Integer.valueOf(valueOfNEAREST_MARKER_METER);
-        UPDATE_INTERVAL_IN_MILLISECONDS = Long.valueOf(valueOfUPDATE_INTERVAL_IN_MILLISECONDS);
-    }
 
-    public BitmapDrawable rotateDrawable(float angle, int iconToRotate) {
+
+    /*public BitmapDrawable rotateDrawable(float angle, int iconToRotate) {
         Bitmap arrowBitmap = BitmapFactory.decodeResource(this.getResources(),
                 iconToRotate);
         // Create blank bitmap of equal size
@@ -564,7 +541,7 @@ public class OverviewMap extends MenuActivity implements
         canvas.drawBitmap(arrowBitmap, rotateMatrix, null);
 
         return new BitmapDrawable(canvasBitmap);
-    }
+    }*/
 
     public void findNearestMarker() {
         double minDist = 1E38;

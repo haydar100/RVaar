@@ -4,7 +4,7 @@
 
     android:background="@drawable/achtergrond">
 
-    <EditTextPreference
+    <!--<EditTextPreference
         android:inputType="numberDecimal"
         android:key="DRAW_DISTANCE_MARKERS"
         android:summary="Tekenafstand kruispunten in meters"
@@ -20,7 +20,7 @@
         android:inputType="numberDecimal"
         android:key="UPDATE_INTERVAL_IN_MILLISECONDS"
         android:summary="Ververssnelheid landkaart in milliseconden"
-        android:title="Ververssnelheid landkaart" />
+        android:title="Ververssnelheid landkaart" />-->
 
     <EditTextPreference
         android:defaultValue="anoniem"
@@ -32,8 +32,7 @@
     <SwitchPreference
         android:defaultValue="true"
         android:key="POPUP_SHOW"
-        android:title="Toon kruispunten melding"
-        />
+        android:title="Toon kruispunten melding" />
     <ListPreference
         android:defaultValue="Sloep"
         android:entries="@array/boatTypes"
