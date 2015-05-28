@@ -31,6 +31,22 @@ public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions
     //     public ArrayList<MarkerOptions> getUserLocations(String id) {
 
 
+    public void removeUserLocation(String id) {
+        SoapObject request = new SoapObject(NAMESPACE, "DeleteUser");
+        request.addProperty("id", id);
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+        try {
+            HttpTransportSE httpTransport = new HttpTransportSE(URL);
+            httpTransport.call("http://tempuri.org/IService1/DeleteUser", envelope);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public void saveLocationOfUser(String id, double x, double y, String bootnaam, float direction, String boottype) {
         SoapObject request = new SoapObject(NAMESPACE, "SaveLocationOfUser");
         request.addProperty("id", id);

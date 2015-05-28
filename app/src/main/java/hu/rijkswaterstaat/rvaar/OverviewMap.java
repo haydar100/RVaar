@@ -83,6 +83,7 @@ public class OverviewMap extends MenuActivity implements
     public int DRAW_DISTANCE_POPUP = 1000;
     public int NEAREST_MARKER_METER = 10000;
     public boolean POPUP_SHOW = true;
+    public boolean inactive = false;
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
@@ -329,6 +330,7 @@ public class OverviewMap extends MenuActivity implements
     @Override
     public void onResume() {
         super.onResume();
+        inactive = false;
         // Within {@code onPause()}, we pause location updates, but leave the
         // connection to GoogleApiClient intact.  Here, we resume receiving
         // location updates if the user has requested them.
@@ -341,17 +343,51 @@ public class OverviewMap extends MenuActivity implements
     @Override
     protected void onPause() {
         super.onPause();
+        inactive = true;
         // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
         if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
+
         }
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WSConnector ws = new WSConnector();
+                ws.removeUserLocation(uniqueID);
+
+            }
+        });
+        try {
+            t1.start();
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     protected void onStop() {
+        inactive = true;
         super.onStop();
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                WSConnector ws = new WSConnector();
+                ws.removeUserLocation(uniqueID);
+            }
+        });
+        try {
+            t1.start();
+            t1.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         mGoogleApiClient.disconnect();
+
     }
+
 
     /**
      * Runs when a GoogleApiClient object successfully connects.
@@ -446,8 +482,12 @@ public class OverviewMap extends MenuActivity implements
                     Location locEennaLaatste = new Location("");
                     locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
                     locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
+                    if (!inactive) {
+                        connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam, mCurrentLocation.getBearing(), boottype);
+                    } else {
 
-                    connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam, mCurrentLocation.getBearing(), boottype);
+                    }
+
 
                     convertUserLocToMarkerOptions(connector.getUserLocations(uniqueID));
 
