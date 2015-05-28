@@ -57,6 +57,7 @@ public class Home extends MenuActivity {
                     valueOf = String.valueOf(input.getText());
                     Log.v("valueOfInput", "" + valueOfInput);
                     SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("boatType", "Sloep");
                     editor.putString("BOAT_NAME", valueOfInput);
                     editor.putBoolean("showedPromptForUsernameOnStartup", true);
                     editor.commit();
@@ -84,7 +85,7 @@ public class Home extends MenuActivity {
     public void onClick_Aboutus(View v) {
 
         Button button = (Button) v;
-        startActivity(new Intent(getApplicationContext(), AccordianSampleActivity.class));
+        startActivity(new Intent(getApplicationContext(), SOS.class));
 /**/
     }
 

@@ -1,6 +1,5 @@
 package hu.rijkswaterstaat.rvaar.menu;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,7 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import hu.rijkswaterstaat.rvaar.AccordianSampleActivity;
+import hu.rijkswaterstaat.rvaar.SOS;
 import hu.rijkswaterstaat.rvaar.Checklist;
 import hu.rijkswaterstaat.rvaar.Home;
 import hu.rijkswaterstaat.rvaar.OverviewMap;
@@ -137,7 +136,7 @@ public class MenuActivity extends ActionBarActivity {
                 startActivity(e);
                 break;
             case 5:
-                Intent f = new Intent(this, AccordianSampleActivity.class);
+                Intent f = new Intent(this, SOS.class);
                 startActivity(f);
                 break;
             case 6:

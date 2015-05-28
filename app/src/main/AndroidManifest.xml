@@ -48,10 +48,11 @@
             android:name=".Niveau"
             android:label="@string/title_activity_home"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:launchMode="singleInstance">
         </activity>
         <activity
-            android:name=".AccordianSampleActivity"
+            android:name=".SOS"
             android:label="@string/title_activity_about_us"
             android:logo="@drawable/ic_rvaar"
             android:screenOrientation="portrait"
@@ -76,7 +77,8 @@
         </activity>
         <activity
             android:name=".Result"
-            android:label="@string/title_activity_result" >
+            android:label="@string/title_activity_result"
+            android:launchMode="singleInstance">
         </activity>
         <activity
             android:name=".TipsActivity"
@@ -85,7 +87,8 @@
         </activity>
         <activity
             android:name=".TipsContentActivity"
-            android:label="@string/title_activity_tips_content" >
+            android:label="@string/title_activity_tips_content"
+            android:launchMode="singleInstance">
         </activity>
     </application>
 

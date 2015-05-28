@@ -7,13 +7,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 
-public class TipsContentActivity extends ActionBarActivity {
+
+public class TipsContentActivity extends MenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tips_content);
+        setMenu();
 
         Intent intent = getIntent();
         String content = intent.getStringExtra("content");
