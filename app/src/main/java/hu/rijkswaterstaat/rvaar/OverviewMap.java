@@ -734,7 +734,7 @@ public class OverviewMap extends MenuActivity implements
     }
 
     public void openSOS(View v) {
-        Intent sos = new Intent(this, AccordianSampleActivity.class);
+        Intent sos = new Intent(this, SOS.class);
         startActivity(sos);
     }
 

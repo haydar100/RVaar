@@ -102,6 +102,8 @@
         <item>Speedboot</item>
         <item>Zeilboot</item>
     </string-array>
+    <string name="Vdjs">Vragen van: http://www.varendoejesamen.nl/</string>
+
 
 
 </resources>

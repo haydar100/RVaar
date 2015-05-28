@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 
-public class AccordianSampleActivity extends MenuActivity implements OnClickListener
+public class SOS extends MenuActivity implements OnClickListener
 {
     public OnLongClickListener longClickListner;
     LinearLayout panel1,panel2,panel3,panel4,panel5;

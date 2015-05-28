@@ -51,7 +51,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".AccordianSampleActivity"
+            android:name=".SOS"
             android:label="@string/title_activity_about_us"
             android:logo="@drawable/ic_rvaar"
             android:screenOrientation="portrait"
