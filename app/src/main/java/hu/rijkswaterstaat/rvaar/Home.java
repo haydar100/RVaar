@@ -57,6 +57,7 @@ public class Home extends MenuActivity {
                     valueOf = String.valueOf(input.getText());
                     Log.v("valueOfInput", "" + valueOfInput);
                     SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("boatType", "Sloep");
                     editor.putString("BOAT_NAME", valueOfInput);
                     editor.putBoolean("showedPromptForUsernameOnStartup", true);
                     editor.commit();
