@@ -87,9 +87,14 @@ public class Checklist extends ActionBarActivity {
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        items.add(itemText);
-        etNewItem.setText("");
-        itemsAdapter.notifyDataSetChanged();
+        if(itemText.length() != 0 && itemText != "") {
+            items.add(itemText);
+            etNewItem.setText("");
+            itemsAdapter.notifyDataSetChanged();
+        }
+        else{
+            etNewItem.setError("Veld mag niet leeg zijn!");
+        }
     }
 
     public void saveData(ArrayList<String> data, SharedPreferences sp) {
