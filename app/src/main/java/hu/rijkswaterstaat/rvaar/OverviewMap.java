@@ -483,7 +483,7 @@ public class OverviewMap extends MenuActivity implements
                     locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
                     locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
                     if (!inactive) {
-                        connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam, mCurrentLocation.getBearing(), boottype);
+                        connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam, mCurrentLocation.getBearing(), boottype, "TODO");
                     } else {
 
                     }
