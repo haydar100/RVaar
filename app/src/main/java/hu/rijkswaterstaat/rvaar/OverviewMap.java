@@ -143,6 +143,12 @@ public class OverviewMap extends MenuActivity implements
         return uniqueID;
     }
 
+    public static void cancelNotification(Context ctx, int notifyId) {
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
+        nMgr.cancel(notifyId);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -344,6 +350,8 @@ public class OverviewMap extends MenuActivity implements
     protected void onPause() {
         super.onPause();
         inactive = true;
+        cancelNotification(this, 1);
+
         // Stop location updates to save battery, but don't disconnect the GoogleApiClient object.
         if (mGoogleApiClient.isConnected()) {
             stopLocationUpdates();
@@ -367,9 +375,16 @@ public class OverviewMap extends MenuActivity implements
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     protected void onStop() {
         inactive = true;
         super.onStop();
+        cancelNotification(this, 1);
+
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -635,8 +650,8 @@ public class OverviewMap extends MenuActivity implements
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setContentTitle("rVaar")
-                            .setContentText("Over " + x + "Meter nadert u de kruispunt " + marker.getTitle())
+                            .setContentTitle("RVaar")
+                            .setContentText("U nadert het kruispunt " + marker.getTitle() + " (" + distanceInMeters + " Meter)")
                             .setSmallIcon(ic_rvaar)
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_rvaar));
             //.setSound(sound);
