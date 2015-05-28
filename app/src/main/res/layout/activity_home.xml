@@ -14,22 +14,21 @@
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
         <!-- android.support.v7.toolbar -->
         <include layout="@layout/v7_toolbar" />
 
-        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/GridLayout1"
-            android:layout_width="wrap_content"
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/myGrid"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:columnCount="2"
-            android:rowCount="3"
-            tools:context="hu.rijkswaterstaat.rvaar.Home"
-            android:rowOrderPreserved="false">
+            android:gravity="center"
+            android:stretchColumns="0,1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/myButton"
@@ -38,7 +37,7 @@
                 android:onClick="buttonOnClick"
                 android:text="Landkaart"
                 android:textColor="#2b4c66"
-                android:padding="15dp" />
+                android:layout_gravity="center" />
 
             <Button
                 android:id="@+id/myButton2"
@@ -47,7 +46,13 @@
                 android:onClick="onClick_Checklist"
                 android:text="Checklist"
                 android:textColor="#2b4c66"
-                android:padding="15dp" />
+                android:layout_gravity="center" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/myButton3"
@@ -57,7 +62,7 @@
                 android:text="Tips &amp; Tricks"
                 android:textColor="#2b4c66"
                 android:singleLine="false"
-                android:padding="15dp" />
+                android:layout_gravity="center" />
 
 
             <Button
@@ -67,7 +72,13 @@
                 android:onClick="onClick_Quiz"
                 android:text="Quiz"
                 android:textColor="#2b4c66"
-                android:padding="15dp" />
+                android:layout_gravity="center" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <Button
                 android:id="@+id/button6"
@@ -76,7 +87,7 @@
                 android:onClick="onClick_Aboutus"
                 android:text="SOS"
                 android:textColor="#2b4c66"
-                android:padding="15dp" />
+                android:layout_gravity="center" />
 
             <Button
                 android:id="@+id/button5"
@@ -85,20 +96,21 @@
                 android:onClick="onClick_Preferences"
                 android:text="Instellingen"
                 android:textColor="#2b4c66"
-                android:padding="10dp" />
+                android:layout_gravity="center" />
+            </TableRow>
 
-        </GridLayout>
+        </TableLayout>
     </FrameLayout>
 
     <ListView
-        android:id="@+id/left_drawer"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#FFF"
-        android:choiceMode="singleChoice"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp" />
+    android:id="@+id/left_drawer"
+    android:layout_width="240dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="#FFF"
+    android:choiceMode="singleChoice"
+    android:divider="@android:color/transparent"
+    android:dividerHeight="0dp" />
 </android.support.v4.widget.DrawerLayout>
 
 

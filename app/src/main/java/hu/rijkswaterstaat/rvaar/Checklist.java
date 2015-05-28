@@ -37,11 +37,8 @@ public class Checklist extends ActionBarActivity {
         setContentView(R.layout.activity_checklist);
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         lvItems = (ListView) findViewById(R.id.lvItems);
-        if (getSavedData(sp) != null) {
-            items = getSavedData(sp);
-        } else {
-            items = new ArrayList<String>();
-        }
+        items = getSavedData(sp);
+
         itemsAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
@@ -87,12 +84,11 @@ public class Checklist extends ActionBarActivity {
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        if(itemText.length() != 0 && itemText != "") {
+        if (itemText.length() != 0 && itemText != "") {
             items.add(itemText);
             etNewItem.setText("");
             itemsAdapter.notifyDataSetChanged();
-        }
-        else{
+        } else {
             etNewItem.setError("Veld mag niet leeg zijn!");
         }
     }
@@ -106,17 +102,25 @@ public class Checklist extends ActionBarActivity {
     }
 
     public ArrayList<String> getSavedData(SharedPreferences sp) {
+        ArrayList<String> result;
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> set = sp.getStringSet("CHECKLIST", null);
-        ArrayList<String> fetched = new ArrayList<String>(set);
-        return fetched;
+        if (set != null) {
+            result = new ArrayList<String>(set);
+        } else {
+            result = new ArrayList<>();
+        }
+        return result;
     }
+
     public void onDestroy() {
         super.onDestroy();
         saveData(items, sp);
     }
-    public void onPause(){
+
+    public void onPause() {
         super.onPause();
-        saveData(items,sp);
+        saveData(items, sp);
     }
 
     @Override
