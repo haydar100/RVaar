@@ -164,4 +164,6 @@ public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions
         Log.d("doInBackground", "doInBackground !");
         return getMarkers();
     }
+
+
 }
