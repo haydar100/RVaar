@@ -11,10 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.Ringtone;
@@ -54,7 +52,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.text.DateFormat;
@@ -95,12 +92,10 @@ public class OverviewMap extends MenuActivity implements
     public long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     public GoogleMap mMap;
-
     public boolean AnimatedCameraOnce = true;
     public MarkerOptions nearestMarkerLoc;
     // Keys for storing activity state in the Bundle.
     public ArrayList<MarkerOptions> markers;
-    public int num = 0;
     /**
      * Provides the entry point to Google Play services.
      */
@@ -118,14 +113,8 @@ public class OverviewMap extends MenuActivity implements
      */
     protected String mLastUpdateTime;
     ArrayList<MarkerOptions> userLocationMarker;
-
-    // UI Widgets.
     ProgressDialog dialog;
     MarkerOptions last;
-    /**
-     * Tracks the status of the location updates request. Value changes when the user presses the
-     * Start Updates and Stop Updates buttons.
-     */
     private ArrayList<LatLng> points;
 
     public synchronized static String id(Context context) {
@@ -137,7 +126,7 @@ public class OverviewMap extends MenuActivity implements
                 uniqueID = UUID.randomUUID().toString();
                 SharedPreferences.Editor editor = sharedPrefs.edit();
                 editor.putString(PREF_UNIQUE_ID, uniqueID);
-                editor.commit();
+                editor.apply();
             }
         }
         return uniqueID;
@@ -159,7 +148,6 @@ public class OverviewMap extends MenuActivity implements
         points = new ArrayList<>();
         mLastUpdateTime = "";
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Context c = this.getApplicationContext();
         uniqueID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -170,9 +158,6 @@ public class OverviewMap extends MenuActivity implements
             showGPSDisabledAlertToUser();
 
         }
-        // Update values using data stored in the Bundle.
-
-
         // Kick off the process of building a GoogleApiClient and requesting the LocationServices
         // API.
         buildGoogleApiClient();
@@ -224,14 +209,14 @@ public class OverviewMap extends MenuActivity implements
         return activeNetworkInfo != null;
     }
 
+
     public void onClick(final View v) {
 
         if (mCurrentLocation != null) {
 
 
             LatLng target = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
-            CameraPosition position = this.mMap.getCameraPosition();
-
+            //CameraPosition position = this.mMap.getCameraPosition();
             CameraPosition.Builder builder = new CameraPosition.Builder();
             builder.zoom(15);
             builder.target(target);
@@ -263,19 +248,7 @@ public class OverviewMap extends MenuActivity implements
                 e.printStackTrace();
             }
         } else {
-            new AlertDialog.Builder(OverviewMap.this)
-                    .setTitle("Geen netwerkverbinding beschikbaar")
-                    .setMessage("Kan kruispunten niet ophalen.. netwerkfout")
-                    .setCancelable(false)
-                    .setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent t = new Intent(OverviewMap.this, Home.class);
-                            startActivity(t);
-                            finish();
-
-                        }
-                    }).create().show();
+            showNetworkdisabledAlertToUser();
         }
 
 
@@ -431,7 +404,7 @@ public class OverviewMap extends MenuActivity implements
     public void displayProgressDialogGettingLoc() {
         if (mCurrentLocation == null && !gps_disabled) {
             dialog = ProgressDialog.show(this, "",
-                    "Laden.......", true, true);
+                    OverviewMap.this.getResources().getString(R.string.loading_message, true, true));
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
 
@@ -486,21 +459,19 @@ public class OverviewMap extends MenuActivity implements
                 if (isNetworkAvailable()) {
                     WSConnector connector = new WSConnector();
 
-                    LatLng laatstePositie = points.get(points.size() - 1);
-                    LatLng eennaLaatstePositie = points.get(points.size() - 2);
+                    LatLng lastPosition = points.get(points.size() - 1);
+                    LatLng secondToLastPosition = points.get(points.size() - 2);
 
 
-                    Location locLaatste = new Location("");
-                    locLaatste.setLatitude(laatstePositie.latitude);
-                    locLaatste.setLongitude(laatstePositie.longitude);
+                    Location locLast = new Location("");
+                    locLast.setLatitude(lastPosition.latitude);
+                    locLast.setLongitude(lastPosition.longitude);
 
-                    Location locEennaLaatste = new Location("");
-                    locEennaLaatste.setLatitude(eennaLaatstePositie.latitude);
-                    locEennaLaatste.setLongitude(eennaLaatstePositie.longitude);
+                    Location locSecondToLast = new Location("");
+                    locSecondToLast.setLatitude(secondToLastPosition.latitude);
+                    locSecondToLast.setLongitude(secondToLastPosition.longitude);
                     if (!inactive) {
                         connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam, mCurrentLocation.getBearing(), boottype, "Beginner");
-                    } else {
-
                     }
 
 
@@ -546,7 +517,7 @@ public class OverviewMap extends MenuActivity implements
                 polyLineOpt.add(point);
             }
 
-            Polyline line = mMap.addPolyline(polyLineOpt);
+            //Polyline line = mMap.addPolyline(polyLineOpt);
 
             points.add(latLngP);
         }
@@ -597,7 +568,6 @@ public class OverviewMap extends MenuActivity implements
 
         return new BitmapDrawable(canvasBitmap);
     }*/
-
     public void findNearestMarker() {
         double minDist = 1E38;
         int minIndex = -1;
@@ -606,9 +576,9 @@ public class OverviewMap extends MenuActivity implements
             currentIndexMarkerLoc.setLatitude(markers.get(i).getPosition().latitude);
             currentIndexMarkerLoc.setLongitude(markers.get(i).getPosition().longitude);
             currentIndexMarkerLoc.setTime(new Date().getTime());
-            float test = mCurrentLocation.distanceTo(currentIndexMarkerLoc);
-            if (test < minDist) {
-                minDist = test;
+            float calculatedDistance = mCurrentLocation.distanceTo(currentIndexMarkerLoc);
+            if (calculatedDistance < minDist) {
+                minDist = calculatedDistance;
                 minIndex = i;
             }
         }
@@ -616,13 +586,12 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc = markers.get(minIndex);
             nearestMarkerLoc.icon(null); // testen
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            // mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
             showCEMT(nearestMarkerLoc);
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
             if (POPUP_SHOW) {
-                if (popupIsOpen == false) {
+                if (!popupIsOpen) {
                     notifyPopup(nearestMarkerLoc);
                     notifyUserNotificationBar(nearestMarkerLoc);
 
@@ -639,22 +608,20 @@ public class OverviewMap extends MenuActivity implements
 
     //
     public void notifyUserNotificationBar(MarkerOptions marker) {
-        // Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Location notifcationLoc = new Location("Marker");
-        notifcationLoc.setLatitude(marker.getPosition().latitude);
-        notifcationLoc.setLongitude(marker.getPosition().longitude);
-        float distanceInMeters = mCurrentLocation.distanceTo(notifcationLoc);
+        Location notificationLoc = new Location("Marker");
+        notificationLoc.setLatitude(marker.getPosition().latitude);
+        notificationLoc.setLongitude(marker.getPosition().longitude);
+        float distanceInMeters = mCurrentLocation.distanceTo(notificationLoc);
         int notifyID = 1;
         int x = Math.round(distanceInMeters);
-        if (distanceInMeters < NEAREST_MARKER_METER) { // in seconden te doen, in alle gevallen is het dan gelijk
+        if (distanceInMeters < NEAREST_MARKER_METER) {
 
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(this)
-                            .setContentTitle("RVaar")
-                            .setContentText("U nadert het kruispunt " + marker.getTitle() + " (" + distanceInMeters + " Meter)")
+                            .setContentTitle(OverviewMap.this.getResources().getString(R.string.app_name))
+                            .setContentText("U nadert het kruispunt " + marker.getTitle() + " (" + x + " Meter)")
                             .setSmallIcon(ic_rvaar)
                             .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_rvaar));
-            //.setSound(sound);
 
             Intent resultIntent = new Intent(this, OverviewMap.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
@@ -664,30 +631,13 @@ public class OverviewMap extends MenuActivity implements
             mBuilder.setContentIntent(resultPendingIntent);
             NotificationManager mNotificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(notifyID, mBuilder.build()); // test on screen update/
+            mNotificationManager.notify(notifyID, mBuilder.build());
 
-            mBuilder.setDefaults(-1); // http://developer.android.com/reference/android/app/Notification.html#DEFAULT_ALL
+            mBuilder.setDefaults(-1);
 
 
         }
     }
-
-    public Bitmap drawableToBitmap(Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
-
-
-
 
 
     public void showCEMT(MarkerOptions marker) {
@@ -750,7 +700,6 @@ public class OverviewMap extends MenuActivity implements
         Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
         if (last != null && last == marker) {
-            Log.d("donothing", "true");
         } else {
 
             LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -767,8 +716,6 @@ public class OverviewMap extends MenuActivity implements
                 loc.setLongitude(marker.getPosition().longitude);
                 float distanceInMeters = mCurrentLocation.distanceTo(loc);
                 if (distanceInMeters < DRAW_DISTANCE_POPUP) {
-
-                    Log.d("marktitle", marker.getSnippet());
                     popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
                     r.play();
                     v.vibrate(750);
@@ -795,11 +742,10 @@ public class OverviewMap extends MenuActivity implements
 
     public String currentSpeedInKM() {
         TextView textViewToChange = (TextView) findViewById(R.id.speed);
-        Double currentSpeedCalc = 0.0;
-        int currentSpeedRound = 0;
+        Double currentSpeedCalc;
+        int currentSpeedRound;
         int roundedSpeedKM;
         if (mCurrentLocation.getSpeed() > 0.0) {
-            //  currentSpeedKM = Math.round(mCurrentLocation.getSpeed() * 3.60;
             roundedSpeedKM = Math.round(mCurrentLocation.getSpeed());
             currentSpeedCalc = roundedSpeedKM * 3.60;
             currentSpeedRound = currentSpeedCalc.intValue();
@@ -828,21 +774,18 @@ public class OverviewMap extends MenuActivity implements
 
     }
 
+
     private void showNetworkdisabledAlertToUser() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(R.string.network_connection_unavailable)
-                .setCancelable(false)
-                .setPositiveButton(R.string.Settings_message,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent callSettingIntent = new Intent(
-                                        Settings.ACTION_SETTINGS);
-                                startActivity(callSettingIntent);
-                            }
-                        });
+                .setCancelable(false);
+
         alertDialogBuilder.setNegativeButton(R.string.Cancel_button_message,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Intent Intent = new Intent(
+                                OverviewMap.this, Home.class);
+                        startActivity(Intent);
                         dialog.cancel();
                     }
                 });
@@ -873,30 +816,22 @@ public class OverviewMap extends MenuActivity implements
     }
 
     public void addUserLocToMap() {
-
         if (userLocationMarker != null) {
-
             for (MarkerOptions m : userLocationMarker) {
                 Location loc = new Location("");
-
                 loc.setLongitude(m.getPosition().longitude);
                 loc.setLatitude(m.getPosition().latitude);
 
-                    if (m == nearestMarkerLoc) {
-                        mMap.addMarker(m);
+                if (m == nearestMarkerLoc) {
+                    mMap.addMarker(m);
 
-                    }else  {
-                        //  m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericonandere));
-                                mMap.addMarker(m);
-                    }
-
-
-
+                } else {
+                    mMap.addMarker(m);
+                }
             }
         }
 
     }
-
 
     public void addMarkersToMap() {
         if (isNetworkAvailable()) {
