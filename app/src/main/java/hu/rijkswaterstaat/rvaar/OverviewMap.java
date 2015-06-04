@@ -29,6 +29,7 @@ import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -597,7 +598,6 @@ public class OverviewMap extends MenuActivity implements
 
         return new BitmapDrawable(canvasBitmap);
     }*/
-
     public void findNearestMarker() {
         double minDist = 1E38;
         int minIndex = -1;
@@ -618,15 +618,13 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             // mMap.addMarker(nearestMarkerLoc);
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
-            showCEMT(nearestMarkerLoc);
+            new AsyncCemt(this).execute(Pair.create(mCurrentLocation,nearestMarkerLoc));
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
-            if (POPUP_SHOW) {
-                if (popupIsOpen == false) {
-                    notifyPopup(nearestMarkerLoc);
-                    notifyUserNotificationBar(nearestMarkerLoc);
 
-                }
+            if (POPUP_SHOW) {
+                notifyUserNotificationBar(nearestMarkerLoc);
+                popupAtInterval(mCurrentLocation,nearestMarkerLoc);
             }
         } else {
             if (nearestMarkerLoc != null) {
@@ -635,6 +633,32 @@ public class OverviewMap extends MenuActivity implements
             }
 
         }
+    }
+    int popcount = 0;
+    public void popupAtInterval(Location mCurrentLocation, MarkerOptions nearestMarkerLoc) {
+            if(popcount <= 2 && last == nearestMarkerLoc) {
+                Location loc = new Location("");
+                loc.setLatitude(nearestMarkerLoc.getPosition().latitude);
+                loc.setLongitude(nearestMarkerLoc.getPosition().longitude);
+                float distanceInMeters = mCurrentLocation.distanceTo(loc);
+
+                if(distanceInMeters < 2000 && popcount == 0){
+                    popcount = 1;
+                    new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+                }
+                if(distanceInMeters < 500){
+                    popcount = 2;
+                    new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+                }
+                else if(distanceInMeters < 200){
+                    popcount = 3;
+                    new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+                }
+            }
+        else if(last != nearestMarkerLoc){
+                popcount = 0;
+            }
+        last = nearestMarkerLoc;
     }
 
     //
@@ -686,64 +710,6 @@ public class OverviewMap extends MenuActivity implements
         return bitmap;
     }
 
-
-
-
-
-    public void showCEMT(MarkerOptions marker) {
-        if (userLocationMarker != null) {
-            Location loc = new Location("");
-            loc.setLatitude(marker.getPosition().latitude);
-            loc.setLongitude(marker.getPosition().longitude);
-            float distanceInMeters = mCurrentLocation.distanceTo(loc);
-            if (distanceInMeters < NEAREST_MARKER_METER) {
-                ImageView iv = (ImageView) findViewById(R.id.imageView1);
-                switch (marker.getSnippet()) {
-                    case "I": {
-                        iv.setImageResource(R.drawable.klasse1);
-                        break;
-                    }
-                    case "II": {
-                        iv.setImageResource(R.drawable.klasse2);
-                        break;
-                    }
-                    case "III": {
-                        iv.setImageResource(R.drawable.klasse3);
-                        break;
-                    }
-                    case "IV": {
-                        iv.setImageResource(R.drawable.klasse4);
-                        break;
-                    }
-                    case "Va": {
-                        iv.setImageResource(R.drawable.klasse5);
-                        break;
-                    }
-                    case "Vb": {
-                        iv.setImageResource(R.drawable.klasse6);
-                        break;
-                    }
-                    case "VIa": {
-                        iv.setImageResource(R.drawable.klasse7);
-                        break;
-                    }
-                    case "VIb": {
-                        iv.setImageResource(R.drawable.klasse8);
-                        break;
-                    }
-                    case "VIc": {
-                        iv.setImageResource(R.drawable.klasse9);
-                        break;
-                    }
-                    case "VIIb": {
-                        iv.setImageResource(R.drawable.klasse10);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
     public void notifyPopup(MarkerOptions marker) {
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
@@ -769,9 +735,9 @@ public class OverviewMap extends MenuActivity implements
                 if (distanceInMeters < DRAW_DISTANCE_POPUP) {
 
                     Log.d("marktitle", marker.getSnippet());
-                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+                    popupWindow.showAtLocation(popupView, Gravity.FILL, 0, 0);
                     r.play();
-                    v.vibrate(750);
+                    v.vibrate(500);
                     popupIsOpen = true;
                     ImageButton btnDismiss = (ImageButton) popupView.findViewById(R.id.dismiss);
                     btnDismiss.setOnClickListener(new Button.OnClickListener() {
@@ -879,14 +845,13 @@ public class OverviewMap extends MenuActivity implements
                 loc.setLongitude(m.getPosition().longitude);
                 loc.setLatitude(m.getPosition().latitude);
 
-                    if (m == nearestMarkerLoc) {
-                        mMap.addMarker(m);
+                if (m == nearestMarkerLoc) {
+                    mMap.addMarker(m);
 
-                    }else  {
-                        //  m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericonandere));
-                                mMap.addMarker(m);
-                    }
-
+                } else {
+                    //  m.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_markericonandere));
+                    mMap.addMarker(m);
+                }
 
 
             }
