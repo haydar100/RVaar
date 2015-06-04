@@ -87,7 +87,7 @@ public class OverviewMap extends MenuActivity implements
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    public long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    public long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
     /**
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
      * than this value.
@@ -795,20 +795,23 @@ public class OverviewMap extends MenuActivity implements
 
     public String currentSpeedInKM() {
         TextView textViewToChange = (TextView) findViewById(R.id.speed);
-        Double currentSpeedKM = 0.0;
+        Double currentSpeedCalc = 0.0;
+        int currentSpeedRound = 0;
         int roundedSpeedKM;
         if (mCurrentLocation.getSpeed() > 0.0) {
             //  currentSpeedKM = Math.round(mCurrentLocation.getSpeed() * 3.60;
             roundedSpeedKM = Math.round(mCurrentLocation.getSpeed());
-            currentSpeedKM = roundedSpeedKM * 3.60;
+            currentSpeedCalc = roundedSpeedKM * 3.60;
+            currentSpeedRound = currentSpeedCalc.intValue();
+
 
         } else {
-            textViewToChange.setText("Uw snelheid " + "0,0" + " Km/u");
+            textViewToChange.setText("Uw snelheid " + "0" + " Km/u");
             return "Snelheid niet beschikbaar";
 
         }
-        textViewToChange.setText("Uw snelheid " + currentSpeedKM.toString() + " Km/u");
-        return " Uw huidige snelheid : " + currentSpeedKM;
+        textViewToChange.setText("Uw snelheid " + currentSpeedRound + " Km/u");
+        return " Uw huidige snelheid : " + currentSpeedRound;
 
     }
 
