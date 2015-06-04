@@ -21,7 +21,6 @@ import java.util.List;
 import hu.rijkswaterstaat.rvaar.domain.TipsAndTricks;
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.sqlite.SQLiteHelper;
-import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
 
 public class TipsActivity extends MenuActivity {
@@ -61,11 +60,9 @@ public class TipsActivity extends MenuActivity {
             @Override
             public void run() {
                 if (isNetworkAvailable()) {
-                    WSConnector wsc = new WSConnector();
                     tipsAndTricks = fillTipsAndTricks();
                     Log.d(tipsAndTricks.size() + "", "");
                 } else {
-                    //tipsAndTricks = new ArrayList<String>();
                     tipsAndTricks = fillTipsAndTricks();
                 }
             }
@@ -77,13 +74,7 @@ public class TipsActivity extends MenuActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-//
-        ArrayList<TipsAndTricks> kaas = new ArrayList<TipsAndTricks>();
-//        for (int i = 0; i < tips.length; i++) {
-//            String[] seperated = tips[i].split(",");
-//            list.add(seperated[0]);
-//            content.add(seperated[1]);
-//        }
+
         for (TipsAndTricks tt : tipsAndTricks) {
             headers.add(tt.getHeaderName());
 
