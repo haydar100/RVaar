@@ -14,12 +14,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import hu.rijkswaterstaat.rvaar.SOS;
 import hu.rijkswaterstaat.rvaar.Checklist;
 import hu.rijkswaterstaat.rvaar.Home;
 import hu.rijkswaterstaat.rvaar.OverviewMap;
 import hu.rijkswaterstaat.rvaar.Quiz;
 import hu.rijkswaterstaat.rvaar.R;
+import hu.rijkswaterstaat.rvaar.SOS;
 import hu.rijkswaterstaat.rvaar.TipsActivity;
 import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
 
@@ -51,7 +51,7 @@ public class MenuActivity extends ActionBarActivity {
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         if (mDrawerList != null) {
-            mDrawerList.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, drawerItems));
+            mDrawerList.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, drawerItems));
             mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
         }
         //Toggle
@@ -103,13 +103,6 @@ public class MenuActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-        @Override
-        public void onItemClick(AdapterView parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
     private void selectItem(int position) {
         // Create a new fragment and specify the planet to show based on position
         // Highlight the selected item, update the title, and close the drawer
@@ -149,6 +142,13 @@ public class MenuActivity extends ActionBarActivity {
         mDrawerList.setItemChecked(position, true);
         mDrawerLayout.closeDrawer(mDrawerList);
 
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView parent, View view, int position, long id) {
+            selectItem(position);
+        }
     }
 }
 
