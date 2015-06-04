@@ -71,50 +71,50 @@ import static hu.rijkswaterstaat.rvaar.R.drawable.ic_rvaar;
 public class OverviewMap extends MenuActivity implements
         ConnectionCallbacks, OnConnectionFailedListener, LocationListener {
 
-    protected static final String TAG = "location-updates-sample";
+    private static final String TAG = "location-updates-sample";
     private static final String PREF_UNIQUE_ID = "PREF_UNIQUE_ID";
     private static String uniqueID = null;
-    public boolean gps_disabled;
-    public boolean popupIsOpen = false;
-    public int DRAW_DISTANCE_MARKERS = 20000;
-    public int DRAW_DISTANCE_POPUP = 1000;
-    public int NEAREST_MARKER_METER = 10000;
-    public boolean POPUP_SHOW = true;
-    public boolean inactive = false;
+    private final int DRAW_DISTANCE_MARKERS = 20000;
+    private final int DRAW_DISTANCE_POPUP = 1000;
+    private final int NEAREST_MARKER_METER = 10000;
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
-    public long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
+    private final long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
     /**
      * The fastest rate for active location updates. Exact. Updates will never be more frequent
      * than this value.
      */
-    public long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
+    private final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS =
             UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-    public GoogleMap mMap;
-    public boolean AnimatedCameraOnce = true;
-    public MarkerOptions nearestMarkerLoc;
+    private boolean gps_disabled;
+    private boolean popupIsOpen = false;
+    private boolean POPUP_SHOW = true;
+    private boolean inactive = false;
+    private GoogleMap mMap;
+    private boolean AnimatedCameraOnce = true;
+    private MarkerOptions nearestMarkerLoc;
     // Keys for storing activity state in the Bundle.
-    public ArrayList<MarkerOptions> markers;
+    private ArrayList<MarkerOptions> markers;
     /**
      * Provides the entry point to Google Play services.
      */
-    protected GoogleApiClient mGoogleApiClient;
+    private GoogleApiClient mGoogleApiClient;
     /**
      * Stores parameters for requests to the FusedLocationProviderApi.
      */
-    protected LocationRequest mLocationRequest;
+    private LocationRequest mLocationRequest;
     /**
      * Represents a geographical location.
      */
-    protected Location mCurrentLocation;
+    private Location mCurrentLocation;
     /**
      * Time when the location was updated represented as a String.
      */
-    protected String mLastUpdateTime;
-    ArrayList<MarkerOptions> userLocationMarker;
-    ProgressDialog dialog;
-    MarkerOptions last;
+    private String mLastUpdateTime;
+    private ArrayList<MarkerOptions> userLocationMarker;
+    private ProgressDialog dialog;
+    private MarkerOptions last;
     private ArrayList<LatLng> points;
 
     public synchronized static String id(Context context) {
@@ -132,7 +132,7 @@ public class OverviewMap extends MenuActivity implements
         return uniqueID;
     }
 
-    public static void cancelNotification(Context ctx, int notifyId) {
+    private static void cancelNotification(Context ctx, int notifyId) {
         String ns = Context.NOTIFICATION_SERVICE;
         NotificationManager nMgr = (NotificationManager) ctx.getSystemService(ns);
         nMgr.cancel(notifyId);
@@ -267,7 +267,7 @@ public class OverviewMap extends MenuActivity implements
      * These settings are appropriate for mapping applications that show real-time location
      * updates.
      */
-    protected void createLocationRequest() {
+    void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
@@ -277,7 +277,7 @@ public class OverviewMap extends MenuActivity implements
     protected void startLocationUpdates() {
         // The final argument to {@code requestLocationUpdates()} is a LocationListener
         // (http://developer.android.com/reference/com/google/android/gms/location/LocationListener.html).
-        Log.d("startLocup", "startLocup");
+        Log.d("startLocationUpdate", "startLocationUpdate");
         displayProgressDialogGettingLoc();
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
@@ -286,7 +286,7 @@ public class OverviewMap extends MenuActivity implements
     /**
      * Removes location updates from the FusedLocationApi.
      */
-    protected void stopLocationUpdates() {
+    void stopLocationUpdates() {
         // It is a good practice to remove location requests when the activity is in a paused or
         // stopped state. Doing so helps battery performance and is especially
         // recommended in applications that request frequent location updates.
@@ -424,8 +424,8 @@ public class OverviewMap extends MenuActivity implements
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
         Log.d("startLoc", "startLoc");
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        final String bootnaam = preferences.getString("BOAT_NAME", null);
-        final String boottype = preferences.getString("boatType", null);
+        final String boatName = preferences.getString("BOAT_NAME", null);
+        final String boatType = preferences.getString("boatType", null);
 
 
         mMap.clear();
@@ -440,7 +440,7 @@ public class OverviewMap extends MenuActivity implements
 
         findNearestMarker();
 
-        if (AnimatedCameraOnce) { // tijdelijk
+        if (AnimatedCameraOnce) {
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(loc)      // Sets the center of the map to Mountain View
                     .zoom(17)                   // Sets the zoom
@@ -471,7 +471,7 @@ public class OverviewMap extends MenuActivity implements
                     locSecondToLast.setLatitude(secondToLastPosition.latitude);
                     locSecondToLast.setLongitude(secondToLastPosition.longitude);
                     if (!inactive) {
-                        connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), bootnaam, mCurrentLocation.getBearing(), boottype, "Beginner");
+                        connector.saveLocationOfUser(uniqueID, mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude(), boatName, mCurrentLocation.getBearing(), boatType, "Beginner");
                     }
 
 
@@ -523,7 +523,7 @@ public class OverviewMap extends MenuActivity implements
         }
     }
 
-    public void convertUserLocToMarkerOptions(ArrayList<UserLocation> userLocations) {
+    void convertUserLocToMarkerOptions(ArrayList<UserLocation> userLocations) {
         userLocationMarker = MapHelper.convertUserLocToMarkerOptions(this, userLocations);
 
     }
@@ -584,7 +584,7 @@ public class OverviewMap extends MenuActivity implements
         }
         if (minIndex >= 0) {
             nearestMarkerLoc = markers.get(minIndex);
-            nearestMarkerLoc.icon(null); // testen
+            nearestMarkerLoc.icon(null);
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
             Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
             showCEMT(nearestMarkerLoc);
@@ -607,7 +607,7 @@ public class OverviewMap extends MenuActivity implements
     }
 
     //
-    public void notifyUserNotificationBar(MarkerOptions marker) {
+    void notifyUserNotificationBar(MarkerOptions marker) {
         Location notificationLoc = new Location("Marker");
         notificationLoc.setLatitude(marker.getPosition().latitude);
         notificationLoc.setLongitude(marker.getPosition().longitude);
@@ -694,7 +694,7 @@ public class OverviewMap extends MenuActivity implements
         }
     }
 
-    public void notifyPopup(MarkerOptions marker) {
+    void notifyPopup(MarkerOptions marker) {
         Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
         Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
@@ -761,7 +761,7 @@ public class OverviewMap extends MenuActivity implements
 
     }
 
-    public String currentMarkerDistance(MarkerOptions opt) {
+    String currentMarkerDistance(MarkerOptions opt) {
         TextView textViewToChange = (TextView) findViewById(R.id.approaching);
         Location notifcationLoc = new Location("Marker");
         notifcationLoc.setLatitude(opt.getPosition().latitude);
@@ -833,7 +833,7 @@ public class OverviewMap extends MenuActivity implements
 
     }
 
-    public void addMarkersToMap() {
+    void addMarkersToMap() {
         if (isNetworkAvailable()) {
             for (MarkerOptions m : markers) {
                 Location loc = new Location("");

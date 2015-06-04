@@ -18,7 +18,6 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import hu.rijkswaterstaat.rvaar.dao.MarkerDAOimpl;
 import hu.rijkswaterstaat.rvaar.domain.TipsAndTricks;
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.sqlite.SQLiteHelper;
@@ -63,7 +62,6 @@ public class TipsActivity extends MenuActivity {
             public void run() {
                 if (isNetworkAvailable()) {
                     WSConnector wsc = new WSConnector();
-                    MarkerDAOimpl dao = new MarkerDAOimpl();
                     tipsAndTricks = fillTipsAndTricks();
                     Log.d(tipsAndTricks.size() + "", "");
                 } else {
