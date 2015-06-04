@@ -402,7 +402,7 @@ public class OverviewMap extends MenuActivity implements
     }
 
     public void displayProgressDialogGettingLoc() {
-        if (mCurrentLocation == null && !gps_disabled) {
+        if (mCurrentLocation == null && !gps_disabled && isNetworkAvailable()) {
             dialog = ProgressDialog.show(this, "",
                     OverviewMap.this.getResources().getString(R.string.loading_message, true, true));
             mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
