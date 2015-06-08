@@ -422,7 +422,6 @@ public class OverviewMap extends MenuActivity implements
         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
 
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        Log.d("startLoc", "startLoc");
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         final String boatName = preferences.getString("BOAT_NAME", null);
         final String boatType = preferences.getString("boatType", null);
@@ -489,8 +488,6 @@ public class OverviewMap extends MenuActivity implements
             e.printStackTrace();
         }
 
-        Log.d("Latitude", "Current Latitude " + location.getLatitude());
-        Log.d("Longitude", "Current Longitude " + location.getLongitude());
         if (dialog != null) {
             dialog.dismiss();
         }
@@ -586,7 +583,6 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc = markers.get(minIndex);
             nearestMarkerLoc.icon(null);
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            Log.d("nearestLocation name", "nearestLocation name" + nearestMarkerLoc.getTitle());
             showCEMT(nearestMarkerLoc);
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
@@ -753,7 +749,7 @@ public class OverviewMap extends MenuActivity implements
 
         } else {
             textViewToChange.setText("Uw snelheid " + "0" + " Km/u");
-            return "Snelheid niet beschikbaar";
+            return getResources().getString(R.string.speed_unavailable);
 
         }
         textViewToChange.setText("Uw snelheid " + currentSpeedRound + " Km/u");
