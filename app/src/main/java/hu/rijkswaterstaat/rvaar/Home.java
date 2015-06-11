@@ -32,8 +32,6 @@ public class Home extends MenuActivity {
         setMenu();
         final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         showPromptForUsername();
-        Log.v("" + preferences.getString("BOAT_NAME", null), "");
-
     }
 
     public void showPromptForUsername() {
@@ -55,7 +53,6 @@ public class Home extends MenuActivity {
                 public void onClick(DialogInterface dialogInterface, int i) {
                     String valueOfInput = String.valueOf(input.getText());
                     valueOf = String.valueOf(input.getText());
-                    Log.v("valueOfInput", "" + valueOfInput);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("boatType", "Sloep");
                     editor.putString("BOAT_NAME", valueOfInput);
@@ -68,7 +65,6 @@ public class Home extends MenuActivity {
 
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Log.i("Cancel", "Cancel");
                 }
             });
             alert.show();
@@ -76,30 +72,22 @@ public class Home extends MenuActivity {
     }
 
     public void buttonOnClick(View v) {
-
-        Button button = (Button) v;
         startActivity(new Intent(getApplicationContext(), OverviewMap.class));
 /**/
     }
 
     public void onClick_Aboutus(View v) {
-
-        Button button = (Button) v;
         startActivity(new Intent(getApplicationContext(), SOS.class));
 /**/
     }
 
     public void onClick_Quiz(View v) {
-
-        Button button = (Button) v;
         startActivity(new Intent(getApplicationContext(), Quiz.class));
 /**/
     }
 
 
     public void onClick_Preferences(View v) {
-
-        Button button = (Button) v;
         startActivity(new Intent(getApplicationContext(), PreferencesActivity.class));
 /**/
     }
@@ -109,8 +97,6 @@ public class Home extends MenuActivity {
     }
 
     public void onClick_Checklist(View v) {
-
-        Button button = (Button) v;
         startActivity(new Intent(getApplicationContext(), Checklist.class));
 /**/
     }

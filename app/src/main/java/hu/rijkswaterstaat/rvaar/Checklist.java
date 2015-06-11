@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,19 +15,14 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Checklist extends ActionBarActivity {
     private ArrayList<String> items;
     private ArrayAdapter<String> itemsAdapter;
     private ListView lvItems;
-    private String tag = "Checklist";
     private SharedPreferences sp;
 
     @Override
@@ -39,7 +33,7 @@ public class Checklist extends ActionBarActivity {
         lvItems = (ListView) findViewById(R.id.lvItems);
         items = getSavedData(sp);
 
-        itemsAdapter = new ArrayAdapter<String>(this,
+        itemsAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
 
@@ -84,7 +78,7 @@ public class Checklist extends ActionBarActivity {
     public void onAddItem(View v) {
         EditText etNewItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
-        if (itemText.length() != 0 && itemText != "") {
+        if (itemText.trim().length() > 0) {
             items.add(itemText);
             etNewItem.setText("");
             itemsAdapter.notifyDataSetChanged();
@@ -93,20 +87,20 @@ public class Checklist extends ActionBarActivity {
         }
     }
 
-    public void saveData(ArrayList<String> data, SharedPreferences sp) {
-        Set<String> dataset = new HashSet<String>();
+    void saveData(ArrayList<String> data, SharedPreferences sp) {
+        Set<String> dataset = new HashSet<>();
         dataset.addAll(data);
         SharedPreferences.Editor editor = sp.edit();
         editor.putStringSet("CHECKLIST", dataset);
         editor.commit();
     }
 
-    public ArrayList<String> getSavedData(SharedPreferences sp) {
+    ArrayList<String> getSavedData(SharedPreferences sp) {
         ArrayList<String> result;
         sp = PreferenceManager.getDefaultSharedPreferences(this);
         Set<String> set = sp.getStringSet("CHECKLIST", null);
         if (set != null) {
-            result = new ArrayList<String>(set);
+            result = new ArrayList<>(set);
         } else {
             result = new ArrayList<>();
         }

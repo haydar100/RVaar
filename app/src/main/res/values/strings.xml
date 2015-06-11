@@ -2,7 +2,7 @@
 <resources>
     <string name="drawer_open">true</string>
     <string name="drawer_closed">false</string>
-
+    <string name="cancel_message">Sluiten</string>
     <string name="app_name">RVaar</string>
     <string name="titleAlertUser">Bootnaam</string>
     <string name="bootnaaminfo">Vul naam van boot in </string>
@@ -87,13 +87,14 @@
     <string name="title_boattype">Boottype selecteren</string>
     <string name="loading_message">Laden....</string>
     <string name="Cancel_button_message">Annuleren</string>
-    <string name="network_connection_unavailable">Netwerkverbinding is niet beschikbaar</string>
+    <string name="network_connection_unavailable">Netwerkfout, kruispunten kunnen niet opgehaald worden..</string>
     <string name="gps_disabled_message"> GPS is uitgeschakeld, om gebruik te maken van rVaar dient u de GPS in te schakelen</string>
     <string name="Settings_message">Settings</string>
     <string name="title_activity_quiz">Quiz</string>
     <string name="title_activity_result">Resultaat</string>
     <string name="title_activity_tips">TipsActivity</string>
     <string name="title_activity_tips_content">Tips en Tricks</string>
+    <string name="speed_unavailable">Snelheid niet beschikbaar</string>
 
     <string-array name="boatTypes">
         <item>Kano</item>

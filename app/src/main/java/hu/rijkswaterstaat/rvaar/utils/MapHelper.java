@@ -37,25 +37,23 @@ public class MapHelper {
 
             switch (ul.getBoatType().toLowerCase()) {
                 case "kano":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonkanoandere)).getBitmap()));
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonkanoandere).getBitmap()));
                     break;
                 case "roeiboot":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonroeiboatandere)).getBitmap()));
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonroeiboatandere).getBitmap()));
                     break;
                 case "speedboot":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonspeedboatandere)).getBitmap()));
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonspeedboatandere).getBitmap()));
                     break;
                 case "zeilboot":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonzeilboatandere)).getBitmap()));
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonzeilboatandere).getBitmap()));
                     break;
                 case "sloep":
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonanderesloep)).getBitmap()));
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonanderesloep).getBitmap()));
                     break;
                 default:
-                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(((BitmapDrawable) rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonandere)).getBitmap()));
+                    convertedMarkerOption.icon(BitmapDescriptorFactory.fromBitmap(rotateDrawable(con, ul.getDirection(), R.drawable.ic_markericonandere).getBitmap()));
                     break;
-
-
             }
             userLocationMarker.add(convertedMarkerOption);
         }

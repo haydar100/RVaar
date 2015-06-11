@@ -4,11 +4,9 @@ package hu.rijkswaterstaat.rvaar;
  * Created by ingo on 16-4-2015.
  */
 import android.os.Bundle;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnLongClickListener;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.Transformation;
 import android.widget.LinearLayout;
@@ -19,10 +17,15 @@ import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 
 public class SOS extends MenuActivity implements OnClickListener
 {
-    public OnLongClickListener longClickListner;
-    LinearLayout panel1,panel2,panel3,panel4,panel5;
-    TextView text1,text2,text3,text4,text5;
-    View openLayout;
+    private LinearLayout panel1;
+    private LinearLayout panel2;
+    private LinearLayout panel3;
+    private LinearLayout panel4;
+    private TextView text1;
+    private TextView text2;
+    private TextView text3;
+    private TextView text4;
+    private View openLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -130,11 +133,12 @@ public class SOS extends MenuActivity implements OnClickListener
     public class ScaleAnimToHide extends ScaleAnimation
     {
 
-        private View mView;
+        private final View mView;
 
-        private LayoutParams mLayoutParams;
+        private final LayoutParams mLayoutParams;
 
-        private int mMarginBottomFromY, mMarginBottomToY;
+        private final int mMarginBottomFromY;
+        private final int mMarginBottomToY;
 
         private boolean mVanishAfter = false;
 
@@ -173,11 +177,12 @@ public class SOS extends MenuActivity implements OnClickListener
     public class ScaleAnimToShow extends ScaleAnimation
     {
 
-        private View mView;
+        private final View mView;
 
-        private LayoutParams mLayoutParams;
+        private final LayoutParams mLayoutParams;
 
-        private int mMarginBottomFromY, mMarginBottomToY;
+        private final int mMarginBottomFromY;
+        private final int mMarginBottomToY;
 
         private boolean mVanishAfter = false;
 

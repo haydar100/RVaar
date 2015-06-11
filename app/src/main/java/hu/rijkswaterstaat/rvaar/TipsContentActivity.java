@@ -1,7 +1,6 @@
 package hu.rijkswaterstaat.rvaar;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +19,7 @@ public class TipsContentActivity extends MenuActivity {
 
         Intent intent = getIntent();
         String content = intent.getStringExtra("content");
-        TextView contentarea = (TextView)findViewById(R.id.description);
+        TextView contentarea = (TextView) findViewById(R.id.description);
         contentarea.setText(content);
     }
 
