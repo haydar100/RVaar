@@ -587,7 +587,7 @@ public class OverviewMap extends MenuActivity implements
             new AsyncCemt(this).execute(Pair.create(mCurrentLocation,nearestMarkerLoc));
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
-            if (POPUP_SHOW && last != nearestMarkerLoc) {
+            if (POPUP_SHOW && last != nearestMarkerLoc && calcDistanceToMarker(nearestMarkerLoc) < DRAW_DISTANCE_POPUP) {
                 new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
                 notifyUserNotificationBar(nearestMarkerLoc);
                 last = nearestMarkerLoc;
@@ -674,6 +674,15 @@ public class OverviewMap extends MenuActivity implements
         textViewToChange.setText(s);
         return s;
 
+    }
+
+    int calcDistanceToMarker(MarkerOptions opt){
+        Location markerloc = new Location("Marker");
+        markerloc.setLatitude(opt.getPosition().latitude);
+        markerloc.setLongitude(opt.getPosition().longitude);
+        float distanceBetweenUserLocation = mCurrentLocation.distanceTo(markerloc);
+        int x = Math.round(distanceBetweenUserLocation);
+        return x;
     }
 
 
