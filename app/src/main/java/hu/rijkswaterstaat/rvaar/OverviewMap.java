@@ -27,6 +27,7 @@ import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -583,15 +584,15 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc = markers.get(minIndex);
             nearestMarkerLoc.icon(null);
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            showCEMT(nearestMarkerLoc);
+            new AsyncCemt(this).execute(Pair.create(mCurrentLocation,nearestMarkerLoc));
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
-            if (POPUP_SHOW) {
-                if (!popupIsOpen) {
-                    notifyPopup(nearestMarkerLoc);
-                    notifyUserNotificationBar(nearestMarkerLoc);
+            if (POPUP_SHOW && last != nearestMarkerLoc) {
+                new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+                notifyUserNotificationBar(nearestMarkerLoc);
+                last = nearestMarkerLoc;
 
-                }
+
             }
         } else {
             if (nearestMarkerLoc != null) {
@@ -635,101 +636,6 @@ public class OverviewMap extends MenuActivity implements
         }
     }
 
-
-    public void showCEMT(MarkerOptions marker) {
-        if (userLocationMarker != null) {
-            Location loc = new Location("");
-            loc.setLatitude(marker.getPosition().latitude);
-            loc.setLongitude(marker.getPosition().longitude);
-            float distanceInMeters = mCurrentLocation.distanceTo(loc);
-            if (distanceInMeters < NEAREST_MARKER_METER) {
-                ImageView iv = (ImageView) findViewById(R.id.imageView1);
-                switch (marker.getSnippet()) {
-                    case "I": {
-                        iv.setImageResource(R.drawable.klasse1);
-                        break;
-                    }
-                    case "II": {
-                        iv.setImageResource(R.drawable.klasse2);
-                        break;
-                    }
-                    case "III": {
-                        iv.setImageResource(R.drawable.klasse3);
-                        break;
-                    }
-                    case "IV": {
-                        iv.setImageResource(R.drawable.klasse4);
-                        break;
-                    }
-                    case "Va": {
-                        iv.setImageResource(R.drawable.klasse5);
-                        break;
-                    }
-                    case "Vb": {
-                        iv.setImageResource(R.drawable.klasse6);
-                        break;
-                    }
-                    case "VIa": {
-                        iv.setImageResource(R.drawable.klasse7);
-                        break;
-                    }
-                    case "VIb": {
-                        iv.setImageResource(R.drawable.klasse8);
-                        break;
-                    }
-                    case "VIc": {
-                        iv.setImageResource(R.drawable.klasse9);
-                        break;
-                    }
-                    case "VIIb": {
-                        iv.setImageResource(R.drawable.klasse10);
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    void notifyPopup(MarkerOptions marker) {
-        Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        Ringtone r = RingtoneManager.getRingtone(getApplicationContext(), notification);
-        Vibrator v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
-
-        if (last != null && last == marker) {
-        } else {
-
-            LayoutInflater layoutInflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-            View popupView = layoutInflater.inflate(R.layout.popup, null);
-
-            final PopupWindow popupWindow = new PopupWindow(
-                    popupView,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-
-            if (userLocationMarker != null) {
-                Location loc = new Location("");
-                loc.setLatitude(marker.getPosition().latitude);
-                loc.setLongitude(marker.getPosition().longitude);
-                float distanceInMeters = mCurrentLocation.distanceTo(loc);
-                if (distanceInMeters < DRAW_DISTANCE_POPUP) {
-                    popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-                    r.play();
-                    v.vibrate(750);
-                    popupIsOpen = true;
-                    ImageButton btnDismiss = (ImageButton) popupView.findViewById(R.id.dismiss);
-                    btnDismiss.setOnClickListener(new Button.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // TODO Auto-generated method stub
-                            popupWindow.dismiss();
-                            popupIsOpen = false;
-                        }
-                    });
-                    last = marker;
-                }
-            }
-        }
-    }
 
     public void openSOS(View v) {
         Intent sos = new Intent(this, SOS.class);
