@@ -622,9 +622,10 @@ public class OverviewMap extends MenuActivity implements
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
 
-            if (POPUP_SHOW) {
+            if (POPUP_SHOW && last != nearestMarkerLoc) {
                 notifyUserNotificationBar(nearestMarkerLoc);
-                popupAtInterval(mCurrentLocation,nearestMarkerLoc);
+                new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+                last = nearestMarkerLoc;
             }
         } else {
             if (nearestMarkerLoc != null) {
@@ -634,34 +635,6 @@ public class OverviewMap extends MenuActivity implements
 
         }
     }
-    int popcount = 0;
-    public void popupAtInterval(Location mCurrentLocation, MarkerOptions nearestMarkerLoc) {
-            if(popcount <= 2 && last == nearestMarkerLoc) {
-                Location loc = new Location("");
-                loc.setLatitude(nearestMarkerLoc.getPosition().latitude);
-                loc.setLongitude(nearestMarkerLoc.getPosition().longitude);
-                float distanceInMeters = mCurrentLocation.distanceTo(loc);
-
-                if(distanceInMeters < 2000 && popcount == 0){
-                    popcount = 1;
-                    new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
-                }
-                if(distanceInMeters < 500){
-                    popcount = 2;
-                    new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
-                }
-                else if(distanceInMeters < 200){
-                    popcount = 3;
-                    new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
-                }
-            }
-        else if(last != nearestMarkerLoc){
-                popcount = 0;
-            }
-        last = nearestMarkerLoc;
-    }
-
-    //
     public void notifyUserNotificationBar(MarkerOptions marker) {
         // Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         Location notifcationLoc = new Location("Marker");
