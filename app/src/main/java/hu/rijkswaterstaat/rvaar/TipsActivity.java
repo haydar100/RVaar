@@ -38,7 +38,7 @@ public class TipsActivity extends MenuActivity {
     private SharedPreferences sp;
     private SQLiteDatabase database;
     private ListView listView;
-    private int USER_LEVEL = 0; //0 = beginner; 1 = gemiddeld; 2 = expert; (default:beginner)
+    private int USER_LEVEL; //0 = beginner; 1 = gemiddeld; 2 = expert; (default:beginner)
     //private String[] tips;
 
     private boolean isNetworkAvailable() {
@@ -57,10 +57,9 @@ public class TipsActivity extends MenuActivity {
         listView = (ListView) findViewById(R.id.tips_category);
         SQLiteHelper sqllite = new SQLiteHelper(this, DB_NAME);
         database = sqllite.openDataBase();
-        try {
-            USER_LEVEL = sp.getInt("USER_LEVEL", -1);
-        }catch(Exception e){
-            e.printStackTrace();
+        USER_LEVEL = sp.getInt("USER_LEVEL", -1);
+        if(USER_LEVEL == -1){
+            USER_LEVEL = 0;
         }
 
 
