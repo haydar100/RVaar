@@ -2,11 +2,13 @@ package hu.rijkswaterstaat.rvaar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,13 +31,14 @@ public class TipsActivity extends MenuActivity {
     private static final String tipsAndTricks_ID = "_id";
     private static final String tipsAndTricks_headerName = "headerName";
     private static final String tipsAndTricks_content = "content";
+    private static final String tipsAndTricks_niveau = "niveau";
     public ArrayList<TipsAndTricks> tipsAndTricks = new ArrayList<TipsAndTricks>();
     protected ArrayList<String> headers = new ArrayList<String>();
-    protected ArrayList list = new ArrayList();
     protected List content = new ArrayList();
-    protected ArrayList markersTest = new ArrayList();
+    private SharedPreferences sp;
     private SQLiteDatabase database;
     private ListView listView;
+    private int USER_LEVEL = 0; //0 = beginner; 1 = gemiddeld; 2 = expert; (default:beginner)
     //private String[] tips;
 
     private boolean isNetworkAvailable() {
@@ -50,9 +53,15 @@ public class TipsActivity extends MenuActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tips);
         setMenu();
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
         listView = (ListView) findViewById(R.id.tips_category);
         SQLiteHelper sqllite = new SQLiteHelper(this, DB_NAME);
         database = sqllite.openDataBase();
+        try {
+            USER_LEVEL = sp.getInt("USER_LEVEL", -1);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
 
         // tips = getResources().getStringArray(R.array.tips_categories);
@@ -123,14 +132,18 @@ public class TipsActivity extends MenuActivity {
 
     private ArrayList<TipsAndTricks> fillTipsAndTricks() {
         tipsAndTricks = new ArrayList<TipsAndTricks>();
-        Cursor tipsAndTricksCursor = database.query(TABLE_NAME, new String[]{tipsAndTricks_ID, tipsAndTricks_headerName, tipsAndTricks_content}, null, null, null, null, tipsAndTricks_ID);
+        Cursor tipsAndTricksCursor = database.query(TABLE_NAME, new String[]{tipsAndTricks_ID, tipsAndTricks_headerName, tipsAndTricks_content, tipsAndTricks_niveau}, null, null, null, null, tipsAndTricks_ID);
         tipsAndTricksCursor.moveToFirst();
         if (!tipsAndTricksCursor.isAfterLast()) {
             do {
                 String headerName = tipsAndTricksCursor.getString(1);
                 String content = tipsAndTricksCursor.getString(2);
-                TipsAndTricks tipstricks = new TipsAndTricks(headerName, content);
-                tipsAndTricks.add(tipstricks);
+                int niveau = tipsAndTricksCursor.getInt(3);
+                if (USER_LEVEL == niveau) {
+                    TipsAndTricks tipstricks = new TipsAndTricks(headerName, content, niveau);
+                    tipsAndTricks.add(tipstricks);
+                }
+
             } while (tipsAndTricksCursor.moveToNext());
         }
         tipsAndTricksCursor.close();

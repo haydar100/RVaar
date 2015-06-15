@@ -7,14 +7,16 @@ public class TipsAndTricks {
     protected String headerName;
     protected String content;
     private int id;
+    private int niveau;
 
     public TipsAndTricks() {
     }
 
-    public TipsAndTricks(String headerName, String content) {
+    public TipsAndTricks(String headerName, String content,int niveau) {
         super();
         this.headerName = headerName;
         this.content = content;
+        this.niveau = niveau;
 
     }
 
@@ -45,6 +47,13 @@ public class TipsAndTricks {
         this.headerName = headerName;
     }
 
+    public int getNiveau() {
+        return niveau;
+    }
+
+    public void setNiveau(int niveau) {
+        this.niveau = niveau;
+    }
 
     @Override
     public String toString() {
