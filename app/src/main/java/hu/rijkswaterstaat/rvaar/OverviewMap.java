@@ -572,24 +572,16 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc = markers.get(minIndex);
             nearestMarkerLoc.icon(null);
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    new AsyncCemt(OverviewMap.this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+            new AsyncCemt(OverviewMap.this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
 
-                }
-            });
 
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
             if (POPUP_SHOW && last != nearestMarkerLoc && calcDistanceToMarker(nearestMarkerLoc) < DRAW_DISTANCE_POPUP) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new AsyncPopup(OverviewMap.this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
 
-                    }
-                });
+
+                new AsyncPopup(OverviewMap.this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+
                 notifyUserNotificationBar(nearestMarkerLoc);
                 last = nearestMarkerLoc;
 
