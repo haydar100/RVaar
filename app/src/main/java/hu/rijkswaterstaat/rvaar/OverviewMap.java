@@ -15,27 +15,16 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.util.Pair;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -232,7 +221,6 @@ public class OverviewMap extends MenuActivity implements
             Thread t1 = new Thread(new Runnable() {
                 @Override
                 public void run() {
-
                     WSConnector ws = new WSConnector();
                     markers = ws.getMarkers();
                     ws.getMarkers().size();
@@ -584,11 +572,24 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc = markers.get(minIndex);
             nearestMarkerLoc.icon(null);
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            new AsyncCemt(this).execute(Pair.create(mCurrentLocation,nearestMarkerLoc));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    new AsyncCemt(OverviewMap.this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+
+                }
+            });
+
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
             if (POPUP_SHOW && last != nearestMarkerLoc && calcDistanceToMarker(nearestMarkerLoc) < DRAW_DISTANCE_POPUP) {
-                new AsyncPopup(this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        new AsyncPopup(OverviewMap.this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
+
+                    }
+                });
                 notifyUserNotificationBar(nearestMarkerLoc);
                 last = nearestMarkerLoc;
 

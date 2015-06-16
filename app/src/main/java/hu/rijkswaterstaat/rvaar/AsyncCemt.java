@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.util.Pair;
 import android.widget.ImageView;
+
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
@@ -14,6 +15,7 @@ public class AsyncCemt extends AsyncTask<Pair<Location,MarkerOptions>,Void,Void>
     private Location mCurrentLocation;
     private MarkerOptions marker;
     private Context context;
+    private ImageView iv;
     public AsyncCemt(Context context){
         this.context = context;
     }
@@ -22,12 +24,18 @@ public class AsyncCemt extends AsyncTask<Pair<Location,MarkerOptions>,Void,Void>
         marker = params[0].second;
         mCurrentLocation = params[0].first;
 
+
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
         Location loc = new Location("");
         loc.setLatitude(marker.getPosition().latitude);
         loc.setLongitude(marker.getPosition().longitude);
         float distanceInMeters = mCurrentLocation.distanceTo(loc);
         if (distanceInMeters < 10000) {
-            ImageView iv = (ImageView) ((Activity) context).findViewById(R.id.imageView1);
+            iv = (ImageView) ((Activity) context).findViewById(R.id.imageView1);
             switch (marker.getSnippet()) {
                 case "I": {
                     iv.setImageResource(R.drawable.klasse1);
@@ -71,6 +79,5 @@ public class AsyncCemt extends AsyncTask<Pair<Location,MarkerOptions>,Void,Void>
                 }
             }
         }
-        return null;
     }
 }
