@@ -25,6 +25,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -153,7 +154,14 @@ public class OverviewMap extends MenuActivity implements
         buildGoogleApiClient();
         setUpMapIfNeeded();
 
-
+        ImageView myView = (ImageView)findViewById(R.id.imageView1);
+        final Toast viewToast = Toast.makeText(this, R.string.cemt_plaatje_toelichting, Toast.LENGTH_SHORT);
+        myView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewToast.show();
+            }
+        });
     }
 
     /**
@@ -421,6 +429,7 @@ public class OverviewMap extends MenuActivity implements
         addMarkersToMap();
         MarkerOptions k = new MarkerOptions();
         k.position(loc);
+        k.title(getResources().getString(R.string.current_location));
         float myBearing = location.getBearing();
         Bitmap rotateBoatIcon = ((BitmapDrawable) MapHelper.rotateDrawable(this, myBearing, R.drawable.ic_markericon)).getBitmap();
 

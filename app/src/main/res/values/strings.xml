@@ -95,6 +95,8 @@
     <string name="title_activity_tips">TipsActivity</string>
     <string name="title_activity_tips_content">Tips en Tricks</string>
     <string name="speed_unavailable">Snelheid niet beschikbaar</string>
+    <string name="cemt_plaatje_toelichting">Info: De grootste klasse binnenvaartschepen die te verwachten is op dit kruispunt</string>
+    <string name="current_location">Huidige locatie</string>
 
     <string-array name="boatTypes">
         <item>Kano</item>
