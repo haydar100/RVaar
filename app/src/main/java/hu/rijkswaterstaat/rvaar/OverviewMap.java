@@ -1,6 +1,7 @@
 package hu.rijkswaterstaat.rvaar;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -18,6 +19,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
@@ -25,6 +27,7 @@ import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -572,16 +575,13 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc = markers.get(minIndex);
             nearestMarkerLoc.icon(null);
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            new AsyncCemt(OverviewMap.this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
-
+            new Handler().postDelayed(cemtRunnable,15000);
 
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
             if (POPUP_SHOW && last != nearestMarkerLoc && calcDistanceToMarker(nearestMarkerLoc) < DRAW_DISTANCE_POPUP) {
 
-
                 new AsyncPopup(OverviewMap.this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
-
                 notifyUserNotificationBar(nearestMarkerLoc);
                 last = nearestMarkerLoc;
 
@@ -595,8 +595,64 @@ public class OverviewMap extends MenuActivity implements
 
         }
     }
+    MarkerOptions cemtMarker;
+    Runnable cemtRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Location loc = new Location("");
+            loc.setLatitude(nearestMarkerLoc.getPosition().latitude);
+            loc.setLongitude(nearestMarkerLoc.getPosition().longitude);
+            float distanceInMeters = mCurrentLocation.distanceTo(loc);
+            if (distanceInMeters < 10000 && cemtMarker != nearestMarkerLoc) {
+                ImageView iv = (ImageView)findViewById(R.id.imageView1);
+                switch (nearestMarkerLoc.getSnippet()) {
+                    case "I": {
+                        iv.setImageResource(R.drawable.klasse1);
+                        break;
+                    }
+                    case "II": {
+                        iv.setImageResource(R.drawable.klasse2);
+                        break;
+                    }
+                    case "III": {
+                        iv.setImageResource(R.drawable.klasse3);
+                        break;
+                    }
+                    case "IV": {
+                        iv.setImageResource(R.drawable.klasse4);
+                        break;
+                    }
+                    case "Va": {
+                        iv.setImageResource(R.drawable.klasse5);
+                        break;
+                    }
+                    case "Vb": {
+                        iv.setImageResource(R.drawable.klasse6);
+                        break;
+                    }
+                    case "VIa": {
+                        iv.setImageResource(R.drawable.klasse7);
+                        break;
+                    }
+                    case "VIb": {
+                        iv.setImageResource(R.drawable.klasse8);
+                        break;
+                    }
+                    case "VIc": {
+                        iv.setImageResource(R.drawable.klasse9);
+                        break;
+                    }
+                    case "VIIb": {
+                        iv.setImageResource(R.drawable.klasse10);
+                        break;
+                    }
+                }
+            }
+            cemtMarker = nearestMarkerLoc;
+        }
+    };
 
-    //
+
     void notifyUserNotificationBar(MarkerOptions marker) {
         Location notificationLoc = new Location("Marker");
         notificationLoc.setLatitude(marker.getPosition().latitude);
