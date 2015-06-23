@@ -58,7 +58,7 @@ import hu.rijkswaterstaat.rvaar.utils.MapHelper;
 import hu.rijkswaterstaat.rvaar.webservice.WSConnector;
 
 import static hu.rijkswaterstaat.rvaar.R.drawable.ic_iconkruispunt;
-import static hu.rijkswaterstaat.rvaar.R.drawable.ic_rvaar;
+//import static hu.rijkswaterstaat.rvaar.R.drawable.ic_rvaar;
 
 
 public class OverviewMap extends MenuActivity implements
@@ -156,7 +156,14 @@ public class OverviewMap extends MenuActivity implements
         buildGoogleApiClient();
         setUpMapIfNeeded();
 
-
+        ImageView myView = (ImageView)findViewById(R.id.imageView1);
+        final Toast viewToast = Toast.makeText(this, R.string.cemt_plaatje_toelichting, Toast.LENGTH_SHORT);
+        myView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewToast.show();
+            }
+        });
     }
 
     /**
@@ -409,6 +416,7 @@ public class OverviewMap extends MenuActivity implements
      */
     @Override
     public void onLocationChanged(Location location) {
+        float zoom = mMap.getCameraPosition().zoom;
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
@@ -424,22 +432,20 @@ public class OverviewMap extends MenuActivity implements
         addMarkersToMap();
         MarkerOptions k = new MarkerOptions();
         k.position(loc);
+        k.title(getResources().getString(R.string.current_location));
         float myBearing = location.getBearing();
         Bitmap rotateBoatIcon = ((BitmapDrawable) MapHelper.rotateDrawable(this, myBearing, R.drawable.ic_markericon)).getBitmap();
 
         mMap.addMarker(k.icon(BitmapDescriptorFactory.fromBitmap(rotateBoatIcon)));
-
         findNearestMarker();
 
         if (AnimatedCameraOnce) {
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(loc)      // Sets the center of the map to Mountain View
-                    .zoom(17)                   // Sets the zoom
-                    .bearing(90)                // Sets the orientation of the camera to east
-                    .tilt(30)                   // Sets the tilt of the camera to 30 degrees
-                    .build();                   // Creates a CameraPosition from the builder
-            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(MapHelper.lockCameraPosition(17, loc)));
             AnimatedCameraOnce = false;
+        }
+        else {
+            mMap.animateCamera(CameraUpdateFactory.newCameraPosition(MapHelper.lockCameraPosition(zoom, loc)));
         }
         drawPolyLineOnLocation(location);
 
@@ -666,8 +672,8 @@ public class OverviewMap extends MenuActivity implements
                     new NotificationCompat.Builder(this)
                             .setContentTitle(OverviewMap.this.getResources().getString(R.string.app_name))
                             .setContentText("U nadert het kruispunt " + marker.getTitle() + " (" + x + " Meter)")
-                            .setSmallIcon(ic_rvaar)
-                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_rvaar));
+                            .setSmallIcon(R.mipmap.ic_rvaar)
+                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_rvaar));
 
             Intent resultIntent = new Intent(this, OverviewMap.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);

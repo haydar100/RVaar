@@ -23,8 +23,7 @@ public class Niveau extends ActionBarActivity  {
         requestWindowFeature(Window.FEATURE_LEFT_ICON);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_niveau);
-        getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_rvaar);
-
+        getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.mipmap.ic_rvaar);
 
 
     }
