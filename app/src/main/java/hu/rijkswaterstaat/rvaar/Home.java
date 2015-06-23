@@ -16,21 +16,17 @@ import android.widget.EditText;
 
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
+import hu.rijkswaterstaat.rvaar.wizard.Wizard;
 
 
 public class Home extends MenuActivity {
     private static String BOAT_NAME = "";
-    private String valueOf;
-//public String BOAT_NAME;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_LEFT_ICON);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_icon_app);
         setMenu();
-        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         showPromptForUsername();
     }
 
@@ -41,18 +37,16 @@ public class Home extends MenuActivity {
         alert.setMessage(getResources().getString(R.string.bootnaaminfo));
         final EditText input = new EditText(this);
         input.setText("Anoniem");
-        //  BOAT_NAME = String.valueOf(input.getText());
         alert.setView(input);
 
         if (!preferences.contains("showedPromptForUsernameOnStartup")) {
-
+        startActivity(new Intent(this,Wizard.class));
 
             alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     String valueOfInput = String.valueOf(input.getText());
-                    valueOf = String.valueOf(input.getText());
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("boatType", "Sloep");
                     editor.putString("BOAT_NAME", valueOfInput);
