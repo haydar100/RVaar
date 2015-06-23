@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import hu.rijkswaterstaat.rvaar.menu.MenuActivity;
 import hu.rijkswaterstaat.rvaar.utils.PreferencesActivity;
+import hu.rijkswaterstaat.rvaar.wizard.Wizard;
 
 
 public class Home extends MenuActivity {
@@ -38,7 +39,7 @@ public class Home extends MenuActivity {
         alert.setView(input);
 
         if (!preferences.contains("showedPromptForUsernameOnStartup")) {
-
+        startActivity(new Intent(this,Wizard.class));
 
             alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 

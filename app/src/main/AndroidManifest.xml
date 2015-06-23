@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hu.rijkswaterstaat.rvaar"
     android:versionCode="2"
-    android:versionName="1.1">
+    android:versionName="1.1" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -32,30 +32,30 @@
             android:name=".OverviewMap"
             android:label="@string/title_activity_overview_map"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait">
-        <intent-filter>
+            android:screenOrientation="portrait" >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Niveau"
             android:label="@string/title_activity_home"
             android:launchMode="singleInstance"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SOS"
             android:label="@string/title_activity_about_us"
             android:launchMode="singleInstance"
             android:logo="@drawable/ic_rvaar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".utils.PreferencesActivity"
             android:label="@string/Instellingen"
@@ -71,22 +71,26 @@
         <activity
             android:name=".Quiz"
             android:label="@string/title_activity_quiz"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".Result"
             android:label="@string/title_activity_result"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".TipsActivity"
             android:label="Tips en Tricks"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".TipsContentActivity"
             android:label="@string/title_activity_tips_content"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance" >
+        </activity>
+        <activity
+            android:name=".wizard.Wizard"
+            android:label="@string/title_activity_wizard" >
         </activity>
     </application>
 

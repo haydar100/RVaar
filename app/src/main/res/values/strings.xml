@@ -103,6 +103,9 @@
         <item>Zeilboot</item>
     </string-array>
     <string name="Vdjs">Vragen van: http://www.varendoejesamen.nl/</string>
+    <string name="title_activity_wizard">Wizard</string>
+
+    <string name="hello_world">Hello world!</string>
 
 
 
