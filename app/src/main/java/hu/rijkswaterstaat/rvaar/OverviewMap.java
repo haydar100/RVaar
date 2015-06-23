@@ -581,10 +581,9 @@ public class OverviewMap extends MenuActivity implements
             nearestMarkerLoc = markers.get(minIndex);
             nearestMarkerLoc.icon(null);
             nearestMarkerLoc.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-            new Handler().postDelayed(cemtRunnable,15000);
-
             currentSpeedInKM();
             currentMarkerDistance(nearestMarkerLoc);
+            new Handler().postDelayed(cemtRunnable, 15000);
             if (POPUP_SHOW && last != nearestMarkerLoc && calcDistanceToMarker(nearestMarkerLoc) < DRAW_DISTANCE_POPUP) {
 
                 new AsyncPopup(OverviewMap.this).execute(Pair.create(mCurrentLocation, nearestMarkerLoc));
@@ -611,44 +610,45 @@ public class OverviewMap extends MenuActivity implements
             float distanceInMeters = mCurrentLocation.distanceTo(loc);
             if (distanceInMeters < 10000 && cemtMarker != nearestMarkerLoc) {
                 ImageView iv = (ImageView)findViewById(R.id.imageView1);
-                switch (nearestMarkerLoc.getSnippet()) {
-                    case "I": {
+                Log.d("markersnip",nearestMarkerLoc.getSnippet());
+                switch (nearestMarkerLoc.getSnippet().trim()) {
+                    case "Binnenvaartschipklasse: I": {
                         iv.setImageResource(R.drawable.klasse1);
                         break;
                     }
-                    case "II": {
+                    case "Binnenvaartschipklasse: II": {
                         iv.setImageResource(R.drawable.klasse2);
                         break;
                     }
-                    case "III": {
+                    case "Binnenvaartschipklasse: III": {
                         iv.setImageResource(R.drawable.klasse3);
                         break;
                     }
-                    case "IV": {
+                    case "Binnenvaartschipklasse: IV": {
                         iv.setImageResource(R.drawable.klasse4);
                         break;
                     }
-                    case "Va": {
+                    case "Binnenvaartschipklasse: Va": {
                         iv.setImageResource(R.drawable.klasse5);
                         break;
                     }
-                    case "Vb": {
+                    case "Binnenvaartschipklasse: Vb": {
                         iv.setImageResource(R.drawable.klasse6);
                         break;
                     }
-                    case "VIa": {
+                    case "Binnenvaartschipklasse: VIa": {
                         iv.setImageResource(R.drawable.klasse7);
                         break;
                     }
-                    case "VIb": {
+                    case "Binnenvaartschipklasse: VIb": {
                         iv.setImageResource(R.drawable.klasse8);
                         break;
                     }
-                    case "VIc": {
+                    case "Binnenvaartschipklasse: VIc": {
                         iv.setImageResource(R.drawable.klasse9);
                         break;
                     }
-                    case "VIIb": {
+                    case "Binnenvaartschipklasse: VIIb": {
                         iv.setImageResource(R.drawable.klasse10);
                         break;
                     }
