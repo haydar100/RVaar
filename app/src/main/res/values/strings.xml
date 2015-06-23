@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="wizard_landkaart">
+        De landkaart is de hoofdfunctie van deze app. Op de kaart wordt uw huidige locatie getoond,
+        en ontvangt u een melding wanneer u een gevaarlijk kruispunt nadert.
+    </string>
+    <string name="wizard_kaart_header">Landkaart</string>
+    <string name="letop">Let op!</string>
+    <string name="wizard_disclaimer">
+        De rVaar app is bedoelt om reacreatievaarder te ondersteunen om ongelukken te voorkomen bij kruispunten, en niet als navigatiesysteem.
+        Houdt altijd een goede waterkaart bij de hand, en zorg dat u in bezit bent van een marifoon.
+    </string>
     <string name="drawer_open">true</string>
     <string name="drawer_closed">false</string>
     <string name="cancel_message">Sluiten</string>

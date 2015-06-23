@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.Button;
 import hu.rijkswaterstaat.rvaar.R;
 
 public class Wizard extends FragmentActivity {
-    private static final int NUM_PAGES = 1;
     private ViewPager mPager;
     private MyPagerAdapter adapter;
     private Button volgende;
@@ -28,7 +28,12 @@ public class Wizard extends FragmentActivity {
         volgende.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPager.setCurrentItem(mPager.getCurrentItem()+1);
+                Log.d("curr", Integer.toString(mPager.getCurrentItem()));
+                if(mPager.getCurrentItem() < 2) {
+                    mPager.setCurrentItem(mPager.getCurrentItem() + 1);
+                }else{
+                    finish();
+                }
             }
         });
     }
@@ -70,10 +75,10 @@ public class Wizard extends FragmentActivity {
         @Override
         public Fragment getItem(int pos) {
             switch(pos) {
-
-                case 0: return WizardFragment.newInstance("FirstFragment, Instance 1");
-                case 1: return WizardFragment.newInstance("SecondFragment, Instance 1");
-                default: return WizardFragment.newInstance("ThirdFragment, Default");
+                case 0: return WizardFragment.newInstance();
+                case 1: return WizardFragment2.newInstance();
+                case 2: return WizardFragment3.newInstance();
+                default: return WizardFragment.newInstance();
             }
         }
 

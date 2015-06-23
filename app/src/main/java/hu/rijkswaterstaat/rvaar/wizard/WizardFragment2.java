@@ -12,18 +12,17 @@ import hu.rijkswaterstaat.rvaar.R;
 /**
  * Created by BunyamiN on 23-6-2015.
  */
-public class WizardFragment extends Fragment {
-    public static final WizardFragment newInstance()
+public class WizardFragment2 extends Fragment {
+    public static final WizardFragment2 newInstance()
     {
-        WizardFragment f = new WizardFragment();
+        WizardFragment2 f = new WizardFragment2();
         return f;
     }
 
-
-    public WizardFragment(){}
+    public WizardFragment2(){}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.wizard_fragment1, container, false);
+        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.wizard_fragment2, container, false);
         return rootView;
     }
 }

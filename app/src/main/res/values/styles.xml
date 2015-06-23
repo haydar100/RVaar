@@ -22,4 +22,5 @@
     <!-- Colors -->
     <color name="rvaarblue">#2b4c66</color>
     <color name="white">#FFFFFF</color>
+    <color name="dark_gray">#333333</color>
 </resources>
