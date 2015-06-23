@@ -80,8 +80,8 @@ public class WSConnector extends AsyncTask<String, Void, ArrayList<MarkerOptions
                 double latitude = Double.parseDouble(soapResult.getProperty("latitude").toString());
                 double longitude = Double.parseDouble(soapResult.getProperty("longitude").toString());
                 String cemt = soapResult.getPrimitivePropertyAsString("cemt");
-                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(latitude, longitude)).title(name);
-                markerOptions.snippet(cemt);
+                MarkerOptions markerOptions = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Kruispunt: " + name);
+                markerOptions.snippet("Binnenvaartschipklasse: " + cemt);
                 markers.add(markerOptions);
             }
 

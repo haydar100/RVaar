@@ -49,25 +49,25 @@
             android:name=".Niveau"
             android:label="@string/title_activity_home"
             android:launchMode="singleInstance"
-            android:logo="@drawable/ic_rvaar"
+            android:logo="@mipmap/ic_rvaar"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".SOS"
             android:label="@string/title_activity_about_us"
             android:launchMode="singleInstance"
-            android:logo="@drawable/ic_rvaar"
+            android:logo="@mipmap/ic_rvaar"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".utils.PreferencesActivity"
             android:label="@string/Instellingen"
             android:launchMode="singleInstance"
-            android:logo="@drawable/ic_rvaar"
+            android:logo="@mipmap/ic_rvaar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Checklist"
             android:label="@string/title_activity_checklist"
             android:launchMode="singleInstance"
-            android:logo="@drawable/ic_rvaar"
+            android:logo="@mipmap/ic_rvaar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Quiz"

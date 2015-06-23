@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.preference.PreferenceManager;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -27,6 +28,20 @@ public class MapHelper {
     protected static int NEAREST_MARKER_METER = 10000;
     protected static boolean POPUP_SHOW = true;
     protected static long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+
+    public static CameraPosition lockCameraPosition(float zoomLevel, LatLng loc) {
+
+
+            CameraPosition cameraPosition = new CameraPosition.Builder()
+                    .target(loc)      // Sets the center of the map to Mountain View
+                    .zoom(zoomLevel)                   // Sets the zoom
+                    .bearing(90)                // Sets the orientation of the camera to east
+                    .tilt(30)                   // Sets the tilt of the camera to 30 degrees
+                    .build();                   // Creates a CameraPosition from the builder
+            return cameraPosition;
+
+    }
+
 
     public static ArrayList<MarkerOptions> convertUserLocToMarkerOptions(Context con, ArrayList<UserLocation> userLocations) {
         ArrayList<MarkerOptions> userLocationMarker = new ArrayList<MarkerOptions>();
