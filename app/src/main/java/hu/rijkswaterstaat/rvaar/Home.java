@@ -40,7 +40,7 @@ public class Home extends MenuActivity {
         alert.setTitle(getResources().getString(R.string.titleAlertUser));
         alert.setMessage(getResources().getString(R.string.bootnaaminfo));
         final EditText input = new EditText(this);
-        input.setText("Anoniem");
+        input.setHint("Anoniem");
         //  BOAT_NAME = String.valueOf(input.getText());
         alert.setView(input);
 
@@ -65,6 +65,12 @@ public class Home extends MenuActivity {
 
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    String valueOfInput = String.valueOf(input.getText());
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("boatType", "Sloep");
+                    editor.putString("BOAT_NAME", valueOfInput);
+                    editor.putBoolean("showedPromptForUsernameOnStartup", true);
+                    editor.commit();
                 }
             });
             alert.show();
