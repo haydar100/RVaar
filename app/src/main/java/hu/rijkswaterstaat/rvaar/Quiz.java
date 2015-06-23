@@ -65,6 +65,8 @@ public class Quiz extends ActionBarActivity {
     }
 
     private void setQuestionView() {
+        RadioGroup grp = (RadioGroup) findViewById(R.id.radioGroup1);
+        grp.clearCheck();
         txtQuestion.setText(currentQ.getQUESTION());
         rda.setText(currentQ.getOPTA());
         rdb.setText(currentQ.getOPTB());
@@ -75,20 +77,27 @@ public class Quiz extends ActionBarActivity {
     public void onClick_QuizNext(View v) {
         RadioGroup grp = (RadioGroup) findViewById(R.id.radioGroup1);
         RadioButton answer = (RadioButton) findViewById(grp.getCheckedRadioButtonId());
-        Log.d("yourans", currentQ.getANSWER() + " " + answer.getText());
-        if (currentQ.getANSWER().equals(answer.getText())) {
-            score++;
-            Log.d("score", "Your score " + score);
+
+
+        if(answer != null) {
+            if (currentQ.getANSWER().equals(answer.getText())) {
+                score++;
+            }
+            if (qid < 5) {
+                currentQ = quesList.get(qid);
+                setQuestionView();
+            } else {
+                Intent intent = new Intent(this, Result.class);
+                intent.putExtra("score", Integer.toString(score));
+                startActivity(intent);
+                finish();
+            }
         }
-        if (qid < 5) {
-            currentQ = quesList.get(qid);
-            setQuestionView();
-        } else {
-            Intent intent = new Intent(this, Result.class);
-            intent.putExtra("score", Integer.toString(score));
-            startActivity(intent);
-            finish();
+        else {
+            Toast.makeText(this, "Selecteer een antwoord", Toast.LENGTH_SHORT).show();
         }
+
+
     }
 }
 
