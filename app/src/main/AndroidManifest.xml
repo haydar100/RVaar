@@ -48,12 +48,13 @@
             android:name=".Niveau"
             android:label="@string/title_activity_home"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SOS"
             android:label="@string/title_activity_about_us"
             android:launchMode="singleInstance"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".utils.PreferencesActivity"
             android:label="@string/Instellingen"
@@ -76,7 +77,7 @@
         </activity>
         <activity
             android:name=".TipsActivity"
-            android:label="Tips en Tricks"
+            android:label="@string/title_activity_tips"
             android:launchMode="singleInstance">
         </activity>
         <activity

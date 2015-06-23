@@ -17,7 +17,7 @@
     <string name="titleAlertUser">Bootnaam</string>
     <string name="bootnaaminfo">Vul naam van boot in </string>
     <string name="title_activity_overview_map">RVaar</string>
-    <string name="title_activity_home">rVaar</string>
+    <string name="title_activity_home">RVaar</string>
     <string name="action_settings">Settings</string>
     <string name="location_updated_message">Location updated</string>
     <string name="niveau">Kies uw niveau</string>
@@ -101,8 +101,8 @@
     <string name="Settings_message">Settings</string>
     <string name="title_activity_quiz">Quiz</string>
     <string name="title_activity_result">Resultaat</string>
-    <string name="title_activity_tips">TipsActivity</string>
-    <string name="title_activity_tips_content">Tips en Tricks</string>
+    <string name="title_activity_tips">Tip en Tricks</string>
+    <string name="title_activity_tips_content">Tip</string>
     <string name="speed_unavailable">Snelheid niet beschikbaar</string>
     <string name="cemt_plaatje_toelichting">Info: De grootste klasse binnenvaartschepen die te verwachten is op dit kruispunt</string>
     <string name="current_location">Huidige locatie</string>
