@@ -35,7 +35,7 @@ public class MapHelper {
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(loc)      // Sets the center of the map to Mountain View
                     .zoom(zoomLevel)                   // Sets the zoom
-                    .bearing(90)                // Sets the orientation of the camera to east
+                    .bearing(0)                // Sets the orientation of the camera to east
                     .tilt(30)                   // Sets the tilt of the camera to 30 degrees
                     .build();                   // Creates a CameraPosition from the builder
             return cameraPosition;
