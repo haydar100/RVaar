@@ -150,7 +150,7 @@ public class OverviewMap extends MenuActivity implements
             gps_disabled = true;
             showGPSDisabledAlertToUser();
 
-        }
+        } //
         // Kick off the process of building a GoogleApiClient and requesting the LocationServices
         // API.
         buildGoogleApiClient();
