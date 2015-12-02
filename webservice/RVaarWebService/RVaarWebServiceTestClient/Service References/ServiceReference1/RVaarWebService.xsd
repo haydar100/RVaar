@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/RVaarWebService"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://schemas.datacontract.org/2004/07/RVaarWebService">
+    <xs:complexType name="CompositeType">
+        <xs:sequence>
+            <xs:element name="BoolValue" minOccurs="0" type="xs:boolean" />
+            <xs:element name="StringValue" minOccurs="0" nillable="true" type="xs:string" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="CompositeType" nillable="true" type="tns:CompositeType" />
+    <xs:complexType name="ArrayOfMarkerOption">
+        <xs:sequence>
+            <xs:element name="MarkerOption" maxOccurs="unbounded" minOccurs="0" nillable="true"
+                type="tns:MarkerOption" />
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="ArrayOfMarkerOption" nillable="true" type="tns:ArrayOfMarkerOption" />
+    <xs:complexType name="MarkerOption">
+        <xs:sequence />
+    </xs:complexType>
+    <xs:element name="MarkerOption" nillable="true" type="tns:MarkerOption" />
+</xs:schema>

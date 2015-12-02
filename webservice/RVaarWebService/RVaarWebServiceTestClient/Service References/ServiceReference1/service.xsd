@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
+    targetNamespace="http://tempuri.org/">
+    <xs:import namespace="http://schemas.datacontract.org/2004/07/RVaarWebService" />
+    <xs:element name="GetData">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="value" minOccurs="0" nillable="true" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDataResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="GetDataResult" minOccurs="0" nillable="true" type="xs:string" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDataUsingDataContract">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element xmlns:q1="http://schemas.datacontract.org/2004/07/RVaarWebService"
+                    name="composite" minOccurs="0" nillable="true" type="q1:CompositeType" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDataUsingDataContractResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element xmlns:q2="http://schemas.datacontract.org/2004/07/RVaarWebService"
+                    name="GetDataUsingDataContractResult" minOccurs="0" nillable="true"
+                    type="q2:CompositeType" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="geefKruispunten">
+        <xs:complexType>
+            <xs:sequence />
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="geefKruispuntenResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/RVaarWebService"
+                    name="geefKruispuntenResult" minOccurs="0" nillable="true"
+                    type="q3:ArrayOfMarkerOption" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

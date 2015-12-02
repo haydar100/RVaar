@@ -1,0 +1,6 @@
+c:\users\sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebService\bin\Debug\RVaarWebService.dll.config
+c:\users\sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebService\bin\Debug\RVaarWebService.dll
+c:\users\sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebService\bin\Debug\RVaarWebService.pdb
+c:\users\sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebService\obj\Debug\RVaarWebService.dll
+c:\users\sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebService\obj\Debug\RVaarWebService.pdb
+C:\Users\Sven\Documents\Visual Studio 2013\Projects\RVaarWebService\RVaarWebService\obj\Debug\RVaarWebService.csprojResolveAssemblyReference.cache

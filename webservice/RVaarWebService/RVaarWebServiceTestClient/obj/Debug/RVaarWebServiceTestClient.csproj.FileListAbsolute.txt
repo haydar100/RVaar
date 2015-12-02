@@ -1,0 +1,6 @@
+C:\Users\Sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebServiceTestClient\bin\Debug\RVaarWebServiceTestClient.exe.config
+C:\Users\Sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebServiceTestClient\obj\Debug\RVaarWebServiceTestClient.csprojResolveAssemblyReference.cache
+C:\Users\Sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebServiceTestClient\bin\Debug\RVaarWebServiceTestClient.exe
+C:\Users\Sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebServiceTestClient\bin\Debug\RVaarWebServiceTestClient.pdb
+C:\Users\Sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebServiceTestClient\obj\Debug\RVaarWebServiceTestClient.exe
+C:\Users\Sven\documents\visual studio 2013\Projects\RVaarWebService\RVaarWebServiceTestClient\obj\Debug\RVaarWebServiceTestClient.pdb
