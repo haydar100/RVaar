@@ -4,8 +4,8 @@ RWS Project
 Licensed with the The MIT License (MIT)
 See LICENSE.MD
 
-1. you'll need to deploy the WCF webservice. You can find the webservice in the webservice folder.
-2.  create an database with the provided SQL files you can find the SQL files in the sqlfiles folder.
+1. you'll need to deploy the WCF webservice.  (webservice folder).
+2.  create an database with the provided SQL files (sqlfiles folder).
 
 Screenshot 
 
